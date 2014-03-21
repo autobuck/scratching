@@ -21,14 +21,17 @@ public class Sprite {
     costumes[0] = processing.loadShape("images/cat.costume1.svg");
     costumes[1] = processing.loadShape("images/cat.costume2.svg");
     costumeNumber=0;
+    size=100;
   }
   
   public void test() {   
-    processing.shape(costumes[costumeNumber],processing.mouseX,processing.mouseY);
+    nextCostume();
   }
   
   // "update" routine will draw sprite in new position, continue acting if set in motion by Move, etc
-  public void update() { move(momentum); }
+  public void update() {
+    processing.shape(costumes[costumeNumber],xPosition,yPosition,costumes[costumeNumber].width*(size/100),costumes[costumeNumber].height*(size/100));
+  }
   
   // "getter" and "setter" functions for private vars
   // objective-c habit. probably easier to keep the variables public.
@@ -67,5 +70,6 @@ public class Sprite {
   public int distanceToXY(int x,int y) { return 0; }
   public int distanceToSprite(Sprite target) { return distanceToXY(target.xPosition,target.yPosition); }
   
+  //public void wait(long seconds) { delay(seconds*1000); }
 
 }

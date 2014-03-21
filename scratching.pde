@@ -8,7 +8,12 @@ void setup() {
 
 void draw() {
    background(0);
-   cat.test();
+   if (cat.xPosition<mouseX) cat.xPosition=cat.xPosition+10;
+   if (cat.xPosition>mouseX) cat.xPosition=cat.xPosition-10;
+   cat.yPosition=250;
+   cat.nextCostume();
+   cat.update();
+   delay(100);
 }
 
 void mouseClicked() { cat.nextCostume(); }
