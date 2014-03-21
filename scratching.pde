@@ -6,6 +6,5 @@ void setup() {
 }
 
 void draw() {
-   //cat.test();
-   rect(50,50,150,150,15); 
+   cat.test();
 }

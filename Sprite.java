@@ -16,15 +16,17 @@ public class Sprite {
     processing = parent;
   }
   
+  public void test() { processing.rect(50,50,150,150,15); }
+  
   // "update" routine will draw sprite in new position, continue acting if set in motion by Move, etc
   public void update() { move(momentum); }
   
   // "getter" and "setter" functions for private vars
-  int xPosition() { return xPosition; }
-  int yPosition() { return yPosition; }
-  int direction() { return direction; }
-  int costumeNumber() { return costumeNumber; }
-  int size() { return size; }
+  public int xPosition() { return xPosition; }
+  public int yPosition() { return yPosition; }
+  public int direction() { return direction; }
+  public int costumeNumber() { return costumeNumber; }
+  public int size() { return size; }
   
   // "looks" blocks
   public void addCostume() {}
