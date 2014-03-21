@@ -2,12 +2,12 @@ import processing.core.PApplet;
 
 public class Sprite {
   PApplet processing;
-  public int xPosition,yPosition,direction,rotationStyle;
+  private int xPosition,yPosition,direction,rotationStyle;
   // "momentum" keeps track of long-term moments such as glideTo
   private int momentum;
-  public int costumeNumber,size; public boolean visible;
-  public int volume,tempo;
-  public int penColor,penSize; public boolean penUp;
+  private int costumeNumber,size; public boolean visible;
+  private int volume,tempo;
+  private int penColor,penSize; public boolean penUp;
  
  // add images as costumes;
   
@@ -18,6 +18,13 @@ public class Sprite {
   
   // "update" routine will draw sprite in new position, continue acting if set in motion by Move, etc
   public void update() { move(momentum); }
+  
+  // "getter" and "setter" functions for private vars
+  int xPosition() { return xPosition; }
+  int yPosition() { return yPosition; }
+  int direction() { return direction; }
+  int costumeNumber() { return costumeNumber; }
+  int size() { return size; }
   
   // "looks" blocks
   public void addCostume() {}
@@ -39,6 +46,7 @@ public class Sprite {
   public void goToSprite(Sprite target) { xPosition=target.xPosition; yPosition=target.yPosition; }
   public void glideToXY(int x, int y, int time) { pointTowardsXY(x,y); momentum=distanceToXY(x,y)/time;}
   
+  // "sensing" blocks
   public boolean touchingSprite(Sprite target) { return false; }
   // public boolean touchingColor(color target) { return 0; }
   public int distanceToXY(int x,int y) { return 0; }
