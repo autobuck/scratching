@@ -22,7 +22,7 @@ public class Sprite {
   public void move(int direction) { }
   public void turnLeft(int degrees) {direction=direction-degrees; if (direction<0) direction=direction+360;}
   public void turnRight(int degrees) { direction=direction+degrees; if (direction>360) direction=direction-360;}
-  public void pointInDirection(int direction) {}
+  public void pointInDirection(int newDirection) { direction=newDirection; }
   public void pointTowards(Sprite target) {}
   public void goTo(int x, int y) {}
   public void goToSprite(Sprite target) { xPosition=target.xPosition; yPosition=target.yPosition; }
