@@ -1,4 +1,6 @@
 import processing.core.PApplet;
+import processing.core.PShape;
+import processing.core.PImage;
 
 public class Sprite {
   PApplet processing;
@@ -16,11 +18,14 @@ public class Sprite {
   Sprite (PApplet parent) {
     processing = parent;
     costumes = new PShape[2];
-    costumes[0] = loadShape("images/cat.costume1.svg");
-    costumes[1] = loadShape("images/cat.costume2.svg");
+    costumes[0] = processing.loadShape("images/cat.costume1.svg");
+    costumes[1] = processing.loadShape("images/cat.costume2.svg");
+    costumeNumber=0;
   }
   
-  public void test() { processing.rect(50,50,150,150,15); }
+  public void test() {   
+    processing.shape(costumes[costumeNumber],processing.mouseX,processing.mouseY);
+  }
   
   // "update" routine will draw sprite in new position, continue acting if set in motion by Move, etc
   public void update() { move(momentum); }
@@ -36,7 +41,7 @@ public class Sprite {
   
   // "looks" blocks
   public void addCostume() {}
-  public void nextCostume() {}
+  public void nextCostume() { costumeNumber++; if (costumeNumber>costumes.length-1) costumeNumber=0;}
   public void previousCostume() {}
   public void switchToCostume(int number) {}
   public void show() {}
