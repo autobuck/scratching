@@ -56,7 +56,7 @@ public class Sprite {
   // "motion" blocks
   public void move(int distance) {
    //but this should actually be all kinds of trig setting up a private "xSpeed" and "ySpeed" then updating both coords by that. 
-    if (direction==-90) xPosition=xPosition-distance; 
+    if (direction==-90 | direction==270) xPosition=xPosition-distance; 
     if (direction==90) xPosition=xPosition+distance;
     if (direction==0) yPosition=yPosition-distance;
     if (direction==180) yPosition=yPosition+distance; 
