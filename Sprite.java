@@ -2,18 +2,22 @@ import processing.core.PApplet;
 
 public class Sprite {
   PApplet processing;
-  private int xPosition,yPosition,direction,rotationStyle;
-  // "momentum" keeps track of long-term moments such as glideTo
+  public int xPosition,yPosition,direction,rotationStyle;
+  public int costumeNumber,size; public boolean visible;
+  public int volume,tempo;
+  public int penColor,penSize; public boolean penUp;
+  // add images as costumes;
+  PShape[] costumes;
+
+  // "momekeeps track of long-term movements such as glideTo
   private int momentum;
-  private int costumeNumber,size; public boolean visible;
-  private int volume,tempo;
-  private int penColor,penSize; public boolean penUp;
- 
- // add images as costumes;
   
   // without this, built-in functions are broken. use processing.whatever to access functionality
   Sprite (PApplet parent) {
     processing = parent;
+    costumes = new PShape[2];
+    costumes[0] = loadShape("images/cat.costume1.svg");
+    costumes[1] = loadShape("images/cat.costume2.svg");
   }
   
   public void test() { processing.rect(50,50,150,150,15); }
@@ -22,11 +26,13 @@ public class Sprite {
   public void update() { move(momentum); }
   
   // "getter" and "setter" functions for private vars
-  public int xPosition() { return xPosition; }
+  // objective-c habit. probably easier to keep the variables public.
+/*  public int xPosition() { return xPosition; }
   public int yPosition() { return yPosition; }
   public int direction() { return direction; }
   public int costumeNumber() { return costumeNumber; }
   public int size() { return size; }
+  */
   
   // "looks" blocks
   public void addCostume() {}
@@ -35,6 +41,8 @@ public class Sprite {
   public void switchToCostume(int number) {}
   public void show() {}
   public void hide() {}
+  public void say(String what) { processing.print("\""); processing.print(what); processing.println("\""); }
+  public void think(String what) { processing.print(". o O ("); processing.print(what); processing.println(")");}
   //public void changeSize, setSize, say/think(ForSeconds)
 
   // "motion" blocks
@@ -50,7 +58,7 @@ public class Sprite {
   
   // "sensing" blocks
   public boolean touchingSprite(Sprite target) { return false; }
-  // public boolean touchingColor(color target) { return 0; }
+  //public boolean touchingColor(processing.color target) { return false; }
   public int distanceToXY(int x,int y) { return 0; }
   public int distanceToSprite(Sprite target) { return distanceToXY(target.xPosition,target.yPosition); }
   
