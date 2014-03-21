@@ -54,7 +54,13 @@ public class Sprite {
   //public void changeSize, setSize, say/think(ForSeconds)
 
   // "motion" blocks
-  public void move(int distance) { }
+  public void move(int distance) {
+   //but this should actually be all kinds of trig setting up a private "xSpeed" and "ySpeed" then updating both coords by that. 
+    if (direction==-90) xPosition=xPosition-distance; 
+    if (direction==90) xPosition=xPosition+distance;
+    if (direction==0) yPosition=yPosition-distance;
+    if (direction==180) yPosition=yPosition+distance; 
+  }
   public void turnLeft(int degrees) {direction=direction-degrees; if (direction<0) direction=direction+360;}
   public void turnRight(int degrees) { direction=direction+degrees; if (direction>360) direction=direction-360;}
   public void pointTowardsXY(int x, int y) { }

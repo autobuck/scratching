@@ -8,10 +8,10 @@ void setup() {
 
 void draw() {
    background(0);
-   if (cat.xPosition<mouseX) cat.xPosition=cat.xPosition+10;
-   if (cat.xPosition>mouseX) cat.xPosition=cat.xPosition-10;
+   if (cat.xPosition<mouseX) { cat.pointInDirection(90); cat.move(10);    cat.nextCostume();}
+   if (cat.xPosition>mouseX) { cat.pointInDirection(-90); cat.move(10);    cat.nextCostume();}
    cat.yPosition=250;
-   cat.nextCostume();
+
    cat.update();
    delay(100);
 }
