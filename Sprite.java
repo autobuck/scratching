@@ -10,7 +10,7 @@ public class Sprite {
   
   PApplet processing;
   public int xPosition, yPosition, direction, rotationStyle;
-  public int costumeNumber;
+  public int costumeNumber, numberOfCostumes;
   public float size; 
   public boolean visible;
   public int volume, tempo;
@@ -29,10 +29,10 @@ public class Sprite {
   // without this, built-in functions are broken. use processing.whatever to access functionality
   Sprite (PApplet parent) {
     processing = parent;
-    costumes = new PImage[2];
-    costumes[0] = processing.loadImage("images/cat.costume1.png");
-    costumes[1] = processing.loadImage("images/cat.costume2.png");
+    costumes = new PImage[20];
+    loadDefaultCostumes();
     costumeNumber=0;
+    numberOfCostumes=0;
     size=100;
     rotationStyle=rotationStyle_LeftRight;
     vectorPosition = new PVector(xPosition,yPosition);
@@ -49,21 +49,21 @@ public class Sprite {
     else processing.image(costumes[costumeNumber], xPosition, yPosition, costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
     }
 
-  // "getter" and "setter" functions for private vars
-  // objective-c habit. probably easier to keep the variables public.
-  /*  public int xPosition() { return xPosition; }
-   public int yPosition() { return yPosition; }
-   public int direction() { return direction; }
-   public int costumeNumber() { return costumeNumber; }
-   public int size() { return size; }
-   */
+  public void loadDefaultCostumes() {
+    addCostume("images/cat.costume1.png");
+    addCostume("images/cat.costume2.png");
+    costumes[0] = processing.loadImage("images/cat.costume1.png");
+    costumes[1] = processing.loadImage("images/cat.costume2.png");
+  }
 
   // "looks" blocks
-  public void addCostume() {
+  public void addCostume(String filePath) {
+    numberOfCostumes++;
+    costumes[numberOfCostumes] = processing.loadImage(filePath);
   }
   public void nextCostume() { 
     costumeNumber++;
-    if (costumeNumber>costumes.length-1) costumeNumber=0;
+    if (costumeNumber>numberOfCostumes+1) costumeNumber=0;
   }
   public void previousCostume() {
   }
@@ -112,6 +112,7 @@ public class Sprite {
   }
   public void pointInDirection(int newDirection) { 
     direction=newDirection;
+    //this needs to set the vectorDirection
   }
   public void pointTowardsSprite(Sprite target) { 
     pointTowardsXY(target.xPosition, target.yPosition);
@@ -123,10 +124,6 @@ public class Sprite {
   public void goToSprite(Sprite target) { 
     xPosition=target.xPosition; 
     yPosition=target.yPosition;
-  }
-  public void glideToXY(int x, int y, int time) { 
-    pointTowardsXY(x, y); 
-    //momentum=distanceToXY(x, y)/time;
   }
 
   // "sensing" blocks
