@@ -1,5 +1,4 @@
 import processing.core.PApplet;
-//import processing.core.PShape;
 import processing.core.PImage;
 
 public class Sprite {
@@ -103,6 +102,21 @@ public class Sprite {
     momentum=distanceToXY(x, y)/time;
   }
 
+   //but this should actually be all kinds of trig setting up a private "xSpeed" and "ySpeed" then updating both coords by that. 
+    if (direction==-90 | direction==270) xPosition=xPosition-distance; 
+    if (direction==90) xPosition=xPosition+distance;
+    if (direction==0) yPosition=yPosition-distance;
+    if (direction==180) yPosition=yPosition+distance; 
+  }
+  public void turnLeft(int degrees) {direction=direction-degrees; if (direction<0) direction=direction+360;}
+  public void turnRight(int degrees) { direction=direction+degrees; if (direction>360) direction=direction-360;}
+  public void pointTowardsXY(int x, int y) { }
+  public void pointInDirection(int newDirection) { direction=newDirection; }
+  public void pointTowardsSprite(Sprite target) { pointTowardsXY(target.xPosition,target.yPosition); }
+  public void goToXY(int x, int y) { xPosition=x;yPosition=y; }
+  public void goToSprite(Sprite target) { xPosition=target.xPosition; yPosition=target.yPosition; }
+  public void glideToXY(int x, int y, int time) { pointTowardsXY(x,y); momentum=distanceToXY(x,y)/time;}
+  
   // "sensing" blocks
   public boolean touchingSprite(Sprite target) { 
     return false;
