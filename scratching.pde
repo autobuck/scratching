@@ -1,5 +1,4 @@
 Sprite cat;
-PShape[] test;
 
 void setup() {
   cat = new Sprite(this);
