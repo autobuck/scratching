@@ -17,8 +17,7 @@ public class Sprite {
   public int penColor, penSize; 
   public boolean penUp;
   
-  private PVector vectorDirection;
-  private PVector vectorPosition;
+  public PVector vectorDirection,vectorPosition;
   
   // add images as costumes;
   PImage[] costumes;
@@ -97,6 +96,11 @@ public class Sprite {
 
   // "motion" blocks
   public void move(int distance) {
+    if ((direction==-90) | (direction==270)) xPosition=xPosition-distance;
+    if (direction==90) xPosition=xPosition+distance;
+    if ((direction==0) | (direction==360)) yPosition=yPosition-distance;
+    if (direction==180) yPosition=yPosition+distance;
+    vectorPosition=new PVector(xPosition,yPosition);
   }
   public void turnLeft(int degrees) {
     direction=direction-degrees; 
@@ -107,8 +111,11 @@ public class Sprite {
     if (direction>360) direction=direction-360;
   }
   public void pointTowardsXY(int x, int y) {
-    PVector target = new PVector(x,y);
-    //direction=vectorDirection.heading(target);    
+    PVector temp = new PVector(x,y);
+    vectorPosition.add(temp);
+    xPosition=(int)vectorPosition.x;
+    yPosition=(int)vectorPosition.y;
+    //direction=temp.heading(target);    
   }
   public void pointInDirection(int newDirection) { 
     direction=newDirection;
@@ -126,7 +133,7 @@ public class Sprite {
     yPosition=target.yPosition;
   }
 
-  // "sensing" blocks
+  // "sensing" blocksd
   public boolean touchingSprite(Sprite target) { 
     return false;
   }
