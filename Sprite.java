@@ -44,8 +44,8 @@ public class Sprite {
 
   // "update" routine will draw sprite in new position, continue acting if set in motion by Move, etc
   public void update() {    
-    if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition, yPosition, costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
-    else processing.image(costumes[costumeNumber], xPosition, yPosition, costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
+    if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition+((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
+    else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition+((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
     }
 
   public void loadDefaultCostumes() {
@@ -67,9 +67,11 @@ public class Sprite {
   }
   
   public void previousCostume() {
-  }
+    costumeNumber--;
+    if (costumeNumber<0) costumeNumber=numberOfCostumes;  }
   
-  public void switchToCostume(int number) {
+  public void switchToCostume(int newCostumeNumber) {
+    costumeNumber=newCostumeNumber;
   }
   
   public void show() {

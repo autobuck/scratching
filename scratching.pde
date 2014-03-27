@@ -4,6 +4,7 @@ void setup() {
   cat = new Sprite(this);
   size(600,600);
   cat.size=50;
+  cat.goToXY(300,300);
 }
 
 void draw() {
@@ -13,7 +14,7 @@ void draw() {
    println(dist);
    if (cat.xPosition<mouseX) { cat.direction=90; cat.move(dist); }
    if (cat.xPosition>mouseX) { cat.direction=-90; cat.move(dist); }
-   cat.yPosition=150;
+   cat.yPosition=300;
    //cat.pointTowardsXY(mouseX,mouseY);
    cat.nextCostume();
    cat.update();
