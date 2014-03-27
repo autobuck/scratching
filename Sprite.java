@@ -31,6 +31,7 @@ public class Sprite {
     costumes = new PImage[20];
     loadDefaultCostumes();
     costumeNumber=0;
+    visible = true;
     numberOfCostumes=0;
     size=100;
     rotationStyle=rotationStyle_LeftRight;
@@ -44,9 +45,11 @@ public class Sprite {
 
   // "update" routine will draw sprite in new position, continue acting if set in motion by Move, etc
   public void update() {    
-    if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition+((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
-    else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition+((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
+    if (visible) {
+      if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
+      else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
     }
+  }
 
   public void loadDefaultCostumes() {
     addCostume("images/cat.costume1.png");
@@ -75,9 +78,11 @@ public class Sprite {
   }
   
   public void show() {
+    visible=true;
   }
   
   public void hide() {
+    visible=false;
   }
   
   public void say(String what) { 
