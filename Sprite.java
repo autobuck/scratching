@@ -126,15 +126,21 @@ public class Sprite {
   
   public void pointTowardsXY(int x, int y) {
     PVector temp = new PVector(x,y);
-    vectorPosition.add(temp);
+    float radDirection;
+    temp.sub(vectorPosition);
+    processing.print("temp vector is "); processing.println(temp);
+    processing.print("heading is "); processing.println(temp.heading());
     xPosition=(int)vectorPosition.x;
     yPosition=(int)vectorPosition.y;
-    //direction=temp.heading(target);    
+    radDirection=vectorPosition.heading(); // probably needs some translation
+    direction=(int)(radDirection * (180/3.14)); // mathwarehouse.com/trigonometry/radians/convert-degee-to-radians.php
+    // probably want logic to reverse >180 to left-facing -degrees but this will do for now
+    processing.print("direction is "); processing.println(direction);
   }
   
   public void pointInDirection(int newDirection) { 
     direction=newDirection;
-    //this needs to set the vectorDirection
+    //need to set the vectorDirection
   }
   
   public void pointTowardsSprite(Sprite target) { 
@@ -150,16 +156,14 @@ public class Sprite {
   public void goToSprite(Sprite target) { 
     xPosition=target.xPosition; 
     yPosition=target.yPosition;
+    vectorPosition=new PVector(target.xPosition,target.yPosition);
   }
 
-  // "sensing" blocksd
+  // "sensing" blocks
   public boolean touchingSprite(Sprite target) {
     boolean touchingX,touchingY;
     PVector testVector;
     touchingX=false; touchingY=false;
-    processing.print("distance "); processing.println(vectorPosition.dist(target.vectorPosition));
-    processing.print("widths are "); processing.print((target.costumes[target.costumeNumber].width*(target.size/100))/2); processing.print(" and "); processing.println((costumes[costumeNumber].width*(size/100))/2);
-    processing.print("widths total "); processing.println((target.costumes[target.costumeNumber].width*(target.size/100))/2+(costumes[costumeNumber].width*(size/100))/2);
     testVector=new PVector(target.xPosition,yPosition);
     if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].width*(target.size/100))/2)+(costumes[costumeNumber].width*(size/100))/2) {
       touchingX = true; 

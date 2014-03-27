@@ -28,4 +28,4 @@ void draw() {
    delay(100);
 }
 
-void mouseClicked() { if (cat.visible) cat.visible=false; else cat.visible=true; }
+void mouseClicked() { cat.pointTowardsSprite(alsoCat); }
