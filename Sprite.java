@@ -158,13 +158,14 @@ public class Sprite {
     PVector testVector;
     touchingX=false; touchingY=false;
     processing.print("distance "); processing.println(vectorPosition.dist(target.vectorPosition));
-    processing.print("width "); processing.println((target.costumes[target.costumeNumber].width*(size/100)));
+    processing.print("widths are "); processing.print((target.costumes[target.costumeNumber].width*(target.size/100))/2); processing.print(" and "); processing.println((costumes[costumeNumber].width*(size/100))/2);
+    processing.print("widths total "); processing.println((target.costumes[target.costumeNumber].width*(target.size/100))/2+(costumes[costumeNumber].width*(size/100))/2);
     testVector=new PVector(target.xPosition,yPosition);
-    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].width*(size/100))/2)+(costumes[costumeNumber].width*(size/100))/2) {
+    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].width*(target.size/100))/2)+(costumes[costumeNumber].width*(size/100))/2) {
       touchingX = true; 
     }
     testVector=new PVector(xPosition,target.yPosition);
-    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].height*(size/100))/2)+(costumes[costumeNumber].height*(size/100))/2) {
+    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].height*(target.size/100))/2)+(costumes[costumeNumber].height*(size/100))/2) {
       touchingY = true; 
     }
     if (touchingX & touchingY) return true;
