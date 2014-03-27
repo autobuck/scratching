@@ -60,23 +60,30 @@ public class Sprite {
     numberOfCostumes++;
     costumes[numberOfCostumes] = processing.loadImage(filePath);
   }
+  
   public void nextCostume() { 
     costumeNumber++;
     if (costumeNumber>numberOfCostumes+1) costumeNumber=0;
   }
+  
   public void previousCostume() {
   }
+  
   public void switchToCostume(int number) {
   }
+  
   public void show() {
   }
+  
   public void hide() {
   }
+  
   public void say(String what) { 
     processing.print("\""); 
     processing.print(what); 
     processing.println("\"");
   }
+  
   public void think(String what) { 
     processing.print(". o O ("); 
     processing.print(what); 
@@ -102,14 +109,17 @@ public class Sprite {
     if (direction==180) yPosition=yPosition+distance;
     vectorPosition=new PVector(xPosition,yPosition);
   }
+  
   public void turnLeft(int degrees) {
     direction=direction-degrees; 
     if (direction<0) direction=direction+360;
   }
+  
   public void turnRight(int degrees) { 
     direction=direction+degrees; 
     if (direction>360) direction=direction-360;
   }
+  
   public void pointTowardsXY(int x, int y) {
     PVector temp = new PVector(x,y);
     vectorPosition.add(temp);
@@ -117,17 +127,21 @@ public class Sprite {
     yPosition=(int)vectorPosition.y;
     //direction=temp.heading(target);    
   }
+  
   public void pointInDirection(int newDirection) { 
     direction=newDirection;
     //this needs to set the vectorDirection
   }
+  
   public void pointTowardsSprite(Sprite target) { 
     pointTowardsXY(target.xPosition, target.yPosition);
   }
+  
   public void goToXY(int x, int y) { 
     xPosition=x;
     yPosition=y;
   }
+  
   public void goToSprite(Sprite target) { 
     xPosition=target.xPosition; 
     yPosition=target.yPosition;
@@ -137,11 +151,13 @@ public class Sprite {
   public boolean touchingSprite(Sprite target) { 
     return false;
   }
+  
   //public boolean touchingColor(processing.color target) { return false; }
   public float distanceToXY(int x, int y) { 
     PVector temp = new PVector(x,y);
     return vectorPosition.dist(temp);
   }
+  
   public float distanceToSprite(Sprite target) { 
     return distanceToXY(target.xPosition, target.yPosition);
   }
