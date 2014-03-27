@@ -10,7 +10,6 @@ public class Sprite {
   
   PApplet processing;
   public int xPosition, yPosition, direction, rotationStyle;
-  public int hitboxMinX,hitboxMinY,hitboxMaxX,hitboxMaxY;
   public int costumeNumber, numberOfCostumes;
   public float size; 
   public boolean visible;
@@ -47,10 +46,6 @@ public class Sprite {
       if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
       else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));      
     }    
-    hitboxMinX = (int)(xPosition-((costumes[costumeNumber].width*(size/100))/2));
-    hitboxMinY = (int)(yPosition-((costumes[costumeNumber].height*(size/100))/2));
-    hitboxMaxX = (int)(xPosition+((costumes[costumeNumber].width*(size/100))/2));
-    hitboxMaxY = (int)(yPosition+((costumes[costumeNumber].height*(size/100))/2));
   }
 
   public void loadDefaultCostumes() {
