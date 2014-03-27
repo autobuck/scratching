@@ -10,6 +10,7 @@ public class Sprite {
   
   PApplet processing;
   public int xPosition, yPosition, direction, rotationStyle;
+  public int hitboxMinX,hitboxMinY,hitboxMaxX,hitboxMaxY;
   public int costumeNumber, numberOfCostumes;
   public float size; 
   public boolean visible;
@@ -27,6 +28,7 @@ public class Sprite {
 
   // without this, built-in functions are broken. use processing.whatever to access functionality
   Sprite (PApplet parent) {
+  //  hitbox = new hitboxValues;
     processing = parent;
     costumes = new PImage[20];
     loadDefaultCostumes();
@@ -39,16 +41,16 @@ public class Sprite {
     vectorDirection = new PVector(0,0);
   }
 
-  public void test() {   
-    nextCostume();
-  }
-
   // "update" routine will draw sprite in new position, continue acting if set in motion by Move, etc
   public void update() {    
     if (visible) {
       if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
-      else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
-    }
+      else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));      
+    }    
+    hitboxMinX = (int)(xPosition-((costumes[costumeNumber].width*(size/100))/2));
+    hitboxMinY = (int)(yPosition-((costumes[costumeNumber].height*(size/100))/2));
+    hitboxMaxX = (int)(xPosition+((costumes[costumeNumber].width*(size/100))/2));
+    hitboxMaxY = (int)(yPosition+((costumes[costumeNumber].height*(size/100))/2));
   }
 
   public void loadDefaultCostumes() {
@@ -147,6 +149,7 @@ public class Sprite {
   public void goToXY(int x, int y) { 
     xPosition=x;
     yPosition=y;
+    vectorPosition = new PVector(xPosition,yPosition);
   }
   
   public void goToSprite(Sprite target) { 
@@ -155,8 +158,22 @@ public class Sprite {
   }
 
   // "sensing" blocksd
-  public boolean touchingSprite(Sprite target) { 
-    return false;
+  public boolean touchingSprite(Sprite target) {
+    boolean touchingX,touchingY;
+    PVector testVector;
+    touchingX=false; touchingY=false;
+    processing.print("distance "); processing.println(vectorPosition.dist(target.vectorPosition));
+    processing.print("width "); processing.println((target.costumes[target.costumeNumber].width*(size/100)));
+    testVector=new PVector(target.xPosition,yPosition);
+    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].width*(size/100))/2)+(costumes[costumeNumber].width*(size/100))/2) {
+      touchingX = true; 
+    }
+    testVector=new PVector(xPosition,target.yPosition);
+    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].height*(size/100))/2)+(costumes[costumeNumber].height*(size/100))/2) {
+      touchingY = true; 
+    }
+    if (touchingX & touchingY) return true;
+    else return false;
   }
   
   //public boolean touchingColor(processing.color target) { return false; }
