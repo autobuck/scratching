@@ -2,22 +2,8 @@ Sprite cat;
 Sprite alsoCat;
 int myY;
 
-public PVector globOrigin = new PVector();
-
-
-/* start()
- * This MUST be called at the beginning of setup(). It acts in place
- * of the builtin size() function so that the global origin can also
- * be set.
- */
-public void start(int _width, int _height) {
-  size(_width, _height);
-  globOrigin.set(width/2, height/2);
-}
-
-
 void setup() {
-  start(600,600);
+  begin(600,600);
   cat = new Sprite(this);
   alsoCat = new Sprite(this);
   cat.size=50;
