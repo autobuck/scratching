@@ -1,15 +1,8 @@
 Sprite cat;
 Sprite alsoCat;
 
-/* I really don't like this here */
-public void begin(int _width, int _height) {
-  size(_width, _height);
-  //translate(100, 100);
-  //Global.origin.set(width/2, height/2);
-}
-
 void setup() {
-  begin(600, 600);
+  size(600, 600);
   cat = new Sprite(this);
   cat.size = 50;
   //cat.pos.set(0, 0);
@@ -41,11 +34,11 @@ void draw() {
    delay(100);*/
 
   //cat.nextCostume();
-  cat.move(7);
-  cat.direction += 5;
+  cat.move(2);
+  //cat.direction += 5;
   
   cat.update();
-  delay(10);
+  //delay(1);
 }
 
 //void mouseClicked() { cat.pointTowards(alsoCat); }
