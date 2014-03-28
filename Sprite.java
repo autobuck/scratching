@@ -34,7 +34,7 @@ public class Sprite {
   public boolean penUp;
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector vectorDirection;
-  public PVector vectorPosition = new PVector(globOrigin.x, globOrigin.y);
+  public PVector vectorPosition = new PVector(global.origin.x, global.origin.y);
 
   // add images as costumes;
   //costumes = ;
