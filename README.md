@@ -10,6 +10,7 @@ By now, you are probably an expert in Scratch. But most programming languages ar
 So instead of
 
 [image]
+![Scratch example](readme-img/scratch-example.png)
 
 you would write something like
 ```
