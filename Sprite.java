@@ -18,12 +18,10 @@
  * than in the UL corner (as most graphics languages do).
  * This will be set by the init() function.
  */
-
 import processing.core.PApplet;
-//import processing.core.PShape;
 import processing.core.PImage;
 import processing.core.PVector;
-
+import java.util.ArrayList;
 
 public class Sprite {
   
@@ -39,21 +37,17 @@ public class Sprite {
   public boolean visible;
   public int penColor, penSize; 
   public boolean penUp;
-//  public float d = 0;
+  public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector vectorDirection;
   public PVector vectorPosition = new PVector(globOrigin.x, globOrigin.y);
  
   // add images as costumes;
-  PImage[] costumes;
-
-  // "momentum" will keep track of long-term movements such as glideTo
-  //private int momentum;
+  //costumes = ;
 
   // without this, built-in functions are broken. use processing.whatever to access functionality
   Sprite (PApplet parent) {
   //  hitbox = new hitboxValues;
     processing = parent;
-    costumes = new PImage[20];
     loadDefaultCostumes();
     costumeNumber=0;
     visible = true;
@@ -74,9 +68,8 @@ public class Sprite {
   /* ==== Drawing ====
    * 
    * In order to draw sprites to the screen, each one will have
-   * a graphics object. This graphics object can be individually
+   * an Image object. This image object can be individually
    * manipulated during the program.
-   * May support images later.
    *
    * The .update() function must be called for all sprites.
    * It may be easiest to store sprites in an array of Sprites,
@@ -84,11 +77,11 @@ public class Sprite {
    */
   public void update() {    
     if (visible) {
-      processing.image(costumes[costumeNumber], 
-        xPosition-((costumes[costumeNumber].width*(size/100))/2), 
-        yPosition-((costumes[costumeNumber].height*(size/100))/2), 
-        costumes[costumeNumber].width*(size/100), 
-        costumes[costumeNumber].height*(size/100));
+      processing.image(costumes.get(costumeNumber), 
+        xPosition-((costumes.get(costumeNumber).width*(size/100))/2), 
+        yPosition-((costumes.get(costumeNumber).height*(size/100))/2), 
+        costumes.get(costumeNumber).width*(size/100), 
+        costumes.get(costumeNumber).height*(size/100));
       //if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
       //else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));      
     }      
@@ -99,14 +92,12 @@ public class Sprite {
   public void loadDefaultCostumes() {
     addCostume("images/cat.costume1.png");
     addCostume("images/cat.costume2.png");
-    costumes[0] = processing.loadImage("images/cat.costume1.png");
-    costumes[1] = processing.loadImage("images/cat.costume2.png");
   }
 
   // add costume from bitmap image file
   public void addCostume(String filePath) {
     numberOfCostumes++;
-    costumes[numberOfCostumes] = processing.loadImage(filePath);
+    costumes.add(processing.loadImage(filePath));
   }
   
   // change to next costume
@@ -160,13 +151,6 @@ public class Sprite {
 
   // "motion" blocks
   public void move(int distance) {
-    /*
-    if ((direction==-90) | (direction==270)) xPosition=xPosition-distance;
-    if (direction==90) xPosition=xPosition+distance;
-    if ((direction==0) | (direction==360)) yPosition=yPosition-distance;
-    if (direction==180) yPosition=yPosition+distance;
-    vectorPosition=new PVector(xPosition,yPosition);
-    */
     vectorPosition.setMag(vectorPosition.mag() + distance);
     xPosition=(int)vectorPosition.x;
     yPosition=(int)vectorPosition.y;
@@ -207,6 +191,9 @@ public class Sprite {
   
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
+    PVector temp;
+    temp = new PVector(vectorPosition.y - processing.mouseY,vectorPosition.x - processing.mouseX);
+    //vectorPosition = 
     direction = processing.degrees(processing.atan2(vectorPosition.y - processing.mouseY, vectorPosition.x - processing.mouseX));
   }
 
