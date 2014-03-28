@@ -1,8 +1,9 @@
-/* Scratching  -- Scratch for Processing
+/* Sprite.java
+ * Scratching  -- Scratch for Processing
  *
  * This file seeks to implement Scratch blocks and sprites in
  * Processing, in order to facilitate a transition from Scratch
- * into Processing.
+ * into p.
  * See: http://wiki.scratch.mit.edu/wiki/Blocks
  *
  * Sound blocks are NOT included (for sanity's sake). 
@@ -24,41 +25,42 @@ public class Sprite {
   static final int rotationStyle_noRotation=2;
   //public PVector globOrigin = new PVector();
 
-  PApplet processing;
+  PApplet p;
 
-  public int xPosition, yPosition, rotationStyle;
+  public int rotationStyle;
   public int costumeNumber, numberOfCostumes;
   public float size; 
   public boolean visible;
   public int penColor, penSize; 
   public boolean penUp;
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
-  public PVector vectorDirection;
-  public PVector vectorPosition = new PVector(global.origin.x, global.origin.y);
-
-  // add images as costumes;
-  //costumes = ;
-
-  // without this, built-in functions are broken. use processing.whatever to access functionality
-  Sprite (PApplet parent) {
-    //  hitbox = new hitboxValues;
-    processing = parent;
-    loadDefaultCostumes();
-    costumeNumber=0;
-    visible = true;
-    numberOfCostumes=0;
-    size=100;
-    rotationStyle=rotationStyle_LeftRight;
-    vectorPosition = new PVector(xPosition, yPosition);
-    vectorDirection = new PVector(0, 0);
-  }
-
+  public PVector pos = new PVector(0, 0);
+  
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
    * Use degrees() to convert to degrees; radians() to convert to
    * radians.
    */
   public float direction = 0;
+  // add images as costumes;
+  //costumes = ;
+
+  // without this, built-in functions are broken. use p.whatever to access functionality
+  Sprite (PApplet parent) {
+    //  hitbox = new hitboxValues;
+    p = parent;
+    loadDefaultCostumes();
+    costumeNumber=0;
+    visible = true;
+    numberOfCostumes=0;
+    size=100;
+    rotationStyle=rotationStyle_LeftRight;
+    
+    //pos = new PVector(xPosition, yPosition);
+    //vectorDirection = new PVector(0, 0);
+  }
+
+
 
   /* ==== Drawing ====
    * 
@@ -72,13 +74,14 @@ public class Sprite {
    */
   public void update() {    
     if (visible) {
-      processing.image(costumes.get(costumeNumber), 
-      xPosition-((costumes.get(costumeNumber).width*(size/100))/2), 
-      yPosition-((costumes.get(costumeNumber).height*(size/100))/2), 
+      /*p.image(costumes.get(costumeNumber), 
+      pos.x-((costumes.get(costumeNumber).width*(size/100))/2), 
+      pos.y-((costumes.get(costumeNumber).height*(size/100))/2), 
       costumes.get(costumeNumber).width*(size/100), 
-      costumes.get(costumeNumber).height*(size/100));
-      //if (((direction<0) | (direction>180)) & (rotationStyle==rotationStyle_LeftRight)) processing.image(getReversePImage(costumes[costumeNumber]), xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
-      //else processing.image(costumes[costumeNumber], xPosition-((costumes[costumeNumber].width*(size/100))/2), yPosition-((costumes[costumeNumber].height*(size/100))/2), costumes[costumeNumber].width*(size/100), costumes[costumeNumber].height*(size/100));
+      costumes.get(costumeNumber).height*(size/100));*/
+      p.imageMode(p.CENTER);
+      p.translate(p.width/2, p.height/2);
+      p.image(costumes.get(costumeNumber), pos.x, pos.y);
     }
   }
 
@@ -91,19 +94,19 @@ public class Sprite {
   // add costume from bitmap image file
   public void addCostume(String filePath) {
     numberOfCostumes++;
-    costumes.add(processing.loadImage(filePath));
+    costumes.add(p.loadImage(filePath));
   }
 
   // change to next costume
   public void nextCostume() { 
     costumeNumber++;
-    if (costumeNumber>numberOfCostumes+1) costumeNumber=0;
+    if (costumeNumber > numberOfCostumes + 1) costumeNumber=0;
   }
 
   // change to previous costume
   public void previousCostume() {
     costumeNumber--;
-    if (costumeNumber<0) costumeNumber=numberOfCostumes;
+    if (costumeNumber < 0) costumeNumber=numberOfCostumes;
   }
 
   // switch to specific costume
@@ -122,18 +125,20 @@ public class Sprite {
   }
 
   public void say(String what) { 
-    processing.print("\""); 
-    processing.print(what); 
-    processing.println("\"");
+    p.print("\""); 
+    p.print(what); 
+    p.println("\"");
   }
 
   public void think(String what) { 
-    processing.print(". o O ("); 
-    processing.print(what); 
-    processing.println(")");
+    p.print(". o O ("); 
+    p.print(what); 
+    p.println(")");
   }
   //public void changeSize, setSize, say/think(ForSeconds)
 
+
+  // TODO this can be replaced by a matrix operation
   public PImage getReversePImage( PImage image ) {
     PImage reverse = new PImage( image.width, image.height );
     for ( int i=0; i < image.width; i++ ) {
@@ -160,11 +165,11 @@ public class Sprite {
   }
 
   // point towards arbitrary grid position
-  public void pointTowardsXY(int x, int y) {
+  /*public void pointTowardsXY(int x, int y) {
     PVector temp = new PVector(x, y);
-    direction = processing.degrees(processing.atan2((vectorPosition.y - temp.y), 
+    direction = p.degrees(p.atan2((vectorPosition.y - temp.y), 
     (vectorPosition.x - temp.x)));
-  }
+  }*/
 
   // absolute heading
   public void pointInDirection(float angle) {
@@ -172,47 +177,47 @@ public class Sprite {
   }
 
   /* Sets the direction to point towards another Sprite. */
-  public void pointTowards(Sprite target) {
+  /*public void pointTowards(Sprite target) {
     PVector tempVector;
     tempVector = new PVector(target.xPosition, target.yPosition);
     tempVector.sub(vectorPosition);
     vectorDirection=tempVector;
-    direction = processing.degrees(processing.atan2((vectorPosition.x - target.vectorPosition.x), 
+    direction = p.degrees(p.atan2((vectorPosition.x - target.vectorPosition.x), 
     (vectorPosition.y - target.vectorPosition.y)));
-  }
+  }*/
 
-  /* Same as above, but for mouse. */
+  /* Same as above, but for mouse. /
   public void pointTowardsMouse() {
     PVector mouseVector;
-    mouseVector = new PVector(processing.mouseX, processing.mouseY);
+    mouseVector = new PVector(p.mouseX, p.mouseY);
     mouseVector.sub(vectorPosition);
     vectorDirection=mouseVector;
-    direction = processing.degrees(processing.atan2(vectorPosition.y - processing.mouseY, vectorPosition.x - processing.mouseX));
-  }
+    direction = p.degrees(p.atan2(vectorPosition.y - p.mouseY, vectorPosition.x - p.mouseX));
+  }*/
 
   public void move(int distance) {
-    //    vectorPosition.setMag(vectorPosition.mag() + distance);
-    vectorPosition.add(vectorDirection);
+    pos.setMag(pos.mag() + distance);
+    /*vectorPosition.add(vectorDirection);
     xPosition=(int)vectorPosition.x;
-    yPosition=(int)vectorPosition.y;
+    yPosition=(int)vectorPosition.y;*/
   }
 
-  /* move to specific location on grid */
+  /* move to specific location on grid /
   public void goToXY(int x, int y) { 
     xPosition=x;
     yPosition=y;
     vectorPosition = new PVector(xPosition, yPosition);
-  }
+  }*/
 
   // move to position of Sprite object
-  public void goToSprite(Sprite target) { 
+  /*public void goToSprite(Sprite target) { 
     xPosition=target.xPosition; 
     yPosition=target.yPosition;
     vectorPosition=new PVector(target.xPosition, target.yPosition);
-  }
+  }*/
 
   // check if a Sprite is touching another Sprite using simple rectangular hit box
-  public boolean touchingSprite(Sprite target) {
+  /*public boolean touchingSprite(Sprite target) {
     boolean touchingX, touchingY;
     PVector testVector;
     touchingX=false; 
@@ -227,17 +232,17 @@ public class Sprite {
     }
     if (touchingX & touchingY) return true;
     else return false;
-  }
+  }*/
 
-  // return distance to arbitrary grid position  
+  /*// return distance to arbitrary grid position  
   public float distanceToXY(int x, int y) { 
     PVector temp = new PVector(x, y);
-    return vectorPosition.dist(temp);
-  }
+    return pos.dist(temp);
+  }*/
 
-  // return distance to Sprite object
+  /*// return distance to Sprite object
   public float distanceToSprite(Sprite target) { 
     return distanceToXY(target.xPosition, target.yPosition);
-  }
+  }*/
 }
 
