@@ -1,7 +1,5 @@
 # scratching
 
----
-
 ### scratching allows you to write Scratch programs in Processing.
 
 written by Buck Bailey and Eli Baum, 2014
