@@ -178,14 +178,18 @@ public class Sprite {
   
   /* Sets the direction to point towards another Sprite. */
   public void pointTowards(Sprite target) {
-    direction = processing.degrees(processing.atan2((vectorPosition.y - target.vectorPosition.y),
-                              (vectorPosition.x - target.vectorPosition.x)));
+    PVector tempVector;
+    tempVector = new PVector(target.xPosition,target.yPosition);
+    tempVector.sub(vectorPosition);
+    vectorDirection=tempVector;
+    direction = processing.degrees(processing.atan2((vectorPosition.x - target.vectorPosition.x),
+                              (vectorPosition.y - target.vectorPosition.y)));
   }
   
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
     PVector mouseVector;
-    mouseVector = new PVector(processing.mouseY,processing.mouseX);
+    mouseVector = new PVector(processing.mouseX,processing.mouseY);
     mouseVector.sub(vectorPosition);
     vectorDirection=mouseVector;
     direction = processing.degrees(processing.atan2(vectorPosition.y - processing.mouseY, vectorPosition.x - processing.mouseX));

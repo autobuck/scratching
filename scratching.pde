@@ -34,7 +34,8 @@ void draw() {
    //if (cat.xPosition>mouseX) { cat.move(-10); }
    //if (cat.yPosition<mouseY) { cat.goToXY(cat.xPosition,cat.yPosition+10); }
    //if (cat.yPosition>mouseY) { cat.goToXY(cat.xPosition,cat.yPosition-10); }
-   cat.pointTowardsMouse();
+   //cat.pointTowardsMouse();
+   cat.pointTowards(alsoCat);
    cat.move(10);
    cat.nextCostume();
    cat.update();
