@@ -148,13 +148,6 @@ public class Sprite {
      }
      return reverse;
     }
-
-  // "motion" blocks
-  public void move(int distance) {
-    vectorPosition.setMag(vectorPosition.mag() + distance);
-    xPosition=(int)vectorPosition.x;
-    yPosition=(int)vectorPosition.y;
-  }
   
   // turn any angle
   public void turn(float angle) {
@@ -191,10 +184,18 @@ public class Sprite {
   
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    PVector temp;
-    temp = new PVector(vectorPosition.y - processing.mouseY,vectorPosition.x - processing.mouseX);
-    //vectorPosition = 
+    PVector mouseVector;
+    mouseVector = new PVector(processing.mouseY,processing.mouseX);
+    mouseVector.sub(vectorPosition);
+    vectorDirection=mouseVector;
     direction = processing.degrees(processing.atan2(vectorPosition.y - processing.mouseY, vectorPosition.x - processing.mouseX));
+  }
+
+  public void move(int distance) {
+//    vectorPosition.setMag(vectorPosition.mag() + distance);
+    vectorPosition.add(vectorDirection);
+    xPosition=(int)vectorPosition.x;
+    yPosition=(int)vectorPosition.y;
   }
 
   /* move to specific location on grid */
@@ -217,11 +218,11 @@ public class Sprite {
     PVector testVector;
     touchingX=false; touchingY=false;
     testVector=new PVector(target.xPosition,yPosition);
-    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].width*(target.size/100))/2)+(costumes[costumeNumber].width*(size/100))/2) {
+    if (vectorPosition.dist(testVector) < ((target.costumes.get(target.costumeNumber).width*(target.size/100))/2)+(costumes.get(costumeNumber).width*(size/100))/2) {
       touchingX = true; 
     }
     testVector=new PVector(xPosition,target.yPosition);
-    if (vectorPosition.dist(testVector) < ((target.costumes[target.costumeNumber].height*(target.size/100))/2)+(costumes[costumeNumber].height*(size/100))/2) {
+    if (vectorPosition.dist(testVector) < ((target.costumes.get(target.costumeNumber).height*(target.size/100))/2)+(costumes.get(costumeNumber).height*(size/100))/2) {
       touchingY = true; 
     }
     if (touchingX & touchingY) return true;

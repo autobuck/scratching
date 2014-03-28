@@ -21,7 +21,7 @@ void setup() {
   cat = new Sprite(this);
   alsoCat = new Sprite(this);
   cat.size=50;
-  cat.goToXY(50,50);
+  cat.goToXY(300,300);
   alsoCat.size=25;
   alsoCat.goToXY(500,500);
   myY=0;
@@ -34,7 +34,7 @@ void draw() {
    //if (cat.xPosition>mouseX) { cat.move(-10); }
    //if (cat.yPosition<mouseY) { cat.goToXY(cat.xPosition,cat.yPosition+10); }
    //if (cat.yPosition>mouseY) { cat.goToXY(cat.xPosition,cat.yPosition-10); }
-   cat.pointTowardsXY(50,50);
+   cat.pointTowardsMouse();
    cat.move(10);
    cat.nextCostume();
    cat.update();
