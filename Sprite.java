@@ -79,8 +79,11 @@ public class Sprite {
       pos.y-((costumes.get(costumeNumber).height*(size/100))/2), 
       costumes.get(costumeNumber).width*(size/100), 
       costumes.get(costumeNumber).height*(size/100));*/
-      p.imageMode(p.CENTER);
+      
+      // set the center of the screen to (0, 0)
       p.translate(p.width/2, p.height/2);
+      
+      p.imageMode(p.CENTER);
       p.image(costumes.get(costumeNumber), pos.x, pos.y);
     }
   }
@@ -196,7 +199,14 @@ public class Sprite {
   }*/
 
   public void move(int distance) {
-    pos.setMag(pos.mag() + distance);
+    /* Create a new vector, representing the desired motion (angle + distance) 
+     * fromAngle() makes a unit vector (length 1)
+     * negative on direction is b/c processing flips the cartesian y axis
+     */
+    PVector temp = PVector.fromAngle(p.radians(-direction));
+    temp.mult(distance);
+    pos.add(temp);
+    
     /*vectorPosition.add(vectorDirection);
     xPosition=(int)vectorPosition.x;
     yPosition=(int)vectorPosition.y;*/

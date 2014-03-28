@@ -10,6 +10,6 @@ public class Global {
    * than in the UL corner (as most graphics languages do).
    * This will be set by the init() function.
    */
-  public static PVector origin = new PVector();
+  //public static PVector origin = new PVector();
 }
 
