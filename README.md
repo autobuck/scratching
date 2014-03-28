@@ -51,7 +51,7 @@ If you run it, you should see the cat moving to the right across the screen.
 
 So how does it work?
 
-`Sprite cat` This makes a sprite called "cat". **Notice the semicolon ; at the end of the line. You need one after every command!**
+`Sprite cat;` This makes a sprite called "cat". **Notice the semicolon ; at the end of the line. You need one after every command!**
 
 `void setup() {` The setup function runs once, at the beginning of your program. This is its *function definition*. A function is like a script in Scratch. It must have a name ("setup"), followed by parantheses. The curly bracket starts the function. Inside of functions, we usually *indent* code (use the tab key).
 
