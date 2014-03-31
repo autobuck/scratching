@@ -47,7 +47,6 @@ public class Sprite {
 
   // without this, built-in functions are broken. use p.whatever to access functionality
   Sprite (PApplet parent) {
-    //  hitbox = new hitboxValues;
     p = parent;
     loadDefaultCostumes();
     costumeNumber=0;
@@ -55,9 +54,6 @@ public class Sprite {
     numberOfCostumes=0;
     size=100;
     rotationStyle=rotationStyle_LeftRight;
-    
-    //pos = new PVector(xPosition, yPosition);
-    //vectorDirection = new PVector(0, 0);
   }
 
 
@@ -172,12 +168,12 @@ public class Sprite {
     PVector targetVector;
     targetVector = new PVector(p.mouseX, p.mouseY);
     direction = (p.degrees(p.atan2(pos.x - (targetVector.x-300), pos.y - (targetVector.y-300))))+90;
-    
+    /*
     p.print("mouseX "); p.print((p.mouseX-300)); p.print(" mouseX "); p.print((p.mouseY-300));
     p.print(" pos.x "); p.print(pos.x); p.print(" pos.y "); p.println(pos.y);
     p.print("direction: "); p.println(-direction);
-    p.println("*************");
-  
+    p.println("*************"); 
+    */
   }
 
   // absolute heading
@@ -193,14 +189,6 @@ public class Sprite {
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
     pointTowardsXY(p.mouseX,p.mouseY);
-    /*PVector mouseVector;
-    mouseVector = new PVector(p.mouseX, p.mouseY);
-    float base = (p.mouseX-300)-pos.x;
-    float height = (p.mouseY-300)-pos.y;
-    float hyp = p.sqrt((base*base)+(height*height));
-    direction = p.degrees(p.atan2(pos.x - (p.mouseX-300), pos.y - (p.mouseY-300)));
-    turnLeft(90);*/
-    //direction = p.degrees(p.atan(base/height));  
   }
 
   public void move(int distance) {
@@ -211,53 +199,46 @@ public class Sprite {
     PVector temp = PVector.fromAngle(p.radians(-direction));
     temp.mult(distance);
     pos.add(temp);
-    
-    /*vectorPosition.add(vectorDirection);
-    xPosition=(int)vectorPosition.x;
-    yPosition=(int)vectorPosition.y;*/
   }
 
-  /* move to specific location on grid /
+  /* move to specific location on grid */
   public void goToXY(int x, int y) { 
-    xPosition=x;
-    yPosition=y;
-    vectorPosition = new PVector(xPosition, yPosition);
-  }*/
+    pos.x = x; pos.y = y;
+  }
 
   // move to position of Sprite object
-  /*public void goToSprite(Sprite target) { 
-    xPosition=target.xPosition; 
-    yPosition=target.yPosition;
-    vectorPosition=new PVector(target.xPosition, target.yPosition);
-  }*/
+  public void goToSprite(Sprite target) { 
+    pos.x=target.pos.x; 
+    pos.y=target.pos.y;
+  }
 
   // check if a Sprite is touching another Sprite using simple rectangular hit box
-  /*public boolean touchingSprite(Sprite target) {
+  public boolean touchingSprite(Sprite target) {
     boolean touchingX, touchingY;
     PVector testVector;
     touchingX=false; 
     touchingY=false;
-    testVector=new PVector(target.xPosition, yPosition);
-    if (vectorPosition.dist(testVector) < ((target.costumes.get(target.costumeNumber).width*(target.size/100))/2)+(costumes.get(costumeNumber).width*(size/100))/2) {
+    testVector=new PVector(target.pos.x, pos.y);
+    if (pos.dist(testVector) < ((target.costumes.get(target.costumeNumber).width*(target.size/100))/2)+(costumes.get(costumeNumber).width*(size/100))/2) {
       touchingX = true;
     }
-    testVector=new PVector(xPosition, target.yPosition);
-    if (vectorPosition.dist(testVector) < ((target.costumes.get(target.costumeNumber).height*(target.size/100))/2)+(costumes.get(costumeNumber).height*(size/100))/2) {
+    testVector=new PVector(pos.x, target.pos.y);
+    if (pos.dist(testVector) < ((target.costumes.get(target.costumeNumber).height*(target.size/100))/2)+(costumes.get(costumeNumber).height*(size/100))/2) {
       touchingY = true;
     }
     if (touchingX & touchingY) return true;
     else return false;
-  }*/
+  }
 
-  /*// return distance to arbitrary grid position  
+  // return distance to arbitrary grid position  
   public float distanceToXY(int x, int y) { 
     PVector temp = new PVector(x, y);
     return pos.dist(temp);
-  }*/
+  }
 
-  /*// return distance to Sprite object
+  // return distance to Sprite object
   public float distanceToSprite(Sprite target) { 
-    return distanceToXY(target.xPosition, target.yPosition);
-  }*/
+    return distanceToXY((int)target.pos.x, (int)target.pos.y);
+  }
 }
 
