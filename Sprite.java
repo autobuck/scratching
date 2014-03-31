@@ -74,17 +74,12 @@ public class Sprite {
    */
   public void update() {    
     if (visible) {
-      /*p.image(costumes.get(costumeNumber), 
-      pos.x-((costumes.get(costumeNumber).width*(size/100))/2), 
-      pos.y-((costumes.get(costumeNumber).height*(size/100))/2), 
-      costumes.get(costumeNumber).width*(size/100), 
-      costumes.get(costumeNumber).height*(size/100));*/
-      
       // set the center of the screen to (0, 0)
       p.translate(p.width/2, p.height/2);
       
       p.imageMode(p.CENTER);
-      p.image(costumes.get(costumeNumber), pos.x, pos.y);
+      p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
+      costumes.get(costumeNumber).height*(size/100));
     }
   }
 

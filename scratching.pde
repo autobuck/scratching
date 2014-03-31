@@ -41,5 +41,5 @@ void draw() {
   //delay(1);
 }
 
-//void mouseClicked() { cat.pointTowards(alsoCat); }
+void mouseClicked() { cat.turnLeft(15); }
 
