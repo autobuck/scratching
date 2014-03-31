@@ -55,8 +55,8 @@ public class Sprite {
     visible = true;
     numberOfCostumes=0;
     size=100;
-    //rotationStyle=rotationStyle_LeftRight;
-    rotationStyle=rotationStyle_Free;
+    rotationStyle=rotationStyle_LeftRight;
+    //rotationStyle=rotationStyle_Free;
   }
 
 
@@ -81,15 +81,11 @@ public class Sprite {
       
       p.imageMode(p.CENTER);
       // locked left-right rotation
-      if (((direction>90) & (direction<270)) & rotationStyle==rotationStyle_LeftRight) p.image(getReversePImage(costumes.get(costumeNumber)), 0,0 ,costumes.get(costumeNumber).width*(size/100), 
-      costumes.get(costumeNumber).height*(size/100));
-      else 
-      {
-        // draw sprite. rotate if free; or not.
-        if (rotationStyle==rotationStyle_Free) p.rotate(p.radians(-direction));
-        p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
+      if (((direction>90) & (direction<270)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
+      if (rotationStyle==rotationStyle_Free) p.rotate(p.radians(-direction));
+      p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
         costumes.get(costumeNumber).height*(size/100));
-      }
+      
  
       p.popMatrix(); // restore default visual style
 

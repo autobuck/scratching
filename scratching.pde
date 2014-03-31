@@ -31,7 +31,7 @@ void draw() {
   //cat.pointTowards(alsoCat);
   cat.update();
   cat.nextCostume();
-  cat.move(5);
+  cat.move(10);
   wrapAtEdges();
    
   alsoCat.nextCostume();
