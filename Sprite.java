@@ -170,11 +170,11 @@ public class Sprite {
   }
 
   // point towards arbitrary grid position
-  /*public void pointTowardsXY(int x, int y) {
+  public void pointTowardsXY(int x, int y) {
     PVector temp = new PVector(x, y);
-    direction = p.degrees(p.atan2((vectorPosition.y - temp.y), 
-    (vectorPosition.x - temp.x)));
-  }*/
+    direction = p.degrees(p.atan2((pos.y - temp.y), 
+    (pos.x - temp.x)));
+  }
 
   // absolute heading
   public void pointInDirection(float angle) {
@@ -191,14 +191,12 @@ public class Sprite {
     (vectorPosition.y - target.vectorPosition.y)));
   }*/
 
-  /* Same as above, but for mouse. /
+  /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
     PVector mouseVector;
     mouseVector = new PVector(p.mouseX, p.mouseY);
-    mouseVector.sub(vectorPosition);
-    vectorDirection=mouseVector;
-    direction = p.degrees(p.atan2(vectorPosition.y - p.mouseY, vectorPosition.x - p.mouseX));
-  }*/
+    direction = p.degrees(p.atan2(pos.x - p.mouseX, pos.y - p.mouseY));
+  }
 
   public void move(int distance) {
     /* Create a new vector, representing the desired motion (angle + distance) 

@@ -33,6 +33,7 @@ void draw() {
    else alsoCat.show();
    delay(100);*/
 
+  cat.pointTowardsMouse();
   cat.nextCostume();
   cat.move(5);
   if (cat.pos.x>330) cat.pos.x=-330;
