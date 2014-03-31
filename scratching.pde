@@ -1,7 +1,9 @@
 Sprite cat;
 Sprite alsoCat;
 int numberOfSprites=0;
-
+static int RotationStyle_Free=0;
+static int RotationStyle_LeftRight=1;
+static int RotationStyle_NoRotation=2;
 void setup() {
   size(600, 600);
   cat = new Sprite(this);
@@ -27,11 +29,14 @@ void wrapAtEdges() {
 void draw() {
   background(0);
 
-  cat.pointTowardsMouse();
   //cat.pointTowards(alsoCat);
   cat.update();
-  cat.nextCostume();
-  cat.move(10);
+  if (cat.distanceToXY(mouseX,mouseY) > 11) {
+    cat.pointTowardsMouse();
+    cat.move(10);
+    cat.nextCostume();
+  }
+  println(cat.distanceToXY(mouseX-300,mouseY-300));
   wrapAtEdges();
    
   alsoCat.nextCostume();
@@ -43,7 +48,9 @@ void draw() {
 }
 
 void mouseClicked() {    
-  cat.pos.set(0, 0);
-  alsoCat.pos.set(200,200);
+  if (cat.rotationStyle==RotationStyle_Free) cat.rotationStyle=RotationStyle_LeftRight;
+  else if (cat.rotationStyle==RotationStyle_LeftRight) cat.rotationStyle=RotationStyle_NoRotation;
+  else if (cat.rotationStyle==RotationStyle_NoRotation) cat.rotationStyle=RotationStyle_Free;
+  
 }
 

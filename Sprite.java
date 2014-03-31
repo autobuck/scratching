@@ -23,7 +23,7 @@ public class Sprite {
 
   static final int rotationStyle_Free=0;
   static final int rotationStyle_LeftRight=1;
-  static final int rotationStyle_noRotation=2;
+  static final int rotationStyle_NoRotation=2;
   //public PVector globOrigin = new PVector();
 
   PApplet p;
@@ -77,7 +77,7 @@ public class Sprite {
       // set the center of the screen to (0, 0)
       p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
     
-      p.print("x "); p.print(pos.x); p.print(" y "); p.println(pos.y);
+      //p.print("x "); p.print(pos.x); p.print(" y "); p.println(pos.y);
       
       p.imageMode(p.CENTER);
       // locked left-right rotation
