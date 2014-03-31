@@ -81,8 +81,6 @@ public class Sprite {
       costumes.get(costumeNumber).height*(size/100));
       else p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
       costumes.get(costumeNumber).height*(size/100));
-
-      p.print("direction: "); p.println(direction);
     }
   }
 
@@ -171,9 +169,15 @@ public class Sprite {
 
   // point towards arbitrary grid position
   public void pointTowardsXY(int x, int y) {
-    PVector temp = new PVector(x, y);
-    direction = p.degrees(p.atan2((pos.y - temp.y), 
-    (pos.x - temp.x)));
+    PVector targetVector;
+    targetVector = new PVector(p.mouseX, p.mouseY);
+    direction = (p.degrees(p.atan2(pos.x - (targetVector.x-300), pos.y - (targetVector.y-300))))+90;
+    
+    p.print("mouseX "); p.print((p.mouseX-300)); p.print(" mouseX "); p.print((p.mouseY-300));
+    p.print(" pos.x "); p.print(pos.x); p.print(" pos.y "); p.println(pos.y);
+    p.print("direction: "); p.println(-direction);
+    p.println("*************");
+  
   }
 
   // absolute heading
@@ -182,20 +186,21 @@ public class Sprite {
   }
 
   /* Sets the direction to point towards another Sprite. */
-  /*public void pointTowards(Sprite target) {
-    PVector tempVector;
-    tempVector = new PVector(target.xPosition, target.yPosition);
-    tempVector.sub(vectorPosition);
-    vectorDirection=tempVector;
-    direction = p.degrees(p.atan2((vectorPosition.x - target.vectorPosition.x), 
-    (vectorPosition.y - target.vectorPosition.y)));
-  }*/
+  public void pointTowards(Sprite target) {
+    pointTowardsXY((int)target.pos.x,(int)target.pos.y);
+  }
 
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    PVector mouseVector;
+    pointTowardsXY(p.mouseX,p.mouseY);
+    /*PVector mouseVector;
     mouseVector = new PVector(p.mouseX, p.mouseY);
-    direction = p.degrees(p.atan2(pos.x - p.mouseX, pos.y - p.mouseY));
+    float base = (p.mouseX-300)-pos.x;
+    float height = (p.mouseY-300)-pos.y;
+    float hyp = p.sqrt((base*base)+(height*height));
+    direction = p.degrees(p.atan2(pos.x - (p.mouseX-300), pos.y - (p.mouseY-300)));
+    turnLeft(90);*/
+    //direction = p.degrees(p.atan(base/height));  
   }
 
   public void move(int distance) {

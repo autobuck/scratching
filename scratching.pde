@@ -5,7 +5,7 @@ void setup() {
   size(600, 600);
   cat = new Sprite(this);
   cat.size = 50;
-  //cat.pos.set(0, 0);
+  cat.pos.set(0, 0);
 
   /*alsoCat = new Sprite(this);
    cat.size=50;
@@ -13,7 +13,7 @@ void setup() {
    alsoCat.size=25;
    alsoCat.goToXY(500,500);*/
 }
-
+  
 void draw() {
   background(0);
 
@@ -46,5 +46,7 @@ void draw() {
   delay(100);
 }
 
-void mouseClicked() { cat.turnLeft(15); }
+void mouseClicked() {    
+  cat.pos.set(0, 0);
+}
 
