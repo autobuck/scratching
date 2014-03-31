@@ -75,11 +75,14 @@ public class Sprite {
   public void update() {    
     if (visible) {
       // set the center of the screen to (0, 0)
-      p.translate(p.width/2, p.height/2);
-      
+      p.translate(p.width/2, p.height/2);      
       p.imageMode(p.CENTER);
-      p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
+      if ((direction>90) & (direction<270)) p.image(getReversePImage(costumes.get(costumeNumber)), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
       costumes.get(costumeNumber).height*(size/100));
+      else p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
+      costumes.get(costumeNumber).height*(size/100));
+
+      p.print("direction: "); p.println(direction);
     }
   }
 
@@ -150,16 +153,20 @@ public class Sprite {
   // turn any angle
   public void turn(float angle) {
     direction += angle;
+    if (direction>360) direction=direction-360;
+    else if (direction<0) direction=direction+360;
   }
 
   // turn right
   public void turnLeft(float angle) {
-    direction -= angle;
+    direction += angle;
+    if (direction>360) direction=direction-360;
   }
 
   // turn left
   public void turnRight(float angle) { 
-    direction += angle;
+    direction -= angle;
+    if (direction<0) direction=direction+360;
   }
 
   // point towards arbitrary grid position

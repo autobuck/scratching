@@ -33,12 +33,16 @@ void draw() {
    else alsoCat.show();
    delay(100);*/
 
-  //cat.nextCostume();
-  cat.move(2);
+  cat.nextCostume();
+  cat.move(5);
+  if (cat.pos.x>330) cat.pos.x=-330;
+  if (cat.pos.y>330) cat.pos.y=-330;
+  if (cat.pos.x<-330) cat.pos.x=330;
+  if (cat.pos.y<-330) cat.pos.y=330;
   //cat.direction += 5;
   
   cat.update();
-  //delay(1);
+  delay(100);
 }
 
 void mouseClicked() { cat.turnLeft(15); }
