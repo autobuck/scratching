@@ -35,6 +35,7 @@ public class Sprite {
   public boolean penUp;
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector pos = new PVector(0, 0);
+  public float spin = 0;
   
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
@@ -68,16 +69,22 @@ public class Sprite {
    * It may be easiest to store sprites in an array of Sprites,
    * and looping through the array to redraw all sprites.
    */
-  public void update(boolean first) {    
+  public void update() {    
     if (visible) {
+      p.pushStyle();
       // set the center of the screen to (0, 0)
       // calling this more than once per Draw() puts the origin off
-      if (first) p.translate(p.width/2, p.height/2);      
+      p.translate(p.width/2, p.height/2);      
       p.imageMode(p.CENTER);
-      if ((direction>90) & (direction<270)) p.image(getReversePImage(costumes.get(costumeNumber)), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
+      p.rotate(p.radians(-direction));
+      //p.rotate(spin); spin++;
+      p.print("dir: "); p.print(direction); p.print(" spin "); p.println(spin);
+      //if ((direction>90) & (direction<270)) p.image(getReversePImage(costumes.get(costumeNumber)), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
+      //costumes.get(costumeNumber).height*(size/100));
+      //else 
+      p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
       costumes.get(costumeNumber).height*(size/100));
-      else p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
-      costumes.get(costumeNumber).height*(size/100));
+      p.popStyle();
     }
   }
 

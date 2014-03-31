@@ -26,9 +26,9 @@ void wrapAtEdges() {
 void draw() {
   background(0);
 
-  //cat.pointTowardsMouse();
-  cat.pointTowards(alsoCat);
-  cat.update(true);
+  cat.pointTowardsMouse();
+  //cat.pointTowards(alsoCat);
+  cat.update();
   cat.nextCostume();
   cat.move(5);
   wrapAtEdges();
@@ -36,7 +36,7 @@ void draw() {
   alsoCat.nextCostume();
   if (alsoCat.touchingSprite(cat)) { alsoCat.hide(); cat.goToXY(0,0); } 
   else alsoCat.show();
-  alsoCat.update(false);
+  alsoCat.update();
    
   delay(100);
 }
