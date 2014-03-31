@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class Sprite {
 
+  static final int rotationStyle_Free=0;
   static final int rotationStyle_LeftRight=1;
   static final int rotationStyle_noRotation=2;
   //public PVector globOrigin = new PVector();
@@ -54,7 +55,8 @@ public class Sprite {
     visible = true;
     numberOfCostumes=0;
     size=100;
-    rotationStyle=rotationStyle_LeftRight;
+    //rotationStyle=rotationStyle_LeftRight;
+    rotationStyle=rotationStyle_Free;
   }
 
 
@@ -78,17 +80,16 @@ public class Sprite {
       p.print("x "); p.print(pos.x); p.print(" y "); p.println(pos.y);
       
       p.imageMode(p.CENTER);
-      p.rotate(p.radians(-direction));
       // locked left-right rotation
-      //if ((direction>90) & (direction<270)) p.image(getReversePImage(costumes.get(costumeNumber)), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
-      //costumes.get(costumeNumber).height*(size/100));
-      //else 
-      // free rotation
-      /*p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
-      costumes.get(costumeNumber).height*(size/100));*/
-
-      p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
+      if (((direction>90) & (direction<270)) & rotationStyle==rotationStyle_LeftRight) p.image(getReversePImage(costumes.get(costumeNumber)), 0,0 ,costumes.get(costumeNumber).width*(size/100), 
       costumes.get(costumeNumber).height*(size/100));
+      else 
+      {
+        // draw sprite. rotate if free; or not.
+        if (rotationStyle==rotationStyle_Free) p.rotate(p.radians(-direction));
+        p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
+        costumes.get(costumeNumber).height*(size/100));
+      }
  
       p.popMatrix(); // restore default visual style
 
