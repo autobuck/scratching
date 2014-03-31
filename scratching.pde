@@ -13,7 +13,8 @@ void setup() {
    cat.size=50;
    cat.goToXY(0,0);
    alsoCat.size=25;
-   alsoCat.pos.set(250,250);
+   alsoCat.pos.set(200,200);
+   alsoCat.direction=00;
 }
   
 void wrapAtEdges() {
@@ -43,6 +44,6 @@ void draw() {
 
 void mouseClicked() {    
   cat.pos.set(0, 0);
-  alsoCat.pos.set(250,250);
+  alsoCat.pos.set(200,200);
 }
 

@@ -71,21 +71,27 @@ public class Sprite {
    */
   public void update() {    
     if (visible) {
-      p.pushStyle();
+      p.pushMatrix(); // save old visual style for other sprites
       // set the center of the screen to (0, 0)
-      p.translate(p.width/2, p.height/2);      
+      p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
+    
+      p.print("x "); p.print(pos.x); p.print(" y "); p.println(pos.y);
+      
       p.imageMode(p.CENTER);
       p.rotate(p.radians(-direction));
-      p.print("dir: "); p.println(direction);
       // locked left-right rotation
       //if ((direction>90) & (direction<270)) p.image(getReversePImage(costumes.get(costumeNumber)), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
       //costumes.get(costumeNumber).height*(size/100));
       //else 
       // free rotation
-      p.rotate(p.radians(20));
-      p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
+      /*p.image(costumes.get(costumeNumber), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
+      costumes.get(costumeNumber).height*(size/100));*/
+
+      p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
       costumes.get(costumeNumber).height*(size/100));
-      p.popStyle();
+ 
+      p.popMatrix(); // restore default visual style
+
     }
   }
 
