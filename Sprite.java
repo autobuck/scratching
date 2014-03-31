@@ -68,11 +68,11 @@ public class Sprite {
    * It may be easiest to store sprites in an array of Sprites,
    * and looping through the array to redraw all sprites.
    */
-  public void update() {    
+  public void update(boolean first) {    
     if (visible) {
       // set the center of the screen to (0, 0)
       // calling this more than once per Draw() puts the origin off
-      p.translate(p.width/2, p.height/2);      
+      if (first) p.translate(p.width/2, p.height/2);      
       p.imageMode(p.CENTER);
       if ((direction>90) & (direction<270)) p.image(getReversePImage(costumes.get(costumeNumber)), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
       costumes.get(costumeNumber).height*(size/100));
@@ -168,7 +168,7 @@ public class Sprite {
   public void pointTowardsXY(int x, int y) {
     PVector targetVector;
     targetVector = new PVector(x, y);
-    direction = (p.degrees(p.atan2(pos.x - (targetVector.x-300), pos.y - (targetVector.y-300))))+90;
+    direction = (p.degrees(p.atan2(pos.x - (targetVector.x), pos.y - (targetVector.y))))+90;
     /*
     p.print("mouseX "); p.print((p.mouseX-300)); p.print(" mouseX "); p.print((p.mouseY-300));
     p.print(" pos.x "); p.print(pos.x); p.print(" pos.y "); p.println(pos.y);
@@ -189,7 +189,7 @@ public class Sprite {
 
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    pointTowardsXY(p.mouseX,p.mouseY);
+    pointTowardsXY(p.mouseX-300,p.mouseY-300);
   }
 
   public void move(int distance) {

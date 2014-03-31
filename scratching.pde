@@ -16,29 +16,33 @@ void setup() {
    alsoCat.pos.set(250,250);
 }
   
-void draw() {
-  background(0);
-
-   cat.pointTowards(alsoCat);
-   alsoCat.nextCostume();
-   alsoCat.update();
-   if (alsoCat.touchingSprite(cat)) { alsoCat.hide(); cat.goToXY(0,0); } 
-   else alsoCat.show();
-
-  //cat.pointTowardsMouse();
-  cat.nextCostume();
-  cat.move(5);
+void wrapAtEdges() {
   if (cat.pos.x>330) cat.pos.x=-330;
   if (cat.pos.y>330) cat.pos.y=-330;
   if (cat.pos.x<-330) cat.pos.x=330;
   if (cat.pos.y<-330) cat.pos.y=330;
-  //cat.direction += 5;
-  
-  cat.update();
+}  
+
+void draw() {
+  background(0);
+
+  //cat.pointTowardsMouse();
+  cat.pointTowards(alsoCat);
+  cat.update(true);
+  cat.nextCostume();
+  cat.move(5);
+  wrapAtEdges();
+   
+  alsoCat.nextCostume();
+  if (alsoCat.touchingSprite(cat)) { alsoCat.hide(); cat.goToXY(0,0); } 
+  else alsoCat.show();
+  alsoCat.update(false);
+   
   delay(100);
 }
 
 void mouseClicked() {    
   cat.pos.set(0, 0);
+  alsoCat.pos.set(250,250);
 }
 
