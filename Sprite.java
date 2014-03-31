@@ -71,6 +71,7 @@ public class Sprite {
   public void update() {    
     if (visible) {
       // set the center of the screen to (0, 0)
+      // calling this more than once per Draw() puts the origin off
       p.translate(p.width/2, p.height/2);      
       p.imageMode(p.CENTER);
       if ((direction>90) & (direction<270)) p.image(getReversePImage(costumes.get(costumeNumber)), pos.x, pos.y,costumes.get(costumeNumber).width*(size/100), 
@@ -166,7 +167,7 @@ public class Sprite {
   // point towards arbitrary grid position
   public void pointTowardsXY(int x, int y) {
     PVector targetVector;
-    targetVector = new PVector(p.mouseX, p.mouseY);
+    targetVector = new PVector(x, y);
     direction = (p.degrees(p.atan2(pos.x - (targetVector.x-300), pos.y - (targetVector.y-300))))+90;
     /*
     p.print("mouseX "); p.print((p.mouseX-300)); p.print(" mouseX "); p.print((p.mouseY-300));

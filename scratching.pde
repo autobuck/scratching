@@ -1,31 +1,31 @@
 Sprite cat;
 Sprite alsoCat;
+int numberOfSprites=0;
 
 void setup() {
   size(600, 600);
   cat = new Sprite(this);
+  numberOfSprites++;
   cat.size = 50;
   cat.pos.set(0, 0);
- /* alsoCat = new Sprite(this);
+  alsoCat = new Sprite(this);
+  numberOfSprites++;
    cat.size=50;
-   cat.goToXY(300,300);
+   cat.goToXY(0,0);
    alsoCat.size=25;
-   alsoCat.goToXY(500,500); */
+   alsoCat.pos.set(250,250);
 }
   
 void draw() {
   background(0);
 
-   //cat.pointTowards(alsoCat);
-   /*
+   cat.pointTowards(alsoCat);
    alsoCat.nextCostume();
    alsoCat.update();
-   if (alsoCat.touchingSprite(cat)) { alsoCat.hide(); cat.goToXY(300,300); } 
+   if (alsoCat.touchingSprite(cat)) { alsoCat.hide(); cat.goToXY(0,0); } 
    else alsoCat.show();
-   */
 
-
-  cat.pointTowardsMouse();
+  //cat.pointTowardsMouse();
   cat.nextCostume();
   cat.move(5);
   if (cat.pos.x>330) cat.pos.x=-330;
