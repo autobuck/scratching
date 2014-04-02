@@ -24,8 +24,8 @@ public class Sprite {
   static final int rotationStyle_Free=0;
   static final int rotationStyle_LeftRight=1;
   static final int rotationStyle_NoRotation=2;
-  //public PVector globOrigin = new PVector();
 
+  // without this, built-in functions are broken. use p.whatever to access functionality
   PApplet p;
 
   public int rotationStyle;
@@ -44,10 +44,6 @@ public class Sprite {
    * radians.
    */
   public float direction = 0;
-  // add images as costumes;
-  //costumes = ;
-
-  // without this, built-in functions are broken. use p.whatever to access functionality
   Sprite (PApplet parent) {
     p = parent;
     loadDefaultCostumes();
@@ -58,8 +54,6 @@ public class Sprite {
     rotationStyle=rotationStyle_LeftRight;
     //rotationStyle=rotationStyle_Free;
   }
-
-
 
   /* ==== Drawing ====
    * 
