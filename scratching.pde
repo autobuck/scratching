@@ -1,9 +1,11 @@
 Sprite cat;
 Sprite alsoCat;
 int numberOfSprites=0;
-static int RotationStyle_Free=0;
-static int RotationStyle_LeftRight=1;
-static int RotationStyle_NoRotation=2;
+
+static int rotationStyle_AllAround=0;
+static int rotationStyle_LeftRight=1;
+static int rotationStyle_DontRotate=2;
+
 void setup() {
   size(600, 600);
   cat = new Sprite(this);
@@ -48,9 +50,9 @@ void draw() {
 }
 
 void mouseClicked() {    
-  if (cat.rotationStyle==RotationStyle_Free) cat.rotationStyle=RotationStyle_LeftRight;
-  else if (cat.rotationStyle==RotationStyle_LeftRight) cat.rotationStyle=RotationStyle_NoRotation;
-  else if (cat.rotationStyle==RotationStyle_NoRotation) cat.rotationStyle=RotationStyle_Free;
+  if (cat.rotationStyle==rotationStyle_AllAround) cat.rotationStyle=rotationStyle_LeftRight;
+  else if (cat.rotationStyle==rotationStyle_LeftRight) cat.rotationStyle=rotationStyle_DontRotate;
+  else if (cat.rotationStyle==rotationStyle_DontRotate) cat.rotationStyle=rotationStyle_AllAround;
   
 }
 

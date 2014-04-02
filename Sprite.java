@@ -19,12 +19,14 @@ import processing.core.PImage;
 import processing.core.PVector;
 import java.util.ArrayList;
 
+
 public class Sprite {
 
-  static final int rotationStyle_Free=0;
-  static final int rotationStyle_LeftRight=1;
-  static final int rotationStyle_NoRotation=2;
 
+
+static int rotationStyle_AllAround=0;
+static int rotationStyle_LeftRight=1;
+static int rotationStyle_DontRotate=2;
   // without this, built-in functions are broken. use p.whatever to access functionality
   PApplet p;
 
@@ -52,7 +54,6 @@ public class Sprite {
     numberOfCostumes=0;
     size=100;
     rotationStyle=rotationStyle_LeftRight;
-    //rotationStyle=rotationStyle_Free;
   }
 
   /* ==== Drawing ====
@@ -76,7 +77,7 @@ public class Sprite {
       p.imageMode(p.CENTER);
       // locked left-right rotation
       if (((direction>90) & (direction<270)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
-      if (rotationStyle==rotationStyle_Free) p.rotate(p.radians(-direction));
+      if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
       p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
         costumes.get(costumeNumber).height*(size/100));
       
