@@ -53,6 +53,6 @@ void mouseClicked() {
   if (cat.rotationStyle==rotationStyle_AllAround) cat.rotationStyle=rotationStyle_LeftRight;
   else if (cat.rotationStyle==rotationStyle_LeftRight) cat.rotationStyle=rotationStyle_DontRotate;
   else if (cat.rotationStyle==rotationStyle_DontRotate) cat.rotationStyle=rotationStyle_AllAround;
-  
+  cat.ghostEffect=cat.ghostEffect-50; if (cat.ghostEffect<0) cat.ghostEffect = 255;
 }
 

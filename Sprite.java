@@ -32,6 +32,7 @@ static int rotationStyle_DontRotate=2;
 
   public int rotationStyle;
   public int costumeNumber, numberOfCostumes;
+  public int ghostEffect;
   public float size; 
   public boolean visible;
   public int penColor, penSize; 
@@ -54,6 +55,7 @@ static int rotationStyle_DontRotate=2;
     numberOfCostumes=0;
     size=100;
     rotationStyle=rotationStyle_LeftRight;
+    ghostEffect=255;
   }
 
   /* ==== Drawing ====
@@ -78,13 +80,24 @@ static int rotationStyle_DontRotate=2;
       // locked left-right rotation
       if (((direction>90) & (direction<270)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
+      if (ghostEffect < 255) {
+        int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
+        for (int i=0; i<alpha.length; i++) {
+          alpha[i]=ghostEffect;
+        }
+        costumes.get(costumeNumber).mask(alpha);
+      }
       p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
         costumes.get(costumeNumber).height*(size/100));
-      
- 
+        
       p.popMatrix(); // restore default visual style
 
     }
+  }
+
+  // set transparency effect
+  public void setGhostEffect(int newAlpha) {
+    ghostEffect = newAlpha;
   }
 
   // load "Scratch" cat costumes
@@ -137,19 +150,6 @@ static int rotationStyle_DontRotate=2;
     p.print(what); 
     p.println(")");
   }
-  //public void changeSize, setSize, say/think(ForSeconds)
-
-
-  // TODO this can be replaced by a matrix operation
-  public PImage getReversePImage( PImage image ) {
-    PImage reverse = new PImage( image.width, image.height );
-    for ( int i=0; i < image.width; i++ ) {
-      for (int j=0; j < image.height; j++) {
-        reverse.set( image.width - 1 - i, j, image.get(i, j) );
-      }
-    }
-    return reverse;
-  }
 
   // turn any angle
   public void turn(float angle) {
@@ -175,12 +175,6 @@ static int rotationStyle_DontRotate=2;
     PVector targetVector;
     targetVector = new PVector(x, y);
     direction = (p.degrees(p.atan2(pos.x - (targetVector.x), pos.y - (targetVector.y))))+90;
-    /*
-    p.print("mouseX "); p.print((p.mouseX-300)); p.print(" mouseX "); p.print((p.mouseY-300));
-    p.print(" pos.x "); p.print(pos.x); p.print(" pos.y "); p.println(pos.y);
-    p.print("direction: "); p.println(-direction);
-    p.println("*************"); 
-    */
   }
 
   // absolute heading
