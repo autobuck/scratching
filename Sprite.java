@@ -22,22 +22,21 @@ import java.util.ArrayList;
 
 public class Sprite {
 
-static int rotationStyle_AllAround=0;
-static int rotationStyle_LeftRight=1;
-static int rotationStyle_DontRotate=2;
   // without this, built-in functions are broken. use p.whatever to access functionality
   PApplet p;
-
+  static int rotationStyle_AllAround=0;
+  static int rotationStyle_LeftRight=1;
+  static int rotationStyle_DontRotate=2;
   public int rotationStyle;
   public int costumeNumber, numberOfCostumes;
   public int ghostEffect;
   public float size; 
   public boolean visible;
-  public int penColor, penSize; 
-  public boolean penUp;
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector pos = new PVector(0, 0);
   public float spin = 0;
+  public boolean penDown;
+  
   
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
@@ -81,7 +80,8 @@ static int rotationStyle_DontRotate=2;
       if (ghostEffect < 255) {
         int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
         for (int i=0; i<alpha.length; i++) {
-          alpha[i]=ghostEffect;
+          // only fade non-zero pixels; 0 is full-transparency
+          if (costumes.get(costumeNumber).pixels[i]!=0) alpha[i]=ghostEffect;
         }
         costumes.get(costumeNumber).mask(alpha);
       }
@@ -89,13 +89,22 @@ static int rotationStyle_DontRotate=2;
         costumes.get(costumeNumber).height*(size/100));
         
       p.popMatrix(); // restore default visual style
-
     }
   }
 
   // set transparency effect
   public void setGhostEffect(int newAlpha) {
     ghostEffect = newAlpha;
+  }
+
+  public void move(int distance) {
+    /* Create a new vector, representing the desired motion (angle + distance) 
+     * fromAngle() makes a unit vector (length 1)
+     * negative on direction is b/c processing flips the cartesian y axis
+     */
+    PVector temp = PVector.fromAngle(p.radians(-direction));
+    temp.mult(distance);
+    pos.add(temp);
   }
 
   // load "Scratch" cat costumes
@@ -188,16 +197,6 @@ static int rotationStyle_DontRotate=2;
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
     pointTowardsXY(p.mouseX-(p.width/2),p.mouseY-(p.height/2));
-  }
-
-  public void move(int distance) {
-    /* Create a new vector, representing the desired motion (angle + distance) 
-     * fromAngle() makes a unit vector (length 1)
-     * negative on direction is b/c processing flips the cartesian y axis
-     */
-    PVector temp = PVector.fromAngle(p.radians(-direction));
-    temp.mult(distance);
-    pos.add(temp);
   }
 
   /* move to specific location on grid */

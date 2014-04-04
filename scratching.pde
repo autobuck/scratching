@@ -31,17 +31,16 @@ void wrapAtEdges() {
 }  
 
 void draw() {
-  background(0);
+ // background(0);
   stage.switchToBackdrop(0);
 
   //cat.pointTowards(alsoCat);
-  cat.update();
   if (cat.distanceToXY(mouseX,mouseY) > 11) {
     cat.pointTowardsMouse();
     cat.move(10);
     cat.nextCostume();
   }
-  //println(cat.distanceToXY(mouseX-width/2,mouseY-height/2));
+  cat.update();
   wrapAtEdges();
    
   alsoCat.nextCostume();

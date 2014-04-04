@@ -6,18 +6,20 @@
  * into p.
  * See: http://wiki.scratch.mit.edu/wiki/Blocks
  *
- * Sound blocks are NOT included (for sanity's sake). 
- * Data & list blocks are eradicated - use variables instead!
+ * This Stage class has just a few simple functions for handling
+ * the background. 
  *
- * Points are stored in the 'PVector' type because Processing
- * contains built-in functions for accessing and manipulating such
- * objects.
+ * switchToBackdrop(#); can replace the background(#);
+ * command at the top of your draw() loop.
+ *
+ * The backdrop size should match your stage size.
+ * Who knows what might happen if it does not?!
+ *
  */
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
-
 
 public class Stage {
 
@@ -39,7 +41,7 @@ public class Stage {
         backdrops.get(backdropNumber).height);
   }
 
-  // load "Scratch" cat costumes
+  // load xy grid as backdrop 0
   public void loadDefaultGrid() {
     addBackdrop("images/xy-grid.png");
   }
