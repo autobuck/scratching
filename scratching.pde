@@ -19,7 +19,7 @@ void setup() {
    cat.size=50;
    cat.goToXY(0,0);
    alsoCat.size=25;
-   alsoCat.pos.set(200,200);
+   alsoCat.pos.set(150,150);
    alsoCat.direction=00;
 }
   
@@ -41,7 +41,7 @@ void draw() {
     cat.move(10);
     cat.nextCostume();
   }
-  println(cat.distanceToXY(mouseX-300,mouseY-300));
+  //println(cat.distanceToXY(mouseX-width/2,mouseY-height/2));
   wrapAtEdges();
    
   alsoCat.nextCostume();

@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 public class Sprite {
 
-
-
 static int rotationStyle_AllAround=0;
 static int rotationStyle_LeftRight=1;
 static int rotationStyle_DontRotate=2;
@@ -189,7 +187,7 @@ static int rotationStyle_DontRotate=2;
 
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    pointTowardsXY(p.mouseX-300,p.mouseY-300);
+    pointTowardsXY(p.mouseX-(p.width/2),p.mouseY-(p.height/2));
   }
 
   public void move(int distance) {

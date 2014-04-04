@@ -35,7 +35,7 @@ public class Stage {
   }
 
   public void draw() {    
-      p.image(backdrops.get(backdropNumber), 0, 0, backdrops.get(backdropNumber).width,
+      p.image(backdrops.get(backdropNumber), -backdrops.get(backdropNumber).width, -backdrops.get(backdropNumber).height, backdrops.get(backdropNumber).width,
         backdrops.get(backdropNumber).height);
   }
 
