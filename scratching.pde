@@ -1,5 +1,6 @@
 Sprite cat;
 Sprite alsoCat;
+Stage stage;
 int numberOfSprites=0;
 
 static int rotationStyle_AllAround=0;
@@ -7,12 +8,13 @@ static int rotationStyle_LeftRight=1;
 static int rotationStyle_DontRotate=2;
 
 void setup() {
-  size(600, 600);
+  size(480, 360);
+  stage = new Stage(this);
   cat = new Sprite(this);
+  alsoCat = new Sprite(this);
   numberOfSprites++;
   cat.size = 50;
   cat.pos.set(0, 0);
-  alsoCat = new Sprite(this);
   numberOfSprites++;
    cat.size=50;
    cat.goToXY(0,0);
@@ -30,6 +32,7 @@ void wrapAtEdges() {
 
 void draw() {
   background(0);
+  stage.switchToBackdrop(0);
 
   //cat.pointTowards(alsoCat);
   cat.update();
