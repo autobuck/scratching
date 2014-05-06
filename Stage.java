@@ -58,10 +58,7 @@ public class Stage {
     p.print(questionAnswered); p.print(keyIndex); p.println(answer);
   }
 
-  // this function pops up a window asking a question and waiting for keyboard input, pausing all action
-  public String ask(String question) {
-    questionAnswered = false;
-    answer = "";
+  void drawQuestionBox() {
     p.pushStyle();
     p.fill(255);
     p.stroke(0);
@@ -70,9 +67,17 @@ public class Stage {
     p.fill(0);
     p.textAlign(p.LEFT);
     p.text(question,10,335);
-    //while (!questionAnswered) {
+    p.popStyle();
+  }
+
+  // this function pops up a window asking a question and waiting for keyboard input, pausing all action
+  public String ask(String question) {
+    questionAnswered = false;
+    answer = "";
+    while (!questionAnswered) {
+      drawQuestionBox();
       if (p.key!=0) processKeyboardInput();
-    //}
+    }
     return "Monkey shines";
   }
 
