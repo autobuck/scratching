@@ -58,7 +58,7 @@ public class Stage {
     p.print(questionAnswered); p.print(keyIndex); p.println(answer);
   }
 
-  void drawQuestionBox() {
+  void drawQuestionBox(String question) {
     p.pushStyle();
     p.fill(255);
     p.stroke(0);
@@ -74,10 +74,7 @@ public class Stage {
   public String ask(String question) {
     questionAnswered = false;
     answer = "";
-    while (!questionAnswered) {
-      drawQuestionBox();
-      if (p.key!=0) processKeyboardInput();
-    }
+    if (p.key!=0) processKeyboardInput();
     return "Monkey shines";
   }
 

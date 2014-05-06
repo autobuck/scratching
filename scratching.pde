@@ -34,8 +34,6 @@ void wrapAtEdges() {
 void draw() {
   stage.switchToBackdrop(0);
 
-  stage.ask("What is your quest?");
-
   //cat.pointTowards(alsoCat);
   if (cat.distanceToXY(mouseX,mouseY) > 11) {
     cat.pointTowardsMouse();
@@ -54,9 +52,12 @@ void draw() {
 }
 
 void mouseClicked() {    
+  stage.ask("What is your quest?");
+/*
   if (cat.rotationStyle==rotationStyle_AllAround) cat.rotationStyle=rotationStyle_LeftRight;
   else if (cat.rotationStyle==rotationStyle_LeftRight) cat.rotationStyle=rotationStyle_DontRotate;
   else if (cat.rotationStyle==rotationStyle_DontRotate) cat.rotationStyle=rotationStyle_AllAround;
   cat.ghostEffect=cat.ghostEffect-50; if (cat.ghostEffect<0) cat.ghostEffect = 255;
+  */
 }
 
