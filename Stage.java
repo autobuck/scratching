@@ -30,7 +30,9 @@ public class Stage {
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
   PFont f;
-
+  String answer;
+  boolean questionAnswered;
+  
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
@@ -39,8 +41,27 @@ public class Stage {
     f=p.createFont("Arial",16,true);
   }
 
+  void processKeyboardInput() {
+    int keyIndex = -1;
+    if (p.key >= 'A' && p.key <= 'Z') {
+      keyIndex = p.key - 'A';
+    } else if (p.key >= 'a' && p.key <= 'z') {
+      keyIndex = p.key - 'a';
+    }
+    if (keyIndex == -1) {
+      // If it's not a letter key, clear the screen
+      questionAnswered=true; // exit loop after "Enter" key pressed
+    } else { 
+      // It's a letter key, add the key to the string
+      answer=answer+Character.toString(p.key);
+    }
+    p.print(questionAnswered); p.print(keyIndex); p.println(answer);
+  }
 
+  // this function pops up a window asking a question and waiting for keyboard input, pausing all action
   public String ask(String question) {
+    questionAnswered = false;
+    answer = "";
     p.pushStyle();
     p.fill(255);
     p.stroke(0);
@@ -49,6 +70,9 @@ public class Stage {
     p.fill(0);
     p.textAlign(p.LEFT);
     p.text(question,10,335);
+    //while (!questionAnswered) {
+      if (p.key!=0) processKeyboardInput();
+    //}
     return "Monkey shines";
   }
 
