@@ -24,10 +24,11 @@ void setup() {
 }
   
 void wrapAtEdges() {
-  if (cat.pos.x>330) cat.pos.x=-330;
-  if (cat.pos.y>330) cat.pos.y=-330;
-  if (cat.pos.x<-330) cat.pos.x=330;
-  if (cat.pos.y<-330) cat.pos.y=330;
+  if (cat.pos.x>230) cat.pos.x=-230;
+  if (cat.pos.x<-230) cat.pos.x=230;
+  if (cat.pos.y>170) cat.pos.y=-170;
+  if (cat.pos.y<-170) cat.pos.y=170;
+  print(cat.pos.x); print(" "); println(cat.pos.y);
 }  
 
 void draw() {
