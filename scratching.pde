@@ -28,12 +28,13 @@ void wrapAtEdges() {
   if (cat.pos.x<-230) cat.pos.x=230;
   if (cat.pos.y>170) cat.pos.y=-170;
   if (cat.pos.y<-170) cat.pos.y=170;
-  print(cat.pos.x); print(" "); println(cat.pos.y);
 }  
 
+
 void draw() {
- // background(0);
   stage.switchToBackdrop(0);
+
+  stage.ask("What is your quest?");
 
   //cat.pointTowards(alsoCat);
   if (cat.distanceToXY(mouseX,mouseY) > 11) {

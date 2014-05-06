@@ -19,6 +19,7 @@
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PFont;
 import java.util.ArrayList;
 
 public class Stage {
@@ -28,12 +29,27 @@ public class Stage {
 
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
-  
+  PFont f;
+
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
     numberOfBackdrops=0;
     loadDefaultGrid();
+    f=p.createFont("Arial",16,true);
+  }
+
+
+  public String ask(String question) {
+    p.pushStyle();
+    p.fill(255);
+    p.stroke(0);
+    p.rect(5,315,470,30,5);
+    p.textFont(f,16);
+    p.fill(0);
+    p.textAlign(p.LEFT);
+    p.text(question,10,335);
+    return "Monkey shines";
   }
 
   public void draw() {    
