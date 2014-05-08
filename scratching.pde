@@ -3,7 +3,7 @@ Sprite alsoCat;
 Stage stage;
 int numberOfSprites=0;
 String questionText = "your text here";
-boolean askingAQuestion = false;
+boolean answered = true;
 String test = "";
 
 PFont f;
@@ -19,10 +19,11 @@ static int rotationStyle_LeftRight=1;
 static int rotationStyle_DontRotate=2;
 
 void setup() {
-  // never change these first three lines
+  // never change these first X lines
   size(480, 360);
   f = createFont("Arial",16,true);
   stage = new Stage(this);
+  answered = false;
 
   // add your own initialization code here
   cat = new Sprite(this);
@@ -55,15 +56,14 @@ void draw() {
   }
   cat.update();
   updateAlsoCat();
-  
+
   wrapAtEdges(cat);
   wrapAtEdges(alsoCat);
-   
-   
+  updateQuestionProcessor();
+
   delay(100);
-  answer = ask("What is your quest?");
-  if (answer!="") 
-    println(answer);
+  //answer = keepAsking("What is your quest?");
+  
 }
 
 void updateAlsoCat() {
@@ -74,23 +74,30 @@ void updateAlsoCat() {
 }
 
 void mouseClicked() {
-  test = "";
-  while (test=="") {  
-    test = stage.ask("What is your quest?");
-    println(test);
-  }
+    //answer = ask("What is your quest?");
+    println(answer);
+}
+
+void updateQuestionProcessor() {
+  String temp = ask("What is your quest?");
+  if (temp!="") answer=temp;
+  if (answer!="") println(answer); 
 }
 
 String ask(String question) {
-  askingAQuestion = true;
+  answered = false;
+  return keepAsking(question);
+}
+
+String keepAsking(String question) {
   textFont(f,18);
   // this adds a blinking cursor after your text, at the expense of redrawing everything every frame
   //text(question+(frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
   drawQuestionBox(question);
   if (typing.length()>0) {
     if (typing.charAt(typing.length()-1)==ENTER|typing.charAt(typing.length()-1)==RETURN) {
-      println(typing.length()+": "+typing+"("+(int)typing.charAt(typing.length()-1)+")");
       typing = "";
+      answered = true;
       return Qanswer;
     }
     else return "";
@@ -115,7 +122,6 @@ String ask(String question) {
       if (key == '\n' ) {
         Qanswer = typing;
         typing = "";
-        println(Qanswer);
       } else if (key == BACKSPACE) {
            typing = typing.substring(0,max(0,typing.length()-1));
       } else 
