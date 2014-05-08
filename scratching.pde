@@ -2,6 +2,10 @@ Sprite cat;
 Sprite alsoCat;
 Stage stage;
 int numberOfSprites=0;
+String questionText = "your text here";
+boolean askingAQuestion = false;
+String test = "";
+PFont f;
 
 static int rotationStyle_AllAround=0;
 static int rotationStyle_LeftRight=1;
@@ -33,6 +37,7 @@ void wrapAtEdges() {
 
 void draw() {
   stage.switchToBackdrop(0);
+  stage.update();
 
   //cat.pointTowards(alsoCat);
   if (cat.distanceToXY(mouseX,mouseY) > 11) {
@@ -51,8 +56,12 @@ void draw() {
   delay(100);
 }
 
-void mouseClicked() {    
-  stage.ask("What is your quest?");
+void mouseClicked() {
+  test = "";
+  while (test=="") {  
+    test = stage.ask("What is your quest?");
+    println(test);
+  }
 /*
   if (cat.rotationStyle==rotationStyle_AllAround) cat.rotationStyle=rotationStyle_LeftRight;
   else if (cat.rotationStyle==rotationStyle_LeftRight) cat.rotationStyle=rotationStyle_DontRotate;
@@ -61,3 +70,34 @@ void mouseClicked() {
   */
 }
 
+String ask(String question) {
+  askingAQuestion = true;
+  textFont(f,18);
+  // this adds a blinking cursor after your text, at the expense of redrawing everything every frame
+  text(questionText+(frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
+  return "wakka wakka";
+}
+
+void keyReleased() {
+  if (key != CODED & askingAQuestion) {
+    switch(key) {
+    case BACKSPACE:
+      questionText = questionText.substring(0,max(0,questionText.length()-1));
+      break;
+    case TAB:
+      questionText += "    ";
+      break;
+    case ENTER:
+    case RETURN:
+      // comment out the following two lines to disable line-breaks
+      questionText += "\n";
+      askingAQuestion = false;
+      break;
+    case ESC:
+    case DELETE:
+      break;
+    default:
+      questionText += key;
+    }
+  }
+}

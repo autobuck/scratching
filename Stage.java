@@ -32,7 +32,8 @@ public class Stage {
   PFont f;
   String answer;
   boolean questionAnswered;
-  
+  String typedText = "your text here";
+
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
@@ -73,9 +74,18 @@ public class Stage {
   // this function pops up a window asking a question and waiting for keyboard input, pausing all action
   public String ask(String question) {
     questionAnswered = false;
+    //theQuestion = question;
     answer = "";
-    if (p.key!=0) processKeyboardInput();
-    return "Monkey shines";
+    return "your father smelt of elderberries";
+  }
+  
+  public void update() {
+    p.text(typedText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
+    /* if (askingAQuestion) {
+      drawQuestionBox(theQuestion);
+      if (p.key!=0) processKeyboardInput();
+      else return "";
+      */
   }
 
   public void draw() {    
@@ -113,5 +123,5 @@ public class Stage {
     backdropNumber=newBackdropNumber;
     draw();
   }
-  
-}
+
+  }
