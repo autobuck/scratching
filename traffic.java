@@ -20,7 +20,7 @@ import processing.core.PVector;
 import java.util.ArrayList;
 
 
-public class Sprite {
+public class traffic {
 
   // without this, built-in functions are broken. use p.whatever to access functionality
   PApplet p;
@@ -44,15 +44,15 @@ public class Sprite {
    * radians.
    */
   public float direction = 0;
-  Sprite (PApplet parent) {
+  traffic (PApplet parent) {
     p = parent;
-    loadDefaultCostumes();
     costumeNumber=0;
     visible = true;
     numberOfCostumes=0;
     size=100;
     rotationStyle=rotationStyle_LeftRight;
     ghostEffect=255;
+    loadDefaultCostumes();
   }
 
   /* ==== Drawing ====
@@ -75,7 +75,7 @@ public class Sprite {
       
       p.imageMode(p.CENTER);
       // locked left-right rotation
-      if (((direction>90) & (direction<270)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
+      if (((direction>=90) & (direction<=270)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
       if (ghostEffect < 255) {
         int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
@@ -109,8 +109,20 @@ public class Sprite {
 
   // load "Scratch" cat costumes
   public void loadDefaultCostumes() {
-    addCostume("images/cat.costume1.png");
-    addCostume("images/cat.costume2.png");
+    addCostume("images/car_alsodeliverytruck.png");
+    addCostume("images/car_ambulance.png");
+    addCostume("images/car_bigrig.png");
+    addCostume("images/car_compact.png");
+    addCostume("images/car_convertible.png");
+    addCostume("images/car_deliverytruck.png");
+    addCostume("images/car_offroad.png");
+    addCostume("images/car_police.png");
+    addCostume("images/car_recycle.png");
+    addCostume("images/car_schoolbus.png");
+    addCostume("images/car_sedan.png");
+    addCostume("images/car_SUV.png");
+    addCostume("images/car_trash.png");
+    addCostume("images/car_trucktractor.png");
   }
 
   // add costume from bitmap image file
@@ -228,24 +240,6 @@ public class Sprite {
     else return false;
   }
 
-  // check if a Sprite is touching another Sprite using simple rectangular hit box
-  public boolean touchingTraffic(traffic target) {
-    boolean touchingX, touchingY;
-    PVector testVector;
-    touchingX=false; 
-    touchingY=false;
-    testVector=new PVector(target.pos.x, pos.y);
-    if (pos.dist(testVector) < ((target.costumes.get(target.costumeNumber).width*(target.size/100))/2)+(costumes.get(costumeNumber).width*(size/100))/2) {
-      touchingX = true;
-    }
-    testVector=new PVector(pos.x, target.pos.y);
-    if (pos.dist(testVector) < ((target.costumes.get(target.costumeNumber).height*(target.size/100))/2)+(costumes.get(costumeNumber).height*(size/100))/2) {
-      touchingY = true;
-    }
-    if (touchingX & touchingY) return true;
-    else return false;
-  }
-
   // return distance to arbitrary grid position  
   public float distanceToXY(int x, int y) { 
     PVector temp = new PVector(x, y);
@@ -256,4 +250,35 @@ public class Sprite {
   public float distanceToSprite(Sprite target) { 
     return distanceToXY((int)target.pos.x, (int)target.pos.y);
   }
+
+public void startOnLeft() {
+  pos.x = -280;
+  pos.y = 50-(40*p.random(0,4));
+  show();
+  switchToCostume((int)p.random(0,numberOfCostumes));
+  pointInDirection(90);
+}
+
+public void startOnRight() {
+  pos.x = 280;
+  pos.y = 50-(40*p.random(0,4));
+  show();
+  pointInDirection(270);
+  switchToCostume((int)p.random(0,numberOfCostumes));
+}
+
+public void drive() {
+  move(10);
+}
+
+public boolean driveLeftToRight() {
+  if (pos.x < 280) {
+    pos.x = pos.x + 10;
+    return true;
+  } else { 
+    hide();
+    return false;
+  }
+}
+
 }
