@@ -75,7 +75,7 @@ public class Sprite {
       
       p.imageMode(p.CENTER);
       // locked left-right rotation
-      if (((direction>90) & (direction<270)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
+      if (((direction<=359) & (direction>=180)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
       if (ghostEffect < 255) {
         int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
