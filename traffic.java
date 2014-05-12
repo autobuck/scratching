@@ -270,7 +270,6 @@ public void startOnRight() {
 public void drive() {
   if (direction==90) pos.x=pos.x+10;
   else if (direction==270) pos.x=pos.x-10;
-  p.println(direction);
 }
 
 public boolean driveLeftToRight() {

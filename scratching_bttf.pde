@@ -38,12 +38,12 @@ void draw() {
     cat.nextCostume();
   }
   cat.update();
+  println(cat.direction);
   if (cat.touchingTraffic(car)) { cat.goToXY(0,0); }
   
   car.drive();
   if ((car.pos.x<-300)|(car.pos.x>300)) {
-    int foo = (int)random(1,2);
-   println(foo); 
+    int foo = (int)random(1,3);
     if (foo>1) car.startOnLeft(); else car.startOnRight(); 
   }
   car.update();
@@ -53,7 +53,6 @@ void draw() {
   delay(100);
   
 }
-
 
 void mouseClicked() {
     //answer = ask("What is your quest?");

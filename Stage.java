@@ -96,6 +96,9 @@ public class Stage {
   // load xy grid as backdrop 0
   public void loadDefaultGrid() {
     addBackdrop("images/xy-grid.png");
+    addBackdrop("images/bg_highway.png");
+    addBackdrop("images/bg_the_end.jpg");
+    addBackdrop("images/bg_continued.jpg");
   }
 
   // add costume from bitmap image file
