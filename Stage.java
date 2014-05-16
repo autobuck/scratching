@@ -80,7 +80,9 @@ public class Stage {
   }
   
   public void update() {
-    p.text(typedText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
+    p.translate(-(p.width/2), -(p.height/2));    
+
+    //p.text(typedText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
     /* if (askingAQuestion) {
       drawQuestionBox(theQuestion);
       if (p.key!=0) processKeyboardInput();
@@ -89,16 +91,16 @@ public class Stage {
   }
 
   public void draw() {    
-      p.image(backdrops.get(backdropNumber), p.width/2, p.height/2, backdrops.get(backdropNumber).width,
+        p.image(backdrops.get(backdropNumber), p.width/2, p.height/2, backdrops.get(backdropNumber).width,
         backdrops.get(backdropNumber).height);
   }
 
   // load xy grid as backdrop 0
   public void loadDefaultGrid() {
     addBackdrop("images/xy-grid.png");
+    addBackdrop("images/bg_title2.png");
     addBackdrop("images/bg_highway.png");
-    addBackdrop("images/bg_the_end.jpg");
-    addBackdrop("images/bg_continued.jpg");
+    addBackdrop("images/bg_gameover.png");
   }
 
   // add costume from bitmap image file

@@ -253,7 +253,10 @@ public class traffic {
 
 public void startOnLeft() {
   pos.x = -280;
-  pos.y = 50-(40*p.random(0,4));
+  int lane = (int)p.random(0,4);
+  int newY = (int)(-50+(60*lane));
+  p.print(lane); p.print(": "); p.println(newY); 
+  pos.y = newY;
   show();
   switchToCostume((int)p.random(0,numberOfCostumes));
   pointInDirection(90);
@@ -261,7 +264,10 @@ public void startOnLeft() {
 
 public void startOnRight() {
   pos.x = 280;
-  pos.y = 50-(40*p.random(0,4));
+  int lane = (int)p.random(0,4);
+  int newY = (int)(-60+(60*lane));
+  p.print(lane); p.print(": "); p.println(newY); 
+  pos.y = newY;
   show();
   pointInDirection(270);
   switchToCostume((int)p.random(0,numberOfCostumes));

@@ -69,6 +69,7 @@ public class Sprite {
     if (visible) {
       p.pushMatrix(); // save old visual style for other sprites
       // set the center of the screen to (0, 0)
+//      p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
       p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
     
       //p.print("x "); p.print(pos.x); p.print(" y "); p.println(pos.y);
