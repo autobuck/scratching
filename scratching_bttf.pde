@@ -80,7 +80,7 @@ void gameloop() {
 
   //cat.pointTowards(alsoCat);
  
-  if ((cat.distanceToXY(mouseX-240,mouseY-180) > 15)&(speed_Y == -99)) {
+  if ((cat.distanceToXY(mouseX,mouseY) > 15)&(speed_Y == -99)) {
     //println("distance to mouse is "+cat.distanceToMouse());
     println("cat x/y"+cat.pos.x+","+cat.pos.y+" mouse "+(mouseX-240)+","+(mouseY-180));
     cat.pointTowardsMouse();
