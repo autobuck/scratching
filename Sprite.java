@@ -253,6 +253,12 @@ public class Sprite {
     return pos.dist(temp);
   }
 
+  // return distance to arbitrary grid position  
+  public float distanceToMouse() { 
+    PVector temp = new PVector(p.mouseX, p.mouseY);
+    return pos.dist(temp);
+  }
+
   // return distance to Sprite object
   public float distanceToSprite(Sprite target) { 
     return distanceToXY((int)target.pos.x, (int)target.pos.y);

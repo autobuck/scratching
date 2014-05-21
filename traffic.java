@@ -265,7 +265,6 @@ public void startOnRight() {
   pos.x = 280;
   int lane = (int)p.random(0,4);
   int newY = (int)(-60+(60*lane));
-  p.print(lane); p.print(": "); p.println(newY); 
   pos.y = newY;
   show();
   pointInDirection(270);

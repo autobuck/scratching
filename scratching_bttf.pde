@@ -7,7 +7,8 @@ Stage stage;
 static int rotationStyle_AllAround=0;
 static int rotationStyle_LeftRight=1;
 static int rotationStyle_DontRotate=2;
-int speed_Y = 0; int standing_Y;
+int speed_Y = -99; 
+int standing_Y;
 String gamestate = "title";
 
 void setup() {
@@ -61,11 +62,14 @@ void showGameOverScreen() {
 }
 
 void makeCatJump() {
-  speed_Y = 10;
-  standing_Y = cat.pos.y;
+  if (speed_Y==-99) {
+    speed_Y = -10;
+    standing_Y = (int)cat.pos.y;
+    println("might as well JUMP");
+  }
 }
 
-void keyReleased() {  
+void keyPressed() {  
   switch(key) {
     case('q'):case('Q'): makeCatJump(); break;
   }
@@ -75,26 +79,24 @@ void gameloop() {
   stage.switchToBackdrop(2);
 
   //cat.pointTowards(alsoCat);
-  println("cat at "+cat.pos.x+", "+cat.pos.y+" and mouse at "+(mouseX-(displayWidth/2))+", "+(mouseY-(displayHeight/2))+" "+mouseY);
  
-  
-  if (cat.distanceToXY(mouseX,mouseY) > 20) {
+  if ((cat.distanceToXY(mouseX-240,mouseY-180) > 15)&(speed_Y == -99)) {
+    //println("distance to mouse is "+cat.distanceToMouse());
+    println("cat x/y"+cat.pos.x+","+cat.pos.y+" mouse "+(mouseX-240)+","+(mouseY-180));
     cat.pointTowardsMouse();
     cat.move(10);
-    if (cat.pos.y<-100) cat.pos.y=-100;
+    if (cat.pos.y<-100) cat.pos.y=-100; 
     if (cat.pos.y>170) cat.pos.y=170;
     cat.nextCostume();
   }
   if (speed_Y != -99) {
-    cat.pos.y = cat.pos.y + speed_Y;
-    if (cat.pos.y < standing_Y) cat.pos.y = standing_Y;
-    speed_Y--;
-    if (speed_Y < -10) speed_Y = -99;
+    cat.pos.y = (cat.pos.y + speed_Y);
+    if (cat.pos.y >= standing_Y) cat.pos.y = standing_Y;
+    speed_Y++;
+    if (speed_Y > 10) speed_Y = -99;
   }
-  cat.update();
-  //println(cat.direction);
-  //println(cat.pos.y);
-  if (cat.touchingTraffic(car1)|cat.touchingTraffic(car2)|cat.touchingTraffic(car3)) { gamestate = "game over"; }
+
+  if ((cat.touchingTraffic(car1)|cat.touchingTraffic(car2)|cat.touchingTraffic(car3))&speed_Y==-99) { gamestate = "game over"; }
   
   car1.drive();
   car2.drive();
@@ -114,6 +116,7 @@ void gameloop() {
   car1.update();
   car2.update();
   car3.update();
+  cat.update();
 
   wrapAtEdges(cat);
 
