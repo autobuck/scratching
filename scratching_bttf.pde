@@ -7,6 +7,7 @@ Stage stage;
 static int rotationStyle_AllAround=0;
 static int rotationStyle_LeftRight=1;
 static int rotationStyle_DontRotate=2;
+int speed_Y = 0; int standing_Y;
 String gamestate = "title";
 
 void setup() {
@@ -59,16 +60,36 @@ void showGameOverScreen() {
   stage.switchToBackdrop(3);
 }
 
+void makeCatJump() {
+  speed_Y = 10;
+  standing_Y = cat.pos.y;
+}
+
+void keyReleased() {  
+  switch(key) {
+    case('q'):case('Q'): makeCatJump(); break;
+  }
+}
+
 void gameloop() {
   stage.switchToBackdrop(2);
 
   //cat.pointTowards(alsoCat);
-  if (cat.distanceToXY(mouseX,mouseY) > 11) {
+  println("cat at "+cat.pos.x+", "+cat.pos.y+" and mouse at "+(mouseX-(displayWidth/2))+", "+(mouseY-(displayHeight/2))+" "+mouseY);
+ 
+  
+  if (cat.distanceToXY(mouseX,mouseY) > 20) {
     cat.pointTowardsMouse();
     cat.move(10);
     if (cat.pos.y<-100) cat.pos.y=-100;
     if (cat.pos.y>170) cat.pos.y=170;
     cat.nextCostume();
+  }
+  if (speed_Y != -99) {
+    cat.pos.y = cat.pos.y + speed_Y;
+    if (cat.pos.y < standing_Y) cat.pos.y = standing_Y;
+    speed_Y--;
+    if (speed_Y < -10) speed_Y = -99;
   }
   cat.update();
   //println(cat.direction);

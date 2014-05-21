@@ -255,7 +255,6 @@ public void startOnLeft() {
   pos.x = -280;
   int lane = (int)p.random(0,4);
   int newY = (int)(-50+(60*lane));
-  p.print(lane); p.print(": "); p.println(newY); 
   pos.y = newY;
   show();
   switchToCostume((int)p.random(0,numberOfCostumes));
