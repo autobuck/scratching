@@ -13,6 +13,9 @@ static int rotationStyle_DontRotate=2;
 int speed_Y = -99; 
 int standing_Y;
 String gamestate = "title";
+int startTimeInSeconds;
+int gameTimeInSeconds;
+PFont font;
 
 void setup() {
   // never change these first 2 lines
@@ -26,7 +29,7 @@ void setup() {
     
   // add your own initialization code here
   cat = new Sprite(this);
-  cat.size=25;
+  cat.size=20;
   cat.goToXY(0,0);
   
   car1 = new traffic(this);
@@ -37,17 +40,17 @@ void setup() {
   car6 = new traffic(this);
   
   car1.ignition();
-  car1.size=110;
+  car1.size=115;
   car2.ignition();
-  car2.size=110;
+  car2.size=115;
   car3.ignition();
-  car3.size=110;
+  car3.size=115;
   car4.ignition();
-  car4.size=110;
+  car4.size=115;
   car5.ignition();
-  car5.size=110;
+  car5.size=115;
   car6.ignition();
-  car6.size=110;
+  car6.size=115;
   
   cat.update(); // this makes sure a translate gets called before the title screen b/g is displayed
 }
@@ -67,8 +70,18 @@ void draw() {
   // although we might add a sprite or backdrop that says "game paused press p to resume"
 }
 
+void startTheGame() {
+   startTimeInSeconds = millis()/1000;
+   gamestate = "playing";
+}
+
+int gameTimer() {
+  int temp = millis()/1000;
+  return temp-startTimeInSeconds;
+} 
+
 void mouseClicked() {
-    if (gamestate=="title") gamestate = "playing";
+    if (gamestate=="title") startTheGame();
     if (gamestate=="game over") { setup(); gamestate = "title"; }
 
 }
