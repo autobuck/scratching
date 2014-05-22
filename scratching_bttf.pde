@@ -32,23 +32,24 @@ void setup() {
   car1 = new traffic(this);
   car2 = new traffic(this);
   car3 = new traffic(this);
-  car1 = new traffic(this);
-  car2 = new traffic(this);
-  car3 = new traffic(this);
+  car4 = new traffic(this);
+  car5 = new traffic(this);
+  car6 = new traffic(this);
   
-  car1.startOnLeft();
+  car1.ignition();
   car1.size=110;
-  car2.startOnLeft();
+  car2.ignition();
   car2.size=110;
-  car3.startOnLeft();
+  car3.ignition();
   car3.size=110;
-  car4.startOnLeft();
+  car4.ignition();
   car4.size=110;
-  car5.startOnLeft();
+  car5.ignition();
   car5.size=110;
-  car6.startOnLeft();
+  car6.ignition();
   car6.size=110;
   
+  cat.update(); // this makes sure a translate gets called before the title screen b/g is displayed
 }
   
 void wrapAtEdges(Sprite whoever) {
@@ -62,6 +63,8 @@ void draw() {
   if (gamestate=="title") showTitleScreen();
   else if (gamestate=="playing") gameloop();
   else if (gamestate=="game over") showGameOverScreen();  
+  // we don't need to process (gamestate==paused) because we'd just tell it to "do nothing" anyway
+  // although we might add a sprite or backdrop that says "game paused press p to resume"
 }
 
 void mouseClicked() {
@@ -79,10 +82,31 @@ void showGameOverScreen() {
   stage.switchToBackdrop(stage.bg_gameover);
 }
 
+// this is the main game logic. we have this here instead of "draw" so that we can accomodate other "game modes"
+// such as "title screen" and "game over screen" where the behavior of mouse, keyboard, and sprites may be different
+void gameloop() {
+  stage.switchToBackdrop(stage.bg_highway);
+  pointCatAtMouseAndMove();
+  makeCarsDrive();
+  
+  car1.update();
+  car2.update();
+  car3.update();
+  car4.update();
+  car5.update();
+  car6.update();
+  cat.update(); // update cat last so cat appears on top
+  
+  delay(50);
+}
+
 void keyPressed() {  
-  switch(key) {
-    case('q'):case('Q'): makeCatJump(); break;
-  }
+  if ((key=='p')|(key=='P')) pauseOrUnpause();
+  else if (gamestate=="playing")
+    switch(key) {
+      case(' '): makeCatJump(); break;
+      case('q'): case('Q'): gamestate="game over"; break;
+    }
 }
 
 void makeCatJump() {
@@ -90,6 +114,13 @@ void makeCatJump() {
     speed_Y = -10;
     standing_Y = (int)cat.pos.y;
   }
+}
+
+void pauseOrUnpause() {
+  if (gamestate=="playing") gamestate="paused";
+  else gamestate="playing";
+  // prevent "slow motion" cheating by holding pause. or at least make it so slow that you wouldn't want to.
+  delay(250);
 }
 
 void pointCatAtMouseAndMove() {
@@ -110,34 +141,27 @@ void pointCatAtMouseAndMove() {
   }
   // this checks if the cat is touching a car and ends the game but only if the cat is not jumping (speed=-99)
   if (speed_Y==-99&(cat.touchingTraffic(car1)|cat.touchingTraffic(car2)|cat.touchingTraffic(car3))) { gamestate = "game over"; }
+  wrapAtEdges(cat);
 }
 
-// this is the main game logic. we have this here instead of "draw" so that we can accomodate other "game modes"
-// such as "title screen" and "game over screen" where the behavior of mouse, keyboard, and sprites may be different
-void gameloop() {
-  stage.switchToBackdrop(stage.bg_highway);
-  pointCatAtMouseAndMove();
-  
+void makeCarsDrive() {
   car1.drive();
   car2.drive();
   car3.drive();
-  if ((car1.pos.x<-300)|(car1.pos.x>300)) {
-    int foo = (int)random(1,3);
-    if (foo>1) car1.startOnLeft(); else car1.startOnRight(); 
-  }
-  if ((car2.pos.x<-300)|(car2.pos.x>300)) {
-    int foo = (int)random(1,3);
-    if (foo>1) car2.startOnLeft(); else car2.startOnRight(); 
-  }
-  if ((car3.pos.x<-300)|(car3.pos.x>300)) {
-    int foo = (int)random(1,3);
-    if (foo>1) car3.startOnLeft(); else car3.startOnRight(); 
-  }
+  car4.drive();
+  car5.drive();
+  car6.drive();
+ 
+  checkCarBoundaries(car1);
+  checkCarBoundaries(car2);
+  checkCarBoundaries(car3);
+  checkCarBoundaries(car4);
+  checkCarBoundaries(car5);
+  checkCarBoundaries(car6);
+}
 
-  wrapAtEdges(cat);
-  car1.update();
-  car2.update();
-  car3.update();
-  cat.update();
-  delay(50);
+void checkCarBoundaries(traffic car) {
+  if ((car.pos.x<-300)|(car.pos.x>300)) {
+    car.ignition();
+  }
 }

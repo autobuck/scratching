@@ -36,6 +36,7 @@ public class traffic {
   public PVector pos = new PVector(0, 0);
   public float spin = 0;
   public boolean penDown;
+  int startDelay;
   
   
   /* DIRECTION IS IN DEGREES! any math will require conversion.
@@ -251,12 +252,17 @@ public class traffic {
     return distanceToXY((int)target.pos.x, (int)target.pos.y);
   }
 
+public void ignition() {
+ int foo = (int)p.random(1,3);
+ if (foo>1) startOnLeft(); else startOnRight();
+  startDelay=(int)(p.random(0,10)*100);  
+}
+
 public void startOnLeft() {
   pos.x = -280;
   int lane = (int)p.random(0,4);
-  int newY = (int)(-50+(60*lane));
+  int newY = (int)(-60+(60*lane));
   pos.y = newY;
-  show();
   switchToCostume((int)p.random(0,numberOfCostumes));
   pointInDirection(90);
 }
@@ -266,13 +272,14 @@ public void startOnRight() {
   int lane = (int)p.random(0,4);
   int newY = (int)(-60+(60*lane));
   pos.y = newY;
-  show();
   pointInDirection(270);
   switchToCostume((int)p.random(0,numberOfCostumes));
 }
 
 public void drive() {
-  if (direction==90) pos.x=pos.x+10;
+  if (startDelay<=0) show();
+  if (startDelay>0) startDelay -= 50;
+  else if (direction==90) pos.x=pos.x+10;
   else if (direction==270) pos.x=pos.x-10;
 }
 
