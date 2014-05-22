@@ -253,6 +253,7 @@ public class traffic {
   }
 
 public void ignition() {
+  hide();
  int foo = (int)p.random(1,3);
  if (foo>1) startOnLeft(); else startOnRight();
   startDelay=(int)(p.random(0,10)*100);  

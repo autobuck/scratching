@@ -18,9 +18,10 @@ int gameTimeInSeconds;
 PFont font;
 
 void setup() {
-  // never change these first 2 lines
+  // never change these first X lines
   size(480, 360);
   stage = new Stage(this);
+  font = createFont("Arial Bold",16,true);
   
   // add backdrops to the stage
   stage.addBackdrop("images/bg_title2.png");
@@ -75,7 +76,7 @@ void startTheGame() {
    gamestate = "playing";
 }
 
-int gameTimer() {
+int gameTime() {
   int temp = millis()/1000;
   return temp-startTimeInSeconds;
 } 
@@ -95,6 +96,12 @@ void showGameOverScreen() {
   stage.switchToBackdrop(stage.bg_gameover);
 }
 
+void drawTimer() {
+  //textFont(font,18);
+  textAlign(CENTER);
+  text("Time: "+gameTime(),width/2,10);
+}
+
 // this is the main game logic. we have this here instead of "draw" so that we can accomodate other "game modes"
 // such as "title screen" and "game over screen" where the behavior of mouse, keyboard, and sprites may be different
 void gameloop() {
@@ -109,6 +116,7 @@ void gameloop() {
   car5.update();
   car6.update();
   cat.update(); // update cat last so cat appears on top
+  drawTimer();
   
   delay(50);
 }
@@ -140,6 +148,7 @@ void pointCatAtMouseAndMove() {
   // if jump speed is resting (-99) and the mouse is more than 15px from the cat, aim the cat and walk the cat
   if ((cat.distanceToXY(mouseX,mouseY) > 15)&(speed_Y == -99)) {
     cat.pointTowardsMouse();
+    println(cat.direction);
     cat.move(10);
     if (cat.pos.y<-100) cat.pos.y=-100; 
     if (cat.pos.y>170) cat.pos.y=170;
@@ -153,8 +162,17 @@ void pointCatAtMouseAndMove() {
     if (speed_Y > 10) speed_Y = -99;
   }
   // this checks if the cat is touching a car and ends the game but only if the cat is not jumping (speed=-99)
-  if (speed_Y==-99&(cat.touchingTraffic(car1)|cat.touchingTraffic(car2)|cat.touchingTraffic(car3))) { gamestate = "game over"; }
+  if (speed_Y==-99&touchingACar()) { gamestate = "game over"; }
   wrapAtEdges(cat);
+}
+
+boolean touchingACar() {
+  return (cat.touchingTraffic(car1)|
+  cat.touchingTraffic(car2)|
+  cat.touchingTraffic(car3)|
+  cat.touchingTraffic(car4)|
+  cat.touchingTraffic(car5)|
+  cat.touchingTraffic(car6));
 }
 
 void makeCarsDrive() {
