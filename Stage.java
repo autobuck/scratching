@@ -27,76 +27,42 @@ public class Stage {
   // without this, built-in functions are broken. use p.whatever to access functionality
   PApplet p;
 
+  // listing our backgrounds here lets us access them by name instead of number in our main program
+  // ie, switchToBackdrop(bg_title); instead of switchToBackdrop(1).
+  //
+  // You may use your own art for your own project by adding PNG or JPG art to the file folder,
+  // and changing the "addDefaultBackdrops()" function below.
+  // 
+  // Backdrop 0 should always the X/Y grid, for debugging movement
+  public static final int bg_grid=0;
+  public static final int bg_title=1;
+  public static final int bg_highway=2;
+  public static final int bg_gameover=3;
+
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
-  PFont f;
-  String answer;
-  boolean questionAnswered;
-  String typedText = "your text here";
-
+  
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
     numberOfBackdrops=0;
-    loadDefaultGrid();
-    f=p.createFont("Arial",16,true);
+    loadDefaultBackdrops();
   }
 
-  void processKeyboardInput() {
-    int keyIndex = -1;
-    if (p.key >= 'A' && p.key <= 'Z') {
-      keyIndex = p.key - 'A';
-    } else if (p.key >= 'a' && p.key <= 'z') {
-      keyIndex = p.key - 'a';
-    }
-    if (keyIndex == -1) {
-      // If it's not a letter key, clear the screen
-      questionAnswered=true; // exit loop after "Enter" key pressed
-    } else { 
-      // It's a letter key, add the key to the string
-      answer=answer+Character.toString(p.key);
-    }
-    p.print(questionAnswered); p.print(keyIndex); p.println(answer);
-  }
-
-  void drawQuestionBox(String question) {
-    p.pushStyle();
-    p.fill(255);
-    p.stroke(0);
-    p.rect(5,315,470,30,5);
-    p.textFont(f,16);
-    p.fill(0);
-    p.textAlign(p.LEFT);
-    p.text(question,10,335);
-    p.popStyle();
-  }
-
-  // this function pops up a window asking a question and waiting for keyboard input, pausing all action
-  public String ask(String question) {
-    questionAnswered = false;
-    //theQuestion = question;
-    answer = "";
-    return "your father smelt of elderberries";
-  }
-  
   public void update() {
-    p.text(typedText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
-    /* if (askingAQuestion) {
-      drawQuestionBox(theQuestion);
-      if (p.key!=0) processKeyboardInput();
-      else return "";
-      */
+    p.translate(-(p.width/2), -(p.height/2));    
   }
 
   public void draw() {    
-      p.image(backdrops.get(backdropNumber), p.width/2, p.height/2, backdrops.get(backdropNumber).width,
+        p.image(backdrops.get(backdropNumber), p.width/2, p.height/2, backdrops.get(backdropNumber).width,
         backdrops.get(backdropNumber).height);
   }
 
   // load xy grid as backdrop 0
-  public void loadDefaultGrid() {
+  public void loadDefaultBackdrops() {
     addBackdrop("images/xy-grid.png");
   }
+    
 
   // add costume from bitmap image file
   public void addBackdrop(String filePath) {
