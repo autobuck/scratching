@@ -1,4 +1,4 @@
-Sprite cat;
+Sprite mario;
 traffic car1;
 traffic car2;
 traffic car3;
@@ -29,9 +29,9 @@ void setup() {
   stage.addBackdrop("images/bg_gameover.png");
     
   // add your own initialization code here
-  cat = new Sprite(this);
-  cat.size=20;
-  cat.goToXY(0,0);
+  mario = new Sprite(this);
+  mario.size=70;
+  mario.goToXY(0,0);
   
   car1 = new traffic(this);
   car2 = new traffic(this);
@@ -53,7 +53,7 @@ void setup() {
   car6.ignition();
   car6.size=115;
   
-  cat.update(); // this makes sure a translate gets called before the title screen b/g is displayed
+  mario.update(); // this makes sure a translate gets called before the title screen b/g is displayed
 }
   
 void wrapAtEdges(Sprite whoever) {
@@ -88,7 +88,7 @@ void mouseClicked() {
 }
 
 void showTitleScreen() {
-  //cat.update();
+  //mario.update();
   stage.switchToBackdrop(stage.bg_title);
 }
 
@@ -106,7 +106,7 @@ void drawTimer() {
 // such as "title screen" and "game over screen" where the behavior of mouse, keyboard, and sprites may be different
 void gameloop() {
   stage.switchToBackdrop(stage.bg_highway);
-  pointCatAtMouseAndMove();
+  pointMarioAtMouseAndMove();
   makeCarsDrive();
   
   car1.update();
@@ -115,7 +115,7 @@ void gameloop() {
   car4.update();
   car5.update();
   car6.update();
-  cat.update(); // update cat last so cat appears on top
+  mario.update(); // update mario last so mario appears on top
   drawTimer();
   
   delay(50);
@@ -125,15 +125,16 @@ void keyPressed() {
   if ((key=='p')|(key=='P')) pauseOrUnpause();
   else if (gamestate=="playing")
     switch(key) {
-      case(' '): makeCatJump(); break;
+      case(' '): makeMarioJump(); break;
       case('q'): case('Q'): gamestate="game over"; break;
     }
 }
 
-void makeCatJump() {
+void makeMarioJump() {
   if (speed_Y==-99) {
     speed_Y = -10;
-    standing_Y = (int)cat.pos.y;
+    standing_Y = (int)mario.pos.y;
+    mario.setCostume(mario.costume_ducking);
   }
 }
 
@@ -144,35 +145,43 @@ void pauseOrUnpause() {
   delay(250);
 }
 
-void pointCatAtMouseAndMove() {
-  // if jump speed is resting (-99) and the mouse is more than 15px from the cat, aim the cat and walk the cat
-  if ((cat.distanceToXY(mouseX,mouseY) > 15)&(speed_Y == -99)) {
-    cat.pointTowardsMouse();
-    println(cat.direction);
-    cat.move(10);
-    if (cat.pos.y<-100) cat.pos.y=-100; 
-    if (cat.pos.y>170) cat.pos.y=170;
-    cat.nextCostume();
+void nextWalkingCostume() {
+  mario.nextCostume();
+  if (mario.costumeNumber>=mario.costume_lastWalking) mario.setCostume(mario.costume_firstWalking);
+}
+
+void pointMarioAtMouseAndMove() {
+  // this checks if the mario is touching a car and ends the game but only if the mario is not jumping (speed=-99)
+  if (speed_Y==-99&touchingACar()) { gamestate = "game over"; }
+  // if jump speed is resting (-99) and the mouse is more than 15px from the mario, aim the mario and walk the cat  
+  else if ((mario.distanceToXY(mouseX,mouseY) > 15)&(speed_Y == -99)) {
+    mario.pointTowardsMouse();
+    println(mario.direction);
+    mario.move(10);
+    if (mario.pos.y<-100) mario.pos.y=-100; 
+    if (mario.pos.y>170) mario.pos.y=170;
+    nextWalkingCostume();
   }
-  // if cat is jumping (speed is not resting speed of -99) do a jump
-  if (speed_Y != -99) {
-    cat.pos.y = (cat.pos.y + speed_Y);
-    if (cat.pos.y >= standing_Y) cat.pos.y = standing_Y;
+  // if mario is jumping (speed is not resting speed of -99) do a jump
+  else if (speed_Y != -99) {
+    mario.pos.y = (mario.pos.y + speed_Y);
+    if (mario.pos.y >= standing_Y) mario.pos.y = standing_Y;
     speed_Y++;
     if (speed_Y > 10) speed_Y = -99;
+    mario.setCostume(mario.costume_jumping);
   }
-  // this checks if the cat is touching a car and ends the game but only if the cat is not jumping (speed=-99)
-  if (speed_Y==-99&touchingACar()) { gamestate = "game over"; }
-  wrapAtEdges(cat);
+  // mario is doing nothing, so make him stand still. you might put an "idle animation" here such as when Sonic the Hedgehog taps his feet
+  else mario.setCostume(mario.costume_standing);
+  wrapAtEdges(mario);
 }
 
 boolean touchingACar() {
-  return (cat.touchingTraffic(car1)|
-  cat.touchingTraffic(car2)|
-  cat.touchingTraffic(car3)|
-  cat.touchingTraffic(car4)|
-  cat.touchingTraffic(car5)|
-  cat.touchingTraffic(car6));
+  return (mario.touchingTraffic(car1)|
+  mario.touchingTraffic(car2)|
+  mario.touchingTraffic(car3)|
+  mario.touchingTraffic(car4)|
+  mario.touchingTraffic(car5)|
+  mario.touchingTraffic(car6));
 }
 
 void makeCarsDrive() {

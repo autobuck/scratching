@@ -36,7 +36,12 @@ public class Sprite {
   public PVector pos = new PVector(0, 0);
   public float spin = 0;
   public boolean penDown;
-  
+  public int costume_firstWalking = 0;
+  public int costume_lastWalking = 2;
+  public int costume_standing = 3;
+  public int costume_ducking = 4;
+  public int costume_turning = 5;
+  public int costume_jumping = 6;
   
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
@@ -53,6 +58,7 @@ public class Sprite {
     size=100;
     rotationStyle=rotationStyle_LeftRight;
     ghostEffect=255;
+
   }
 
   /* ==== Drawing ====
@@ -111,8 +117,14 @@ public class Sprite {
 
   // load "Scratch" cat costumes
   public void loadDefaultCostumes() {
-    addCostume("images/cat.costume1.png");
-    addCostume("images/cat.costume2.png");
+    addCostume("images/mario walk 1.png");
+    addCostume("images/mario walk 2.png");
+    addCostume("images/mario walk 3.png");
+    addCostume("images/mario standing.png");
+    addCostume("images/mario ducking.png");
+    addCostume("images/mario turning.png");
+    addCostume("images/mario jumping.png");
+    
   }
 
   // add costume from bitmap image file
@@ -134,7 +146,7 @@ public class Sprite {
   }
 
   // switch to specific costume
-  public void switchToCostume(int newCostumeNumber) {
+  public void setCostume(int newCostumeNumber) {
     costumeNumber=newCostumeNumber;
   }
 
