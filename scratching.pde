@@ -94,9 +94,9 @@ String keepAsking(String question) {
   // this adds a blinking cursor after your text, at the expense of redrawing everything every frame
   //text(question+(frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
   drawQuestionBox(question);
-  if (typing.length()>0) {
-    if (typing.charAt(typing.length()-1)==ENTER|typing.charAt(typing.length()-1)==RETURN) {
-      typing = "";
+  if (Qanswer.length()>0) {
+    if (Qanswer.charAt(typing.length()-1)==ENTER|Qanswer.charAt(Qanswer.length()-1)==RETURN) {
+      Qanswer = "";
       answered = true;
       return Qanswer;
     }
@@ -131,4 +131,3 @@ String keepAsking(String question) {
  
     }
   }
-
