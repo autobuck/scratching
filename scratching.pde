@@ -1,18 +1,6 @@
 Sprite cat;
 Sprite alsoCat;
 Stage stage;
-int numberOfSprites=0;
-String questionText = "your text here";
-boolean answered = true;
-String test = "";
-
-PFont f;
-// Variable to store text currently being typed
-String typing = "";
-// Variable to store saved text when return is hit
-String answer = "";
-String Qanswer = "";
-
 
 static int rotationStyle_AllAround=0;
 static int rotationStyle_LeftRight=1;
@@ -21,113 +9,68 @@ static int rotationStyle_DontRotate=2;
 void setup() {
   // never change these first X lines
   size(480, 360);
-  f = createFont("Arial",16,true);
   stage = new Stage(this);
-  answered = false;
 
   // add your own initialization code here
   cat = new Sprite(this);
-  numberOfSprites++;
   alsoCat = new Sprite(this);
-  numberOfSprites++;
   cat.size=50;
   cat.goToXY(0,0);
   alsoCat.size=25;
-  alsoCat.pos.set(150,150);
-  alsoCat.direction=00;
+  alsoCat.goToXY(150,150);
+  stage.switchToBackdrop(0);
 }
   
-void wrapAtEdges(Sprite whoever) {
-  if (whoever.pos.x>230) whoever.pos.x=-230;
-  if (whoever.pos.x<-230) whoever.pos.x=230;
-  if (whoever.pos.y>170) whoever.pos.y=-170;
-  if (whoever.pos.y<-170) whoever.pos.y=170;
-}  
-
 void draw() {
-  stage.switchToBackdrop(0);
-  stage.update();
-
-  //cat.pointTowards(alsoCat);
-  if (cat.distanceToXY(mouseX,mouseY) > 11) {
-    cat.pointTowardsMouse();
-    cat.move(10);
-    cat.nextCostume();
-  }
-  cat.update();
-  updateAlsoCat();
-
+  // these functions move the Sprites
+  moveTheCat();
+  moveAlsoCat();
   wrapAtEdges(cat);
   wrapAtEdges(alsoCat);
-  updateQuestionProcessor();
+  
+  stage.update();
+  cat.update();
+  alsoCat.update();
 
   delay(100);
-  //answer = keepAsking("What is your quest?");
-  
 }
 
-void updateAlsoCat() {
+// this function moves the cat towards the mouse
+void moveTheCat() {
+  // this "if" makes sure the cat doesn't move if it's already standing on the mouse cursor
+  if (cat.distanceToXY(mouseX,mouseY) > 11) {
+    cat.pointTowardsMouse();
+    cat.nextCostume();
+    cat.move(10);
+  }
+}
+
+// this moves the alsoCat Sprite a little bit randomly
+void moveAlsoCat() {
+  if (random(0,100)>90) alsoCat.direction=pickRandomDirection();
   alsoCat.nextCostume();
-  if (alsoCat.touchingSprite(cat)) { alsoCat.hide(); cat.goToXY(0,0); } 
+  alsoCat.move(10);
+  if (alsoCat.touchingSprite(cat)) { alsoCat.hide(); cat.goToXY(0,0); alsoCat.goToXY(150,150); } 
   else alsoCat.show();
-  alsoCat.update();
 }
 
-void mouseClicked() {
-    //answer = ask("What is your quest?");
-    println(answer);
-}
+// this is a useful function which you may want again, so try adding this as a "built-in feature" of your Sprite class.
+void wrapAtEdges(Sprite whomever) {
+  if (whomever.pos.x>230) whomever.pos.x=-230;
+  if (whomever.pos.x<-230) whomever.pos.x=230;
+  if (whomever.pos.y>170) whomever.pos.y=-170;
+  if (whomever.pos.y<-170) whomever.pos.y=170;
+}  
 
-void updateQuestionProcessor() {
-  String temp = ask("What is your quest?");
-  if (temp!="") answer=temp;
-  if (answer!="") println(answer); 
-}
-
-String ask(String question) {
-  answered = false;
-  return keepAsking(question);
-}
-
-String keepAsking(String question) {
-  textFont(f,18);
-  // this adds a blinking cursor after your text, at the expense of redrawing everything every frame
-  //text(question+(frameCount/10 % 2 == 0 ? "_" : ""), 35, 45);
-  drawQuestionBox(question);
-  if (Qanswer.length()>0) {
-    if (Qanswer.charAt(typing.length()-1)==ENTER|Qanswer.charAt(Qanswer.length()-1)==RETURN) {
-      Qanswer = "";
-      answered = true;
-      return Qanswer;
-    }
-    else return "";
-  } else return "";
-}
-
-  void drawQuestionBox(String question) {
-    pushStyle();
-    fill(255);
-    stroke(0);
-    rect(5,315,470,30,5);
-    textFont(f,16);
-    fill(0);
-    textAlign(LEFT);
-    text(question+" "+typing+(frameCount/10 % 2 == 0 ? "_" : ""),10,335);
-    popStyle();
+// return a random cardinal direction
+int pickRandomDirection() {
+  int newDirection = (int)random(0,4);
+  switch (newDirection) {
+    case 0: return 90;
+    case 1: return 270;
+    case 2: return 180;
+    case 3: return 0;
   }
-
-  void keyPressed() {
-    // If the return key is pressed, save the String and clear it
-    if (key!=CODED) {
-      if (key == '\n' ) {
-        Qanswer = typing;
-        typing = "";
-      } else if (key == BACKSPACE) {
-           typing = typing.substring(0,max(0,typing.length()-1));
-      } else 
-        // Otherwise, concatenate the String
-        // Each character typed by the user is added to the end of the String variable.
-        typing = typing + key;
- 
-    }
-  }
+  // -99 is our "error code"; this should always return a useful direction
+  return -99;
+}

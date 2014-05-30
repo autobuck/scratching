@@ -58,12 +58,15 @@ public class Stage {
     return temp-startTime;
   } 
   
+  // reset the stage timer
   public void resetTimer() {
     startTime = p.millis()/1000;
   }
 
+
   public void update() {
-    p.translate(-(p.width/2), -(p.height/2));    
+//    p.translate(-(p.width/2), -(p.height/2));
+    draw();    
   }
 
   public void draw() {    

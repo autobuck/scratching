@@ -203,7 +203,7 @@ public class Sprite {
 
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    pointTowardsXY(p.mouseX-(p.width/2),p.mouseY-(p.height/2));
+    pointTowardsXY(p.mouseX,p.mouseY);
   }
 
   /* move to specific location on grid */
