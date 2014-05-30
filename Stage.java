@@ -35,9 +35,7 @@ public class Stage {
   // 
   // Backdrop 0 should always the X/Y grid, for debugging movement
   public static final int bg_grid=0;
-  public static final int bg_title=1;
-  public static final int bg_highway=2;
-  public static final int bg_gameover=3;
+
 
   public int startTime;
   public int backdropNumber, numberOfBackdrops;
