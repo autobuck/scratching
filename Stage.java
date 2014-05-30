@@ -39,6 +39,7 @@ public class Stage {
   public static final int bg_highway=2;
   public static final int bg_gameover=3;
 
+  public int startTime;
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
   
@@ -46,7 +47,19 @@ public class Stage {
     p = parent;
     backdropNumber=0;
     numberOfBackdrops=0;
+    startTime=0;
+    resetTimer();
     loadDefaultBackdrops();
+  }
+  
+  // the timer returns seconds, in whole numbers (integer)
+  public int timer() {
+    int temp = p.millis()/1000;
+    return temp-startTime;
+  } 
+  
+  public void resetTimer() {
+    startTime = p.millis()/1000;
   }
 
   public void update() {

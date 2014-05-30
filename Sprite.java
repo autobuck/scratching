@@ -12,6 +12,12 @@
  * Points are stored in the 'PVector' type because Processing
  * contains built-in functions for accessing and manipulating such
  * objects.
+ *
+ * Avoid changing this file in any way! Do not use the Sprite class!
+ * Instead, make a new tab and make a new .java file with a new name.
+ * Copy the contents of this to your new tab and extend the code there.
+ * This way you will always have a fresh template to start new objects.
+ *
  */
 
 import processing.core.PApplet;
@@ -36,12 +42,6 @@ public class Sprite {
   public PVector pos = new PVector(0, 0);
   public float spin = 0;
   public boolean penDown;
-  public int costume_firstWalking = 0;
-  public int costume_lastWalking = 2;
-  public int costume_standing = 3;
-  public int costume_ducking = 4;
-  public int costume_turning = 5;
-  public int costume_jumping = 6;
   
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
@@ -58,7 +58,6 @@ public class Sprite {
     size=100;
     rotationStyle=rotationStyle_LeftRight;
     ghostEffect=255;
-
   }
 
   /* ==== Drawing ====
@@ -117,14 +116,8 @@ public class Sprite {
 
   // load "Scratch" cat costumes
   public void loadDefaultCostumes() {
-    addCostume("images/mario walk 1.png");
-    addCostume("images/mario walk 2.png");
-    addCostume("images/mario walk 3.png");
-    addCostume("images/mario standing.png");
-    addCostume("images/mario ducking.png");
-    addCostume("images/mario turning.png");
-    addCostume("images/mario jumping.png");
-    
+    addCostume("images/cat.costume1.png");
+    addCostume("images/cat.costume2.png");
   }
 
   // add costume from bitmap image file
@@ -194,7 +187,7 @@ public class Sprite {
   // point towards arbitrary grid position
   public void pointTowardsXY(int x, int y) {
     PVector targetVector;
-    targetVector = new PVector(x, y);
+    targetVector = new PVector(x-(p.width/2), y-(p.height/2));
     direction = (p.degrees(p.atan2(pos.x - (targetVector.x), pos.y - (targetVector.y))))+90;
   }
 
@@ -242,27 +235,9 @@ public class Sprite {
     else return false;
   }
 
-  // check if a Sprite is touching another Sprite using simple rectangular hit box
-  public boolean touchingTraffic(traffic target) {
-    boolean touchingX, touchingY;
-    PVector testVector;
-    touchingX=false; 
-    touchingY=false;
-    testVector=new PVector(target.pos.x, pos.y);
-    if (pos.dist(testVector) < ((target.costumes.get(target.costumeNumber).width*(target.size/100))/2)+(costumes.get(costumeNumber).width*(size/100))/2) {
-      touchingX = true;
-    }
-    testVector=new PVector(pos.x, target.pos.y);
-    if (pos.dist(testVector) < ((target.costumes.get(target.costumeNumber).height*(target.size/100))/2)+(costumes.get(costumeNumber).height*(size/100))/2) {
-      touchingY = true;
-    }
-    if (touchingX & touchingY) return true;
-    else return false;
-  }
-
   // return distance to arbitrary grid position  
   public float distanceToXY(int x, int y) { 
-    PVector temp = new PVector(x-240, y-180);
+    PVector temp = new PVector(x-(p.width/2), y-(p.height/2));
     return pos.dist(temp);
   }
 
