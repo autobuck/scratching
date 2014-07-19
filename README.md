@@ -57,7 +57,7 @@ So how does it work?
 
 `void setup() {` The setup function runs once, at the beginning of your program. This is its *function definition*. A function is like a script in Scratch. It must have a name ("setup"), followed by parantheses. The curly bracket starts the function. Inside of functions, we usually *indent* code (use the tab key).
 
-*What does "void" mean?* I'll tell you later.[^1]
+*What does "void" mean?* I'll tell you later.
 
 `size(600,600);` The size *function* tells the computer how big you want your window to be. Here, it is 600 pixels by 600 pixels. Notice the semicolon at the end of the line!
 
@@ -65,7 +65,7 @@ So how does it work?
 
 You know what else you shouldn't forget? ***Semicolons!***
 
-*What does "this" mean?* Stop asking so many questions.[^2]
+*What does "this" mean?* Stop asking so many questions.
 
 `}` This curly bracket closes the setup function.
 
@@ -79,6 +79,87 @@ If you didn't clear the background, you would just keep seeing new images of the
 
 `cat.update();` This actually draws the cat to the screen.
 
-[^1]: The first word of a function — in this case, `void`, tells you what the function returns. The setup function (along with many other functions) returns nothing; in programming parlance this datatype is called `void`.
+---
+## Full Command Reference
+In no particular order.
 
-[^2]: `this` just tells Processing to create the Sprite in the current application... an unfortunate complication.
+#### Sprite Commands
+
+`Sprite(PApplet parent)` Creates a new sprite in the specified `PApplet`. Will usually be `this`.
+
+`void update()` Draw the sprite.
+
+`void setGhostEffect(int newAlpha)` Sets the ghost effect (transparency). 0 is fully transparent; 255 is fully opaque.
+
+`void move(int distance)` Move the sprite some distance (in pixels). Note that this function accounts for the sprite's current angle.
+
+`void loadDefaultCostumes()` Loads the default cat costumes.
+
+`void addCostume(String filePath)` Add the costume image at the specified path. Image types `.gif`, `.jpg`, `.tga`, `.png`.
+
+`void nextCostume()` Switch to the next costume. Will wrap around to the first costume.
+
+`void previousCostume()` Switch to the previous costume. Will wrap around to the last costume.
+
+`void setCostume(int newCostumeNumber)` Switch to the specified costume. Be aware that the costume list is zero-index, so `setCostume(0)` will set the sprite to the first costume.
+
+`void show()` Show the sprite.
+
+`void hide()` Hide the sprite.
+
+`void say(String what)` Say something (in the console).
+
+`void think(String what)` Think something (in the console).
+
+`void turn(float angle)` Turn by specified angle, **degrees**.
+
+`void turnLeft(float angle)	` Turn left.
+
+`void turnRight(float angle)` Turn right.
+
+`void pointTowards(int x, int y)` Point towards the coordinates (x, y).
+
+`void pointInDirection(float angle)` Point in the specified direction, **degrees**.
+
+`void pointTowards(Sprite target)` Point towards another sprite.
+
+`void pointTowardsMouse()` Points towards the mouse pointer. This will only work if the mouse pointer is contained within the applet window.
+
+`void goToXY(int x, int y)` Sets the sprite's position to (x, y).
+
+`void goToSprite(Sprite target)` Set the sprite's position to that of another sprite.
+
+`boolean touchingSprite(Sprite target)` Returns true if the sprite is within the rectangular bounding box of anotehr sprite.
+
+`float distanceToXY(int x, int y)` Returns the distance to another point.
+
+`float distanceToMouse()` Returns the distance to the mouse pointer.
+
+`float distanceToSprite(Sprite target)` Returns the distance to another sprite.
+
+#### Stage Commands
+You can use a stage if you don't want just a boring solid-color static background.
+
+`Stage(PApplet parent)` Creates a stage in the specified applet. Will probably be `this`.
+
+`int timer()` Returns the number of seconds since the program started.
+
+`void resetTime()` Set the timer to 0.
+
+`void update()` Draw the stage.
+
+`void questionKeycheck()` Run this inside of a keypress event if you are expecting responses.
+
+`String answer()` Returns the answer to the asked question.
+
+`void ask(String newQuestion)` Ask a question.
+
+`void loadDefaultBackdrops()` Load the default backdrop(s) into the backdrop list.
+
+`void addBackdrop(String filePath)` Add the backdrop image specified by the path.
+
+`void nextBackdrop()` Switch to the next backdrop.
+
+`void previousBackdrop()` Switch to the previous backdrop.
+
+`void switchToBackdrop(int newBackdropNumber)` Switch to the specified (zero-indexed) backdrop.
