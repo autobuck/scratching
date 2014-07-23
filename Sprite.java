@@ -42,15 +42,16 @@ public class Sprite {
   public PVector pos = new PVector(0, 0);
   public float spin = 0;
   public boolean penDown;
-  public float direction = 0;
+  
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
    * Use degrees() to convert to degrees; radians() to convert to
    * radians.
    */
-   
+  public float direction = 0;
   Sprite (PApplet parent) {
     p = parent;
+    loadDefaultCostumes();
     costumeNumber=0;
     visible = true;
     numberOfCostumes=0;
@@ -73,10 +74,14 @@ public class Sprite {
     if (visible) {
       p.pushMatrix(); // save old visual style for other sprites
       // set the center of the screen to (0, 0)
+//      p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
       p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
-          
+    
+      //p.print("x "); p.print(pos.x); p.print(" y "); p.println(pos.y);
+      
       p.imageMode(p.CENTER);
       // locked left-right rotation
+      //if (((direction<=359) & (direction>=180)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (((direction<=359) & (direction>90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
       if (ghostEffect < 255) {
