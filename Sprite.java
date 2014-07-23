@@ -51,7 +51,6 @@ public class Sprite {
    
   Sprite (PApplet parent) {
     p = parent;
-    loadDefaultCostumes();
     costumeNumber=0;
     visible = true;
     numberOfCostumes=0;

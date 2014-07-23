@@ -51,7 +51,6 @@ public class Stage {
     numberOfBackdrops=0;
     startTime=0;
     resetTimer();
-    loadDefaultBackdrops();
     questionFont = p.createFont("Helvetica", 18); 
     p.textFont(questionFont,18);
   }
