@@ -238,7 +238,7 @@ public class Sprite {
   // return distance to arbitrary grid position  
   public float distanceToXY(int x, int y) { 
     PVector temp = new PVector(x-(p.width/2), y-(p.height/2));
-    return pos.dist(temp);
+    return pos.dist(temp); 
   }
 
   // return distance to arbitrary grid position  
