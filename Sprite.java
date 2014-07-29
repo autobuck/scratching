@@ -54,7 +54,7 @@ public class Sprite {
     costumeNumber=0;
     visible = true;
     numberOfCostumes=0;
-    loadDefaultCostumes();
+    //loadDefaultCostumes();
     size=100;
     rotationStyle=rotationStyle_LeftRight;
     ghostEffect=255;

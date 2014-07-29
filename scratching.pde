@@ -12,12 +12,16 @@ void setup() {
   size(480, 360);
   stage = new Stage(this);
   cat = new Sprite(this);
+  stage.loadDefaultBackdrop();
+  cat.loadDefaultCostumes();
+  cat.setCostume(0);
+  stage.setBackdrop(0);
   stage.update();
   // add your own initialization code here
 }
   
 void draw() {
-  cat.goToXY(-100,0);
+  cat.goToXY(0,0);
   stage.update();
   cat.update();
 }
