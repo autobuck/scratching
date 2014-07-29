@@ -9,7 +9,7 @@
  * This Stage class has just a few simple functions for handling
  * the background. 
  *
- * switchToBackdrop(#); can replace the background(#);
+ * setBackdrop(#); can replace the background(#);
  * command at the top of your draw() loop.
  *
  * The backdrop size should match your stage size.
@@ -28,7 +28,7 @@ public class Stage {
   PApplet p;
 
   // listing our backgrounds here lets us access them by name instead of number in our main program
-  // ie, switchToBackdrop(bg_title); instead of switchToBackdrop(1).
+  // ie, setBackdrop(bg_title); instead of setBackBackdrop(1).
   //
   // You may use your own art for your own project by adding PNG or JPG art to the file folder,
   // and changing the "addDefaultBackdrops()" function below.
@@ -101,7 +101,7 @@ public class Stage {
   }
 
   // switch to specific costume
-  public void switchToBackdrop(int newBackdropNumber) {
+  public void setBackdrop(int newBackdropNumber) {
     backdropNumber=newBackdropNumber;
     draw();
   }
