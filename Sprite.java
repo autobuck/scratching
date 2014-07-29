@@ -51,10 +51,10 @@ public class Sprite {
   public float direction = 0;
   Sprite (PApplet parent) {
     p = parent;
-    loadDefaultCostumes();
     costumeNumber=0;
     visible = true;
     numberOfCostumes=0;
+    loadDefaultCostumes();
     size=100;
     rotationStyle=rotationStyle_LeftRight;
     ghostEffect=255;
@@ -243,7 +243,7 @@ public class Sprite {
 
   // return distance to arbitrary grid position  
   public float distanceToMouse() { 
-    PVector temp = new PVector(p.mouseX, p.mouseY);
+    PVector temp = new PVector(p.mouseX-(p.width/2), p.mouseY-(p.height/2));
     return pos.dist(temp);
   }
 

@@ -5,7 +5,6 @@ static int rotationStyle_AllAround=0;
 static int rotationStyle_LeftRight=1;
 static int rotationStyle_DontRotate=2;
 
-String someString = "";
 
 void setup() {
   // never change these first X lineswhy you so testy
@@ -13,8 +12,6 @@ void setup() {
   size(480, 360);
   stage = new Stage(this);
   cat = new Sprite(this);
-  stage.loadDefaultBackdrops();
-  cat.loadDefaultCostumes();
   stage.update();
   // add your own initialization code here
 }
