@@ -154,7 +154,7 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 
 `void ask(String newQuestion)` Ask a question.
 
-`void loadDefaultBackdrops()` Load the default backdrop(s) into the backdrop list.
+`void loadDefaultBackdrop()` Load the default backdrop(s) into the backdrop list.
 
 `void addBackdrop(String filePath)` Add the backdrop image specified by the path.
 
@@ -162,4 +162,4 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 
 `void previousBackdrop()` Switch to the previous backdrop.
 
-`void switchToBackdrop(int newBackdropNumber)` Switch to the specified (zero-indexed) backdrop.
+`void setBackdrop(int newBackdropNumber)` Switch to the specified (zero-indexed) backdrop.
