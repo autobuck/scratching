@@ -49,7 +49,6 @@ public class Stage {
     numberOfBackdrops=0;
     startTime=0;
     resetTimer();
-    //loadDefaultBackdrops();
   }
   
   // the timer returns seconds, in whole numbers (integer)
@@ -75,7 +74,7 @@ public class Stage {
   }
 
   // load xy grid as backdrop 0
-  public void loadDefaultBackdrops() {
+  public void loadDefaultBackdrop() {
     addBackdrop("images/xy-grid.png");
   }
     
@@ -101,7 +100,7 @@ public class Stage {
   }
 
   // switch to specific costume
-  public void switchToBackdrop(int newBackdropNumber) {
+  public void setBackdrop(int newBackdropNumber) {
     backdropNumber=newBackdropNumber;
     draw();
   }
