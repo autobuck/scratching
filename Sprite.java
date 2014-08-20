@@ -81,8 +81,7 @@ public class Sprite {
       
       p.imageMode(p.CENTER);
       // locked left-right rotation
-      //if (((direction<=359) & (direction>=180)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
-      if (((direction<=359) & (direction>90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
+      if (((direction<=270) & (direction>=90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
       if (ghostEffect < 255) {
         int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
@@ -129,13 +128,14 @@ public class Sprite {
   // change to next costume
   public void nextCostume() { 
     costumeNumber++;
-    if (costumeNumber > numberOfCostumes + 1) costumeNumber=0;
+    if (costumeNumber > numberOfCostumes-1) costumeNumber=0;
+    p.println(numberOfCostumes);
   }
 
   // change to previous costume
   public void previousCostume() {
     costumeNumber--;
-    if (costumeNumber < 0) costumeNumber=numberOfCostumes;
+    if (costumeNumber < 0) costumeNumber=numberOfCostumes-1;
   }
 
   // switch to specific costume
@@ -187,7 +187,7 @@ public class Sprite {
   // point towards arbitrary grid position
   public void pointTowardsXY(int x, int y) {
     PVector targetVector;
-    targetVector = new PVector(x-(p.width/2), y-(p.height/2));
+    targetVector = new PVector(x, y);
     direction = (p.degrees(p.atan2(pos.x - (targetVector.x), pos.y - (targetVector.y))))+90;
   }
 
@@ -203,7 +203,7 @@ public class Sprite {
 
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    pointTowardsXY(p.mouseX,p.mouseY);
+    pointTowardsXY(p.mouseX-(p.width/2),p.mouseY-(p.height/2));
   }
 
   /* move to specific location on grid */
@@ -237,7 +237,7 @@ public class Sprite {
 
   // return distance to arbitrary grid position  
   public float distanceToXY(int x, int y) { 
-    PVector temp = new PVector(x-(p.width/2), y-(p.height/2));
+    PVector temp = new PVector(x, y);
     return pos.dist(temp); 
   }
 
