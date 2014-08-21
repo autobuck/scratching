@@ -42,6 +42,7 @@ public class Stage {
   public int startTime;
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
+  int scrollX, scrollY;
   
   Stage (PApplet parent) {
     p = parent;
@@ -49,6 +50,7 @@ public class Stage {
     numberOfBackdrops=0;
     startTime=0;
     resetTimer();
+    scrollX = 0; scrollY = 0;
   }
   
   // the timer returns seconds, in whole numbers (integer)
@@ -69,8 +71,61 @@ public class Stage {
   }
 
   public void draw() {    
-        p.image(backdrops.get(backdropNumber), p.width/2, p.height/2, backdrops.get(backdropNumber).width,
+    int scrollXmod = scrollX % p.width;
+    int scrollYmod = scrollY % p.height;
+    // current logic doesn't check direction of scroll & draws unnecessary off-screen backdrops!
+      if ( (scrollXmod) != 0 && (scrollYmod) == 0) {
+        // scrolling X only. draw stages Y center
+        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width,
         backdrops.get(backdropNumber).height);
+        // for scrolling right, draw to the left of stage
+        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling left, draw to the right of stage
+        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+      } else if ( (scrollXmod) == 0 && (scrollYmod) != 0) {
+        // scrolling Y only. draw center stage
+        p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling right, draw to the left of stage
+        p.image(backdrops.get(backdropNumber), (p.width/2), 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling left, draw to the right of stage
+        p.image(backdrops.get(backdropNumber), (p.width/2), p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+      } else if ( (scrollXmod) != 0 && (scrollYmod) != 0) {
+        //*************** scrolling X and Y. draw stage Y top
+        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling right, draw to the left of stage
+        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling left, draw to the right of stage
+        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        //********** scrolling X and Y. draw center stages, 
+        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling right, draw to the left of stage
+        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling left, draw to the right of stage
+        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        //********** scrolling X and Y. draw bottom stages 
+        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling right, draw to the left of stage
+        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+        // for scrolling left, draw to the right of stage
+        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+      } else {
+        p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width,
+        backdrops.get(backdropNumber).height);
+      }
   }
 
   // load xy grid as backdrop 0
@@ -103,6 +158,11 @@ public class Stage {
   public void setBackdrop(int newBackdropNumber) {
     backdropNumber=newBackdropNumber;
     draw();
+  }
+  
+  public void scrollBackdrop(float x, float y) {
+    scrollX += x;
+    scrollY += y;
   }
 
   }

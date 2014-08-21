@@ -23,7 +23,7 @@ void setup() {
   cat = new Sprite(this);
   cat.loadDefaultCostumes();
   cat.setCostume(0);
-  cat.goToXY(0,0);
+  cat.goToXY(0,-100);
 }
   
 void draw() {
@@ -31,6 +31,7 @@ void draw() {
   cat.update();
   cat.move(2);
   cat.ghostEffect = 0;
+  stage.scrollBackdrop(-2,2);
 }
 
 void keyPressed() {
