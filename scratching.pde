@@ -12,23 +12,25 @@ static int leftArrow=2;
 static int rightArrow=3;
 
 void setup() {
-  // never change these first X lineswhy you so testy
-  
+  // never change these first 2 lines
   size(480, 360);
   stage = new Stage(this);
-  cat = new Sprite(this);
+  
   stage.loadDefaultBackdrop();
+  stage.setBackdrop(0);
+  //stage.update();
+  
+  cat = new Sprite(this);
   cat.loadDefaultCostumes();
   cat.setCostume(0);
-  stage.setBackdrop(0);
-  stage.update();
-  // add your own initialization code here
+  cat.goToXY(0,0);
 }
   
 void draw() {
-  cat.goToXY(0,0);
   stage.update();
   cat.update();
+  cat.move(2);
+  cat.ghostEffect = 0;
 }
 
 void keyPressed() {

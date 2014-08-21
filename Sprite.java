@@ -57,7 +57,7 @@ public class Sprite {
     //loadDefaultCostumes();
     size=100;
     rotationStyle=rotationStyle_LeftRight;
-    ghostEffect=255;
+    ghostEffect=0;
   }
 
   /* ==== Drawing ====
@@ -83,11 +83,13 @@ public class Sprite {
       // locked left-right rotation
       if (((direction<=270) & (direction>=90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
-      if (ghostEffect < 255) {
+      if (ghostEffect > 0) {
+        int calculatedAlpha = (int)p.map(ghostEffect,100,0,0,255);
+        
         int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
         for (int i=0; i<alpha.length; i++) {
           // only fade non-zero pixels; 0 is full-transparency
-          if (costumes.get(costumeNumber).pixels[i]!=0) alpha[i]=ghostEffect;
+          if (costumes.get(costumeNumber).pixels[i]!=0) alpha[i]=calculatedAlpha;
         }
         costumes.get(costumeNumber).mask(alpha);
       }
