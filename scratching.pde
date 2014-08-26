@@ -12,8 +12,7 @@ static int leftArrow=2;
 static int rightArrow=3;
 
 void setup() {
-  // never change these first 2 lines
-  size(480, 360);
+  size(500, 500);
   stage = new Stage(this);
   
   stage.loadDefaultBackdrop();
@@ -27,8 +26,8 @@ void setup() {
 }
   
 void draw() {
-  stage.update();
-  cat.update();
+  stage.draw();
+  cat.draw();
   cat.move(2);
   cat.ghostEffect = 0;
   stage.scrollBackdrop(-2,2);
@@ -56,7 +55,7 @@ void keyReleased() {
   if (key==CODED) {
    switch (keyCode) {
      case UP: arrowDown[upArrow]=false; break;
-     case DOWN: arrowDown[downArrow]=false;break;
+     case DOWN: arrowDown[downArrow]=false; break;
      case LEFT: arrowDown[leftArrow]=false;  break;
      case RIGHT: arrowDown[rightArrow]=false; break;
    }

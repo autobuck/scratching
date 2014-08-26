@@ -43,6 +43,13 @@ public class Sprite {
   public float spin = 0;
   public boolean penDown;
   
+  public int shieldHealth = 5;
+  public int pointValue = 10;
+  
+  // extended Sprite
+  public float xSpeed = 0;
+  public float ySpeed = 0;
+  
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
    * Use degrees() to convert to degrees; radians() to convert to
@@ -70,15 +77,13 @@ public class Sprite {
    * It may be easiest to store sprites in an array of Sprites,
    * and looping through the array to redraw all sprites.
    */
-  public void update() {    
+  public void draw() {    
     if (visible) {
       p.pushMatrix(); // save old visual style for other sprites
       // set the center of the screen to (0, 0)
-//      p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
-      p.translate((p.width/2)+pos.x, (p.height/2)-pos.y);    
-    
-      //p.print("x "); p.print(pos.x); p.print(" y "); p.println(pos.y);
-      
+      //p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
+      p.translate(pos.x, pos.y);    
+          
       p.imageMode(p.CENTER);
       // locked left-right rotation
       if (((direction<=270) & (direction>=90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
@@ -131,7 +136,6 @@ public class Sprite {
   public void nextCostume() { 
     costumeNumber++;
     if (costumeNumber > numberOfCostumes-1) costumeNumber=0;
-    p.println(numberOfCostumes);
   }
 
   // change to previous costume
@@ -205,11 +209,11 @@ public class Sprite {
 
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    pointTowardsXY(p.mouseX-(p.width/2),p.mouseY-(p.height/2));
+    pointTowardsXY(p.mouseX,p.mouseY);
   }
 
   /* move to specific location on grid */
-  public void goToXY(int x, int y) { 
+  public void goToXY(float x, float y) { 
     pos.x = x; pos.y = y;
   }
 
@@ -221,6 +225,7 @@ public class Sprite {
 
   // check if a Sprite is touching another Sprite using simple rectangular hit box
   public boolean touchingSprite(Sprite target) {
+    if (!visible || !target.visible) return false;
     boolean touchingX, touchingY;
     PVector testVector;
     touchingX=false; 
@@ -245,7 +250,7 @@ public class Sprite {
 
   // return distance to arbitrary grid position  
   public float distanceToMouse() { 
-    PVector temp = new PVector(p.mouseX-(p.width/2), p.mouseY-(p.height/2));
+    PVector temp = new PVector(p.mouseX, p.mouseY);
     return pos.dist(temp);
   }
 
@@ -253,4 +258,11 @@ public class Sprite {
   public float distanceToSprite(Sprite target) { 
     return distanceToXY((int)target.pos.x, (int)target.pos.y);
   }
+  
+  void wrapAtEdges() {
+    if (pos.x>p.width) pos.x=0;
+    if (pos.x<0) pos.x=p.width;
+    if (pos.y>p.height) pos.y=0;
+    if (pos.y<0) pos.y=p.height;
+  }  
 }
