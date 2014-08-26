@@ -86,7 +86,7 @@ public class Sprite {
           
       p.imageMode(p.CENTER);
       // locked left-right rotation
-      if (((direction<=270) & (direction>=90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
+      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
       if (ghostEffect > 0) {
         int calculatedAlpha = (int)p.map(ghostEffect,100,0,0,255);
