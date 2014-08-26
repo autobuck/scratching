@@ -121,7 +121,7 @@ public class Sprite {
   }
 
   // load "Scratch" cat costumes
-  public void loadDefaultCostumes() {
+  public void addDefaultCostumes() {
     addCostume("images/cat.costume1.png");
     addCostume("images/cat.costume2.png");
   }
