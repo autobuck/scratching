@@ -1,35 +1,35 @@
 Stage stage;
 Sprite cat;
 
-static int rotationStyle_AllAround=0;
-static int rotationStyle_LeftRight=1;
-static int rotationStyle_DontRotate=2;
-boolean[] keyIsDown = new boolean[256];
-boolean[] arrowDown = new boolean[4];
+static int rotationStyle_allAround=0;
+static int rotationStyle_leftRight=1;
+static int rotationStyle_dontRotate=2;
 static int upArrow=0;
 static int downArrow=1;
 static int leftArrow=2;
 static int rightArrow=3;
+boolean[] keyIsDown = new boolean[256];
+boolean[] arrowDown = new boolean[4];
+
 
 void setup() {
   size(500, 500);
   stage = new Stage(this);
   
-  stage.loadDefaultBackdrop();
+  stage.addDefaultBackdrop();
   stage.setBackdrop(0);
-  //stage.update();
   
   cat = new Sprite(this);
-  cat.loadDefaultCostumes();
+  cat.addDefaultCostumes();
   cat.setCostume(0);
-  cat.goToXY(0,-100);
+  cat.ghostEffect = 50;
+  cat.goToXY(0,height/2);
 }
   
 void draw() {
   stage.draw();
   cat.draw();
   cat.move(2);
-  cat.ghostEffect = 0;
   stage.scrollBackdrop(-2,2);
 }
 

@@ -30,9 +30,9 @@ public class Sprite {
 
   // without this, built-in functions are broken. use p.whatever to access functionality
   PApplet p;
-  static int rotationStyle_AllAround=0;
-  static int rotationStyle_LeftRight=1;
-  static int rotationStyle_DontRotate=2;
+  static int rotationStyle_allAround=0;
+  static int rotationStyle_leftRight=1;
+  static int rotationStyle_dontRotate=2;
   public int rotationStyle;
   public int costumeNumber, numberOfCostumes;
   public int ghostEffect;
@@ -42,14 +42,8 @@ public class Sprite {
   public PVector pos = new PVector(0, 0);
   public float spin = 0;
   public boolean penDown;
-  
-  public int shieldHealth = 5;
-  public int pointValue = 10;
-  
-  // extended Sprite
-  public float xSpeed = 0;
-  public float ySpeed = 0;
-  
+  public float lineOfSight = 180;
+
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
    * Use degrees() to convert to degrees; radians() to convert to
@@ -61,9 +55,8 @@ public class Sprite {
     costumeNumber=0;
     visible = true;
     numberOfCostumes=0;
-    //loadDefaultCostumes();
     size=100;
-    rotationStyle=rotationStyle_LeftRight;
+    rotationStyle=rotationStyle_leftRight;
     ghostEffect=0;
   }
 
@@ -86,8 +79,8 @@ public class Sprite {
           
       p.imageMode(p.CENTER);
       // locked left-right rotation
-      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_LeftRight) p.scale(-1.0f,1.0f);
-      if (rotationStyle==rotationStyle_AllAround) p.rotate(p.radians(-direction));
+      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f,1.0f);
+      if (rotationStyle==rotationStyle_allAround) p.rotate(p.radians(-direction));
       if (ghostEffect > 0) {
         int calculatedAlpha = (int)p.map(ghostEffect,100,0,0,255);
         
@@ -259,10 +252,36 @@ public class Sprite {
     return distanceToXY((int)target.pos.x, (int)target.pos.y);
   }
   
+   
   void wrapAtEdges() {
-    if (pos.x>p.width) pos.x=0;
-    if (pos.x<0) pos.x=p.width;
-    if (pos.y>p.height) pos.y=0;
-    if (pos.y<0) pos.y=p.height;
+    if (pos.x>p.width) pos.x -= p.width;
+    if (pos.x<0) pos.x += p.width;
+    if (pos.y>p.height) pos.y -= p.height;
+    if (pos.y<0) pos.y += p.height;
   }  
+  
+  PVector vectorForSpeed(float distance) {
+    PVector i = PVector.fromAngle(p.radians(-direction));
+    PVector j = new PVector(pos.x,pos.y);
+    i.mult(distance);
+    j.add(i);
+    j.x = j.x - pos.x;
+    j.y = j.y - pos.y;
+    return j;
+  }
+  
+  float directionTowards(Sprite target) {
+    PVector temp = new PVector(target.pos.x,target.pos.y);
+    float a = (p.degrees(p.atan2(pos.x - (target.pos.x), pos.y - (target.pos.y))))+90;
+    if (a < 0) a += 360;
+    return a;
+    //return p.atan2(pos.y - target.pos.y,pos.x - target.pos.x);
+  }
+
+  boolean facingSprite(Sprite target) {
+    float directionTo = directionTowards(target); //direction to other sprite
+    //p.println("1: "+direction+" 2: "+directionTo);
+    if (direction+(lineOfSight/2) > directionTo && direction-(lineOfSight/2) < directionTo) return true;
+    else return false;
+  }
 }
