@@ -54,7 +54,12 @@ public class Stage {
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
   int scrollX, scrollY;
   public PGraphics penLayer;
-
+  boolean askingQuestion = false;
+  String question = "What is your quest?";
+  String questionText = "";
+  String theAnswer = "";
+  PFont questionFont;
+ 
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
@@ -64,6 +69,9 @@ public class Stage {
     scrollX = 0; 
     scrollY = 0;
     penLayer = p.createGraphics(p.width, p.height);
+    questionFont = p.createFont("Helvetica", 18); 
+    p.textFont(questionFont,18);
+    p.imageMode(p.CENTER);
   }
 
   // the timer returns seconds, in whole numbers (integer)
@@ -75,11 +83,6 @@ public class Stage {
   // reset the stage timer
   public void resetTimer() {
     startTime = p.millis()/1000;
-  }
-
-
-  public void update() {
-    draw();
   }
 
   public void tile(int backdrop) {
@@ -157,6 +160,7 @@ public class Stage {
       backdrops.get(backdropNumber).height);
     }
     p.image(penLayer.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
+    if (askingQuestion) drawQuestionText(); // ask(question);
   }
 
   // load xy grid as backdrop 0
@@ -194,5 +198,51 @@ public class Stage {
   public void scrollBackdrop(float x, float y) {
     scrollX += x;
     scrollY += y;
+  }
+  
+    public void questionKeycheck() {
+     if (p.key != p.CODED) {
+     if (p.key==p.BACKSPACE)
+        questionText = questionText.substring(0,p.max(0,questionText.length()-1));
+     else if (p.key==p.TAB)
+        questionText += "    ";
+     else if (p.key==p.ENTER|p.key==p.RETURN) {
+        theAnswer = questionText;
+        questionText="";
+        askingQuestion = false;
+     }
+     else if (p.key==p.ESC|p.key==p.DELETE) {
+     }
+     else questionText += p.key;
+    }
+  }
+
+  public String answer() {
+    String finalResponse;
+    if (theAnswer!="") { 
+      finalResponse=theAnswer; 
+      return finalResponse; 
+    } 
+    else return "";
+  }
+
+  public void ask(String newQuestion) {
+    drawQuestionText();
+    theAnswer = "";
+    askingQuestion = true;
+    question = newQuestion;
+  }
+
+  public void drawQuestionText() {
+    p.pushStyle();
+    p.stroke(0);
+    p.fill(0,125,175);
+    p.rect(20,p.height-65,p.width-40,45,15);
+    p.fill(255);
+    p.rect(23,p.height-62,p.width-46,40,15);
+    p.fill(0,0,0);
+    p.textFont(questionFont,18);
+    p.text(question+" "+questionText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 30, p.height-35);
+    p.popStyle();
   }
 }

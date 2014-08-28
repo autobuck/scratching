@@ -37,6 +37,7 @@ void draw() {
 }
 
 void keyPressed() {
+ stage.questionKeycheck();
  if (key<256) {
    keyIsDown[key] = true; 
  }
