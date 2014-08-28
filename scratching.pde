@@ -43,7 +43,6 @@ void keyPressed() {
    keyIsDown[key] = true; 
  }
  if (key==CODED) {
-   //cat.nextCostume();
    switch (keyCode) {
      case UP: arrowDown[upArrow]=true; break;
      case DOWN: arrowDown[downArrow]=true; break;

@@ -86,6 +86,24 @@ public class Stage {
     draw();    
   }
 
+  public void tile(int backdrop) {
+    p.pushMatrix();
+    p.imageMode(p.CORNER);
+    int x = 0;
+    int y = 0;
+    while (x < p.width) {
+      y = 0;
+      while (y < p.height) {
+        p.image(backdrops.get(backdrop), x,y, backdrops.get(backdrop).width,
+        backdrops.get(backdrop).height);
+        y += backdrops.get(backdrop).height;
+      }
+      x += backdrops.get(backdrop).width;
+    }
+    p.image(penLayer.get(0,0,p.width,p.height),0, 0);
+    p.popMatrix();
+  }
+
   public void draw() {    
     int scrollXmod = scrollX % p.width;
     int scrollYmod = scrollY % p.height;
