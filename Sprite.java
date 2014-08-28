@@ -23,6 +23,8 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
+import processing.core.PGraphics;
+
 import java.util.ArrayList;
 
 
@@ -42,6 +44,8 @@ public class Sprite {
   public PVector pos = new PVector(0, 0);
   public boolean penDown;
   public float lineOfSight = 180;
+  public PGraphics penLayer;
+  boolean localPenLayer = false;
 
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
@@ -57,6 +61,8 @@ public class Sprite {
     size=100;
     rotationStyle=rotationStyle_leftRight;
     ghostEffect=0;
+    penLayer = p.createGraphics(p.width,p.height);
+    p.imageMode(p.CENTER);
   }
 
   /* ==== Drawing ====
@@ -69,14 +75,11 @@ public class Sprite {
    * It may be easiest to store sprites in an array of Sprites,
    * and looping through the array to redraw all sprites.
    */
-  public void draw() {    
+  public void draw() {
+    p.translate(pos.x, pos.y);    
+    if (localPenLayer) p.image(penLayer.get(0,0,p.width,p.height),p.width/2-pos.x, p.height/2-pos.y);
     if (visible) {
       p.pushMatrix(); // save old visual style for other sprites
-      // set the center of the screen to (0, 0)
-      //p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
-      p.translate(pos.x, pos.y);    
-          
-      p.imageMode(p.CENTER);
       // locked left-right rotation
       if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f,1.0f);
       if (rotationStyle==rotationStyle_allAround) p.rotate(p.radians(-direction));
@@ -107,9 +110,18 @@ public class Sprite {
      * fromAngle() makes a unit vector (length 1)
      * negative on direction is b/c processing flips the cartesian y axis
      */
-    PVector temp = PVector.fromAngle(p.radians(-direction));
-    temp.mult(distance);
-    pos.add(temp);
+     float oldX=0, oldY=0;
+     if (penDown) {
+       oldX = pos.x; oldY = pos.y;
+     }
+     PVector temp = PVector.fromAngle(p.radians(-direction));
+     temp.mult(distance);
+     pos.add(temp);
+     if (penDown) {
+       penLayer.beginDraw();
+       penLayer.line(oldX,oldY,pos.x,pos.y);
+       penLayer.endDraw();
+     }
   }
 
   // load "Scratch" cat costumes
@@ -282,5 +294,33 @@ public class Sprite {
     //p.println("1: "+direction+" 2: "+directionTo);
     if (direction+(lineOfSight/2) > directionTo && direction-(lineOfSight/2) < directionTo) return true;
     else return false;
+  }
+  
+  public void drawOnStage(Stage stage) {
+    penLayer = stage.penLayer;
+    localPenLayer = false;
+  }
+
+
+  public void penColor(int r, int g, int b) {
+    penLayer.beginDraw();
+    penLayer.stroke(p.color(r,g,b));
+    penLayer.endDraw();
+  }
+  
+    
+  public void penWidth(int penWidth) {
+    penLayer.beginDraw();
+    penLayer.strokeWeight(penWidth);
+    penLayer.endDraw();
+  }
+  
+  public void penClear() {
+    penLayer.clear();
+  }
+  
+  public void drawOwnPen() {
+    penLayer = p.createGraphics(p.width,p.height);
+    localPenLayer = true;
   }
 }

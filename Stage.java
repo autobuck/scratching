@@ -35,6 +35,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PFont;
 import java.util.ArrayList;
+import processing.core.PGraphics;
 
 public class Stage {
 
@@ -57,7 +58,8 @@ public class Stage {
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
   int scrollX, scrollY;
-  
+   public PGraphics penLayer;
+ 
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
@@ -65,6 +67,7 @@ public class Stage {
     startTime=0;
     resetTimer();
     scrollX = 0; scrollY = 0;
+    penLayer = p.createGraphics(p.width,p.height);
   }
   
   // the timer returns seconds, in whole numbers (integer)
@@ -87,7 +90,7 @@ public class Stage {
     int scrollXmod = scrollX % p.width;
     int scrollYmod = scrollY % p.height;
     // current logic doesn't check direction of scroll & draws unnecessary off-screen backdrops!
-      if ( (scrollXmod) != 0 && (scrollYmod) == 0) {
+     if ( (scrollXmod) != 0 && (scrollYmod) == 0) {
         // scrolling X only. draw stages Y center
         p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width,
         backdrops.get(backdropNumber).height);
@@ -138,8 +141,10 @@ public class Stage {
       } else {
         p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width,
         backdrops.get(backdropNumber).height);
+
       }
-  }
+      p.image(penLayer.get(0,0,p.width,p.height),(p.width/2), (p.height/2));
+}
 
   // load xy grid as backdrop 0
   public void addDefaultBackdrop() {

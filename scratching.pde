@@ -22,15 +22,20 @@ void setup() {
   cat = new Sprite(this);
   cat.addDefaultCostumes();
   cat.setCostume(0);
-  cat.ghostEffect = 50;
   cat.goToXY(0,height/2);
+  cat.penDown = true;
+  //cat.drawOnStage(stage);
+  cat.drawOwnPen();
+  cat.penWidth(3);
+  cat.penColor(255,0,0);
 }
   
 void draw() {
   stage.draw();
   cat.draw();    
   cat.move(2);
-  stage.scrollBackdrop(2,0);
+  //if (frameCount % 50 == 0) cat.penClear();
+  cat.wrapAtEdges();
 }
 
 void keyPressed() {
