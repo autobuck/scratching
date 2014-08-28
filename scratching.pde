@@ -11,7 +11,6 @@ static int rightArrow=3;
 boolean[] keyIsDown = new boolean[256];
 boolean[] arrowDown = new boolean[4];
 
-
 void setup() {
   size(500, 500);
   stage = new Stage(this);
@@ -24,8 +23,8 @@ void setup() {
   cat.setCostume(0);
   cat.goToXY(0,height/2);
   cat.penDown = true;
-  //cat.drawOnStage(stage);
-  cat.drawOwnPen();
+  cat.drawOnStage(stage);
+  //cat.drawOwnPen();
   cat.penWidth(3);
   cat.penColor(255,0,0);
 }
@@ -34,7 +33,6 @@ void draw() {
   stage.draw();
   cat.draw();    
   cat.move(2);
-  //if (frameCount % 50 == 0) cat.penClear();
   cat.wrapAtEdges();
 }
 

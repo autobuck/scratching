@@ -48,34 +48,30 @@ public class Stage {
   // You may use your own art for your own project by adding PNG or JPG art to the file folder,
   // and changing the "addDefaultBackdrops()" function below.
   // 
-  // Backdrop 0 should always the X/Y grid, for debugging movement
-  public static final int bg_grid=0;
-  public static final int bg_title=1;
-  public static final int bg_highway=2;
-  public static final int bg_gameover=3;
-
+  // Use Stage.addDefaultBackdrop(); for the the X/Y grid, for debugging movement
   public int startTime;
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
   int scrollX, scrollY;
-   public PGraphics penLayer;
- 
+  public PGraphics penLayer;
+
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
     numberOfBackdrops=0;
     startTime=0;
     resetTimer();
-    scrollX = 0; scrollY = 0;
-    penLayer = p.createGraphics(p.width,p.height);
+    scrollX = 0; 
+    scrollY = 0;
+    penLayer = p.createGraphics(p.width, p.height);
   }
-  
+
   // the timer returns seconds, in whole numbers (integer)
   public int timer() {
     int temp = p.millis()/1000;
     return temp-startTime;
   } 
-  
+
   // reset the stage timer
   public void resetTimer() {
     startTime = p.millis()/1000;
@@ -83,7 +79,7 @@ public class Stage {
 
 
   public void update() {
-    draw();    
+    draw();
   }
 
   public void tile(int backdrop) {
@@ -94,13 +90,13 @@ public class Stage {
     while (x < p.width) {
       y = 0;
       while (y < p.height) {
-        p.image(backdrops.get(backdrop), x,y, backdrops.get(backdrop).width,
+        p.image(backdrops.get(backdrop), x, y, backdrops.get(backdrop).width, 
         backdrops.get(backdrop).height);
         y += backdrops.get(backdrop).height;
       }
       x += backdrops.get(backdrop).width;
     }
-    p.image(penLayer.get(0,0,p.width,p.height),0, 0);
+    p.image(penLayer.get(0, 0, p.width, p.height), 0, 0);
     p.popMatrix();
   }
 
@@ -108,67 +104,66 @@ public class Stage {
     int scrollXmod = scrollX % p.width;
     int scrollYmod = scrollY % p.height;
     // current logic doesn't check direction of scroll & draws unnecessary off-screen backdrops!
-     if ( (scrollXmod) != 0 && (scrollYmod) == 0) {
-        // scrolling X only. draw stages Y center
-        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling right, draw to the left of stage
-        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling left, draw to the right of stage
-        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-      } else if ( (scrollXmod) == 0 && (scrollYmod) != 0) {
-        // scrolling Y only. draw center stage
-        p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling right, draw to the left of stage
-        p.image(backdrops.get(backdropNumber), (p.width/2), 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling left, draw to the right of stage
-        p.image(backdrops.get(backdropNumber), (p.width/2), p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-      } else if ( (scrollXmod) != 0 && (scrollYmod) != 0) {
-        //*************** scrolling X and Y. draw stage Y top
-        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling right, draw to the left of stage
-        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling left, draw to the right of stage
-        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        //********** scrolling X and Y. draw center stages, 
-        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling right, draw to the left of stage
-        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling left, draw to the right of stage
-        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        //********** scrolling X and Y. draw bottom stages 
-        p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling right, draw to the left of stage
-        p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-        // for scrolling left, draw to the right of stage
-        p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-      } else {
-        p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width,
-        backdrops.get(backdropNumber).height);
-
-      }
-      p.image(penLayer.get(0,0,p.width,p.height),(p.width/2), (p.height/2));
-}
+    if ( (scrollXmod) != 0 && (scrollYmod) == 0) {
+      // scrolling X only. draw stages Y center
+      p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling right, draw to the left of stage
+      p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling left, draw to the right of stage
+      p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, (p.height/2), backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+    } else if ( (scrollXmod) == 0 && (scrollYmod) != 0) {
+      // scrolling Y only. draw center stage
+      p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling right, draw to the left of stage
+      p.image(backdrops.get(backdropNumber), (p.width/2), 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling left, draw to the right of stage
+      p.image(backdrops.get(backdropNumber), (p.width/2), p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+    } else if ( (scrollXmod) != 0 && (scrollYmod) != 0) {
+      //*************** scrolling X and Y. draw stage Y top
+      p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling right, draw to the left of stage
+      p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling left, draw to the right of stage
+      p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, (p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      //********** scrolling X and Y. draw center stages, 
+      p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling right, draw to the left of stage
+      p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling left, draw to the right of stage
+      p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, 0-(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      //********** scrolling X and Y. draw bottom stages 
+      p.image(backdrops.get(backdropNumber), (p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling right, draw to the left of stage
+      p.image(backdrops.get(backdropNumber), 0-(p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+      // for scrolling left, draw to the right of stage
+      p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+    } else {
+      p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
+    }
+    p.image(penLayer.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
+  }
 
   // load xy grid as backdrop 0
   public void addDefaultBackdrop() {
     addBackdrop("images/xy-grid.png");
   }
-    
+
 
   // add costume from bitmap image file
   public void addBackdrop(String filePath) {
@@ -195,9 +190,9 @@ public class Stage {
     backdropNumber=newBackdropNumber;
     draw();
   }
-  
+
   public void scrollBackdrop(float x, float y) {
     scrollX += x;
     scrollY += y;
   }
-  }
+}

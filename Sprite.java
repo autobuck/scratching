@@ -61,7 +61,7 @@ public class Sprite {
     size=100;
     rotationStyle=rotationStyle_leftRight;
     ghostEffect=0;
-    penLayer = p.createGraphics(p.width,p.height);
+    penLayer = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
   }
 
@@ -76,16 +76,17 @@ public class Sprite {
    * and looping through the array to redraw all sprites.
    */
   public void draw() {
+    p.pushMatrix(); // save old visual style for other sprites
+
     p.translate(pos.x, pos.y);    
-    if (localPenLayer) p.image(penLayer.get(0,0,p.width,p.height),p.width/2-pos.x, p.height/2-pos.y);
+    if (localPenLayer) p.image(penLayer.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
     if (visible) {
-      p.pushMatrix(); // save old visual style for other sprites
       // locked left-right rotation
-      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f,1.0f);
+      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f, 1.0f);
       if (rotationStyle==rotationStyle_allAround) p.rotate(p.radians(-direction));
       if (ghostEffect > 0) {
-        int calculatedAlpha = (int)p.map(ghostEffect,100,0,0,255);
-        
+        int calculatedAlpha = (int)p.map(ghostEffect, 100, 0, 0, 255);
+
         int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
         for (int i=0; i<alpha.length; i++) {
           // only fade non-zero pixels; 0 is full-transparency
@@ -93,11 +94,10 @@ public class Sprite {
         }
         costumes.get(costumeNumber).mask(alpha);
       }
-      p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
-        costumes.get(costumeNumber).height*(size/100));
-        
-      p.popMatrix(); // restore default visual style
+      p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100), 
+      costumes.get(costumeNumber).height*(size/100));
     }
+    p.popMatrix(); // restore default visual style
   }
 
   // set transparency effect
@@ -110,18 +110,19 @@ public class Sprite {
      * fromAngle() makes a unit vector (length 1)
      * negative on direction is b/c processing flips the cartesian y axis
      */
-     float oldX=0, oldY=0;
-     if (penDown) {
-       oldX = pos.x; oldY = pos.y;
-     }
-     PVector temp = PVector.fromAngle(p.radians(-direction));
-     temp.mult(distance);
-     pos.add(temp);
-     if (penDown) {
-       penLayer.beginDraw();
-       penLayer.line(oldX,oldY,pos.x,pos.y);
-       penLayer.endDraw();
-     }
+    float oldX=0, oldY=0;
+    if (penDown) {
+      oldX = pos.x; 
+      oldY = pos.y;
+    }
+    PVector temp = PVector.fromAngle(p.radians(-direction));
+    temp.mult(distance);
+    pos.add(temp);
+    if (penDown) {
+      penLayer.beginDraw();
+      penLayer.line(oldX, oldY, pos.x, pos.y);
+      penLayer.endDraw();
+    }
   }
 
   // load "Scratch" cat costumes
@@ -208,17 +209,18 @@ public class Sprite {
 
   /* Sets the direction to point towards another Sprite. */
   public void pointTowards(Sprite target) {
-    pointTowardsXY((int)target.pos.x,(int)target.pos.y);
+    pointTowardsXY((int)target.pos.x, (int)target.pos.y);
   }
 
   /* Same as above, but for mouse. */
   public void pointTowardsMouse() {
-    pointTowardsXY(p.mouseX,p.mouseY);
+    pointTowardsXY(p.mouseX, p.mouseY);
   }
 
   /* move to specific location on grid */
   public void goToXY(float x, float y) { 
-    pos.x = x; pos.y = y;
+    pos.x = x; 
+    pos.y = y;
   }
 
   // move to position of Sprite object
@@ -249,7 +251,7 @@ public class Sprite {
   // return distance to arbitrary grid position  
   public float distanceToXY(int x, int y) { 
     PVector temp = new PVector(x, y);
-    return pos.dist(temp); 
+    return pos.dist(temp);
   }
 
   // return distance to arbitrary grid position  
@@ -262,27 +264,27 @@ public class Sprite {
   public float distanceToSprite(Sprite target) { 
     return distanceToXY((int)target.pos.x, (int)target.pos.y);
   }
-  
-   
+
+
   void wrapAtEdges() {
     if (pos.x>p.width) pos.x -= p.width;
     if (pos.x<0) pos.x += p.width;
     if (pos.y>p.height) pos.y -= p.height;
     if (pos.y<0) pos.y += p.height;
   }  
-  
+
   PVector vectorForSpeed(float distance) {
     PVector i = PVector.fromAngle(p.radians(-direction));
-    PVector j = new PVector(pos.x,pos.y);
+    PVector j = new PVector(pos.x, pos.y);
     i.mult(distance);
     j.add(i);
     j.x = j.x - pos.x;
     j.y = j.y - pos.y;
     return j;
   }
-  
+
   float directionTowards(Sprite target) {
-    PVector temp = new PVector(target.pos.x,target.pos.y);
+    PVector temp = new PVector(target.pos.x, target.pos.y);
     float a = (p.degrees(p.atan2(pos.x - (target.pos.x), pos.y - (target.pos.y))))+90;
     if (a < 0) a += 360;
     return a;
@@ -295,7 +297,7 @@ public class Sprite {
     if (direction+(lineOfSight/2) > directionTo && direction-(lineOfSight/2) < directionTo) return true;
     else return false;
   }
-  
+
   public void drawOnStage(Stage stage) {
     penLayer = stage.penLayer;
     localPenLayer = false;
@@ -304,23 +306,23 @@ public class Sprite {
 
   public void penColor(int r, int g, int b) {
     penLayer.beginDraw();
-    penLayer.stroke(p.color(r,g,b));
+    penLayer.stroke(p.color(r, g, b));
     penLayer.endDraw();
   }
-  
-    
+
+
   public void penWidth(int penWidth) {
     penLayer.beginDraw();
     penLayer.strokeWeight(penWidth);
     penLayer.endDraw();
   }
-  
+
   public void penClear() {
     penLayer.clear();
   }
-  
+
   public void drawOwnPen() {
-    penLayer = p.createGraphics(p.width,p.height);
+    penLayer = p.createGraphics(p.width, p.height);
     localPenLayer = true;
   }
 }
