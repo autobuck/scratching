@@ -28,9 +28,9 @@ void setup() {
   
 void draw() {
   stage.draw();
-  cat.draw();
+  cat.draw();    
   cat.move(2);
-  stage.scrollBackdrop(-2,2);
+  stage.scrollBackdrop(2,0);
 }
 
 void keyPressed() {

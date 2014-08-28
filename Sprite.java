@@ -40,7 +40,6 @@ public class Sprite {
   public boolean visible;
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector pos = new PVector(0, 0);
-  public float spin = 0;
   public boolean penDown;
   public float lineOfSight = 180;
 
