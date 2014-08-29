@@ -1,6 +1,6 @@
 # scratching
 
-### scratching allows you to write Scratch programs in Processing.
+### Scratching allows you to write Scratch programs in Processing.
 
 written by Buck Bailey and Eli Baum, 2014
 
@@ -71,95 +71,101 @@ You know what else you shouldn't forget? ***Semicolons!***
 
 Next, we have the `draw` function. The draw functions runs over and over again. So you can use to repeatedly draw to or update the window. Because of this, if you only want to draw something once (something that never needs to be updated), you can just put it in `setup`.
 
-`background(0);` You'll probably always want this line at the beginning of your draw function. It clears the screnn: the argument is a color. 0 is black, 255 is white, everything in between is gray.
+`background(0);` You'll probably always want this line at the beginning of your draw function. It clears the screen: the argument is a color. 0 is black, 255 is white, everything in between is gray.
 
-If you didn't clear the background, you would just keep seeing new images of the cat sprite on top of eachother.
+If you didn't clear the background, you would just keep seeing new images of the cat sprite on top of each other.
 
 `cat.move(2);` As you can probably guess, this command **moves** the **cat** sprite **2** pixels. Note that because the draw functions loops over and over again, the cat repeatedly moves 2 pixels — the result is that you see smooth motion on your screen.
 
-`cat.update();` This actually draws the cat to the screen.
+`cat.draw();` This actually draws the cat to the screen.
 
 ---
 ## Full Command Reference
 In no particular order.
 
 #### Sprite Commands
+“cat.” indicates an example Sprite name.
 
 `Sprite(PApplet parent)` Creates a new sprite in the specified `PApplet`. Will usually be `this`.
 
-`void update()` Draw the sprite.
+`void cat.draw()` Draw the sprite.
 
-`void setGhostEffect(int newAlpha)` Sets the ghost effect (transparency). 0 is fully transparent; 255 is fully opaque.
+`void cat.setGhostEffect(int newAlpha)` Sets the ghost effect (transparency). 0 is fully transparent; 255 is fully opaque.
+(You can also use `cat.ghostEffect = newValue`)
 
-`void move(int distance)` Move the sprite some distance (in pixels). Note that this function accounts for the sprite's current angle.
+`void cat.move(int distance)` Move the sprite some distance (in pixels). Note that this function accounts for the sprite's current angle.
 
-`void loadDefaultCostumes()` Loads the default cat costumes.
+`void cat.addDefaultCostumes()` Loads the default cat costumes.
 
-`void addCostume(String filePath)` Add the costume image at the specified path. Image types `.gif`, `.jpg`, `.tga`, `.png`.
+`void cat.addCostume(String filePath)` Add the costume image at the specified path. Image types `.gif`, `.jpg`, `.tga`, `.png`.
 
-`void nextCostume()` Switch to the next costume. Will wrap around to the first costume.
+`void cat.nextCostume()` Switch to the next costume. Will wrap around to the first costume.
 
-`void previousCostume()` Switch to the previous costume. Will wrap around to the last costume.
+`void cat.previousCostume()` Switch to the previous costume. Will wrap around to the last costume.
 
-`void setCostume(int newCostumeNumber)` Switch to the specified costume. Be aware that the costume list is zero-index, so `setCostume(0)` will set the sprite to the first costume.
+`void cat.setCostume(int newCostumeNumber)` Switch to the specified costume. Be aware that the costume list is zero-index, so `setCostume(0)` will set the sprite to the first costume.
+You can also set the value directly: `cat.costumeNumber = int`
 
-`void show()` Show the sprite.
+`void cat.show()` Show the sprite.
 
-`void hide()` Hide the sprite.
+`void cat.hide()` Hide the sprite.
 
-`void say(String what)` Say something (in the console).
+You can also set `cat.visible = true/false`
 
-`void think(String what)` Think something (in the console).
+`void cat.say(String what)` Say something (in the console).
 
-`void turn(float angle)` Turn by specified angle, **degrees**.
+`void cat.think(String what)` Think something (in the console).
 
-`void turnLeft(float angle)	` Turn left.
+`void cat.turn(float angle)` Turn by specified angle, **degrees**.
 
-`void turnRight(float angle)` Turn right.
+`void cat.turnLeft(float angle)	` Turn left.
 
-`void pointTowards(int x, int y)` Point towards the coordinates (x, y).
+`void cat.turnRight(float angle)` Turn right.
 
-`void pointInDirection(float angle)` Point in the specified direction, **degrees**.
+`void cat.pointTowardsXY(int x, int y)` Point towards the coordinates (x, y).
 
-`void pointTowards(Sprite target)` Point towards another sprite.
+`void cat.pointInDirection(float angle)` Point in the specified direction, **degrees**.
+Same as `cat.direction = angle`
 
-`void pointTowardsMouse()` Points towards the mouse pointer. This will only work if the mouse pointer is contained within the applet window.
+`void cat.pointTowardsSprite(Sprite target)` Point towards another sprite.
 
-`void goToXY(int x, int y)` Sets the sprite's position to (x, y).
+`void cat.pointTowardsMouse()` Points towards the mouse pointer. This will only work if the mouse pointer is contained within the applet window.
 
-`void goToSprite(Sprite target)` Set the sprite's position to that of another sprite.
+`void cat.goToXY(int x, int y)` Sets the sprite's position to (x, y).
 
-`boolean touchingSprite(Sprite target)` Returns true if the sprite is within the rectangular bounding box of anotehr sprite.
+`void cat.goToSprite(Sprite target)` Set the sprite's position to that of another sprite.
 
-`float distanceToXY(int x, int y)` Returns the distance to another point.
+`boolean cat.touchingSprite(Sprite target)` Returns true if the sprite is within the rectangular bounding box of another sprite.
 
-`float distanceToMouse()` Returns the distance to the mouse pointer.
+`float cat.distanceToXY(int x, int y)` Returns the distance to another point.
 
-`float distanceToSprite(Sprite target)` Returns the distance to another sprite.
+`float cat.distanceToMouse()` Returns the distance to the mouse pointer.
+
+`float cat.distanceToSprite(Sprite target)` Returns the distance to another sprite.
 
 #### Stage Commands
 You can use a stage if you don't want just a boring solid-color static background.
 
 `Stage(PApplet parent)` Creates a stage in the specified applet. Will probably be `this`.
 
-`int timer()` Returns the number of seconds since the program started.
+`void stage.draw()` Draw the stage.
 
-`void resetTime()` Set the timer to 0.
+`int stage.timer()` Returns the number of seconds since the program started.
 
-`void update()` Draw the stage.
+`void stage.resetTimer()` Set the timer to 0.
 
-`void questionKeycheck()` Run this inside of a keypress event if you are expecting responses.
+`void stage.questionKeycheck()` Run this inside of a keypress event if you are expecting responses.
 
-`String answer()` Returns the answer to the asked question.
+`String stage.answer()` Returns the answer to the asked question.
 
-`void ask(String newQuestion)` Ask a question.
+`void stage.ask(String newQuestion)` Ask a question.
 
-`void loadDefaultBackdrop()` Load the default backdrop(s) into the backdrop list.
+`void stage.addDefaultBackdrop()` Load the default backdrop(s) into the backdrop list.
 
-`void addBackdrop(String filePath)` Add the backdrop image specified by the path.
+`void stage.addBackdrop(String filePath)` Add the backdrop image specified by the path.
 
-`void nextBackdrop()` Switch to the next backdrop.
+`void stage.nextBackdrop()` Switch to the next backdrop.
 
-`void previousBackdrop()` Switch to the previous backdrop.
+`void stage.previousBackdrop()` Switch to the previous backdrop.
 
-`void setBackdrop(int newBackdropNumber)` Switch to the specified (zero-indexed) backdrop.
+`void stage.setBackdrop(int newBackdropNumber)` Switch to the specified (zero-indexed) backdrop.
