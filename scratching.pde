@@ -10,6 +10,8 @@ static int leftArrow=2;
 static int rightArrow=3;
 boolean[] keyIsDown = new boolean[256];
 boolean[] arrowDown = new boolean[4];
+ArrayList lines = new ArrayList<String>();
+  int current = 0;
 
 void setup() {
   size(500, 500);
@@ -26,17 +28,32 @@ void setup() {
   cat.drawOnStage(stage);
   //cat.drawOwnPen();
   cat.penWidth(3);
-  cat.penColor(255,0,0);
+  cat.penColor((int)random(0,255),(int)random(0,255),(int)random(0,255));
+  
+  lines.add("It's BACON!!!");
+  lines.add("This ought to be roughly two lines, with a bit more.");
+  lines.add("Bacon ipsum dolor sit amet bresaola frankfurter prosciutto turkey, pork loin strip steak spare ribs bacon ball tip landjaeger capicola ribeye. Jerky pork belly turducken, landjaeger spare ribs meatball rump. Porchetta pork belly andouille ground round. Short ribs pancetta swine porchetta kielbasa pork chop ribeye frankfurter. Tail shankle biltong beef ribs ball tip chicken meatloaf turkey. Kevin rump frankfurter, boudin biltong kielbasa spare ribs tenderloin porchetta ground round tri-tip venison ham hock doner meatball.");
 }
   
 void draw() {
   stage.draw();
   cat.draw();    
   cat.move(2);
+  cat.colorEffect += 1;
+  if (arrowDown[upArrow]) cat.pos.y -= 10;
+  if (arrowDown[downArrow]) cat.pos.y += 10;
   cat.wrapAtEdges();
+  cat.think(""+lines.get(current));
+}
+
+void nextLine() {
+  current++;
+  if (current > lines.size()-1) current = 0;
+  println(current+" "+lines.size());
 }
 
 void keyPressed() {
+  if (key==' ') nextLine();
  stage.questionKeycheck();
  if (key<256) {
    keyIsDown[key] = true; 

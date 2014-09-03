@@ -53,7 +53,7 @@ public class Stage {
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
   int scrollX, scrollY;
-  public PGraphics penLayer;
+  public PGraphics pen;
   boolean askingQuestion = false;
   String question = "What is your quest?";
   String questionText = "";
@@ -68,7 +68,7 @@ public class Stage {
     resetTimer();
     scrollX = 0; 
     scrollY = 0;
-    penLayer = p.createGraphics(p.width, p.height);
+    pen = p.createGraphics(p.width, p.height);
     questionFont = p.createFont("Helvetica", 18); 
     p.textFont(questionFont,18);
     p.imageMode(p.CENTER);
@@ -99,7 +99,7 @@ public class Stage {
       }
       x += backdrops.get(backdrop).width;
     }
-    p.image(penLayer.get(0, 0, p.width, p.height), 0, 0);
+    p.image(pen.get(0, 0, p.width, p.height), 0, 0);
     p.popMatrix();
   }
 
@@ -159,7 +159,7 @@ public class Stage {
       p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width, 
       backdrops.get(backdropNumber).height);
     }
-    p.image(penLayer.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
+    p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
     if (askingQuestion) drawQuestionText(); // ask(question);
   }
 
