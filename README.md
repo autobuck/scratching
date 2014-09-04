@@ -243,18 +243,16 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 *Timer*
 
 
-`void resetTimer()` Set the timer to 0.
+`void addTimer()` Adds additional timers. Timer 0 is created when the Stage is initialized.
 
-`void addTimer()` Adds additional timer values. You start with 0, then add 1, 2, and so on.
+`void resetTimer()` Sets timer 0 to 0.
 
 `void resetTimer(int number)` Resets a specific timer.
 
-`float timer(int timerNumber)` Returns time since timer X was initialized or reset.
+`float timer()` Returns a decimal value for the default timer, 0.
 
-`float timer()` Returns a decimal value for the number of seconds since the program started.
+`float timer(int timerNumber)` Returns time since timer X was initialized (or reset).
 
-
-`void resetTimer(int timerNumber)` Resets a specific timer.
 
 
 
