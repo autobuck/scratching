@@ -44,6 +44,7 @@ void draw() {
   if (arrowDown[downArrow]) cat.pos.y += 10;
   cat.wrapAtEdges();
   cat.think(""+lines.get(current));
+  stage.scrollBackdrop(0,-2);
 }
 
 void nextLine() {

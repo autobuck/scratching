@@ -85,7 +85,7 @@ public class Stage {
     startTime = p.millis()/1000;
   }
 
-  public void tile(int backdrop) {
+  public void drawTiled() {
     p.pushMatrix();
     p.imageMode(p.CORNER);
     int x = 0;
@@ -93,11 +93,11 @@ public class Stage {
     while (x < p.width) {
       y = 0;
       while (y < p.height) {
-        p.image(backdrops.get(backdrop), x, y, backdrops.get(backdrop).width, 
-        backdrops.get(backdrop).height);
-        y += backdrops.get(backdrop).height;
+        p.image(backdrops.get(backdropNumber), x, y, backdrops.get(backdropNumber).width, 
+        backdrops.get(backdropNumber).height);
+        y += backdrops.get(backdropNumber).height;
       }
-      x += backdrops.get(backdrop).width;
+      x += backdrops.get(backdropNumber).width;
     }
     p.image(pen.get(0, 0, p.width, p.height), 0, 0);
     p.popMatrix();

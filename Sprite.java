@@ -139,6 +139,11 @@ public class Sprite {
     ghostEffect = newAlpha;
   }
 
+  public void setColorEffect(int newModifier) {
+    colorEffect = newModifier;
+  }
+
+
   public void move(int distance) {
     /* Create a new vector, representing the desired motion (angle + distance) 
      * fromAngle() makes a unit vector (length 1)
@@ -392,8 +397,13 @@ public class Sprite {
   }
 
   // conversely, returns a direction for given X and Y vector 
-  float directionForSpeed(float x, float y) {
+  float directionForVector(float x, float y) {
     return directionToXY(pos.x+x, pos.y+y);
+  }
+  
+  // will return "move" speed of given x, y vector
+  float speedForVector(float x, float y) {
+    return -99;
   }
 
   // returns direction pointing towards given X, Y coordinates
@@ -413,6 +423,7 @@ public class Sprite {
      return a;*/
     return directionToXY(target.pos.x, target.pos.y);
   }
+
 
   boolean withinSightRange(Sprite target, float range) {
     float directionTo = directionToSprite(target); //direction to other sprite
@@ -476,6 +487,14 @@ public class Sprite {
     pen.beginDraw();
     pen.clear();
     pen.endDraw();
+  }
+  
+  public void penUp() {
+    penDown = false;
+  }
+  
+  public void penDown() {
+    penDown = true;
   }
 }
 
