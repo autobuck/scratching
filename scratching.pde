@@ -45,6 +45,7 @@ void draw() {
   cat.wrapAtEdges();
   cat.think(""+lines.get(current));
   stage.scrollBackdrop(0,-2);
+  println(stage.timer());
 }
 
 void nextLine() {

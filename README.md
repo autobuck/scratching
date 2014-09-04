@@ -242,9 +242,20 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 
 *Timer*
 
-`int timer()` Returns the number of seconds since the program started.
 
 `void resetTimer()` Set the timer to 0.
+
+`void addTimer()` Adds additional timer values. You start with 0, then add 1, 2, and so on.
+
+`void resetTimer(int number)` Resets a specific timer.
+
+`float timer(int timerNumber)` Returns time since timer X was initialized or reset.
+
+`float timer()` Returns a decimal value for the number of seconds since the program started.
+
+
+`void resetTimer(int timerNumber)` Resets a specific timer.
+
 
 
 *”Ask” functionality to read a String of user input
