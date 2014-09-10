@@ -58,6 +58,7 @@ public class Sprite {
     float sayWidth = 0;
     int numberOfLines = 0;
     float sayHeight = 0;
+    int dialogEndTime = -1;
   // add more variables (such as "int health") below to extend the Sprite's capabilities
 
   /* DIRECTION IS IN DEGREES! any math will require conversion.
@@ -133,7 +134,17 @@ public class Sprite {
         costumeToDraw.mask(alpha);
       }
       p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
-      if (speaking) p.image(dialog.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
+      if (speaking) {
+        float xMod = 0-50;
+        if (size>100) xMod = 0-(50*(size/100)); //0-(costumes.get(costumeNumber).width)*(size/100);
+        float yMod = 0-(sayHeight+((costumes.get(costumeNumber).height/2)*(size/100)))-30;
+        if (xMod+pos.x < 0) xMod += p.abs(0-(xMod+pos.x));
+        if (xMod+pos.x+sayWidth+(sayMargin*2) > p.width) xMod -= p.abs(p.width-(xMod+pos.x+sayWidth+(sayMargin*2)));
+        if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
+        if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
+        p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod , p.height/2+yMod);
+      }
+      if (dialogEndTime != -1 && dialogEndTime < p.millis()) { speaking = false; dialogEndTime = -1; }
     }
     p.popMatrix(); // restore default visual style
   }
@@ -209,6 +220,12 @@ public class Sprite {
   
   // draws a text bubble with triangle arrow indicating speaking sprite
   public void say(String what) {
+    say(what,-1);
+  }
+  
+  // draws a text bubble with triangle arrow indicating speaking sprite
+  public void say(String what,int seconds) {
+    if (seconds != -1) dialogEndTime = p.millis()+(seconds*1000);
     dialogCalc(what);
     dialog.beginDraw();
     dialog.clear();
@@ -222,10 +239,16 @@ public class Sprite {
     dialog.endDraw();
     dialogWrite(what);
   }
-  
+
   // draw a text bubble with "thinking" bubbles indicating speaker
   public void think(String what) {
+    think(what,-1);
+  }
+
+  // draw a text bubble with "thinking" bubbles indicating speaker
+  public void think(String what, int seconds) {
     dialogCalc(what);
+    if (seconds != -1) dialogEndTime = p.millis()+(seconds*1000);
     dialog.beginDraw();
     dialog.clear();
     dialog.strokeWeight(2);
@@ -243,8 +266,8 @@ public class Sprite {
   public void dialogCalc(String what) {
     sayMargin = 10;
     lineHeight = 26;
-    sayX = pos.x - 50;
-    sayY = pos.y - 100;
+    sayX = 0-costumes.get(costumeNumber).width*(size/100); //pos.x - 50;
+    sayY = 0-costumes.get(costumeNumber).height*(size/100); //pos.y - 100;
     sayWidth = 0;
     numberOfLines = 1+(int)(what.length() / 30);
     sayHeight = lineHeight*(numberOfLines);

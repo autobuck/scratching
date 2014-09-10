@@ -25,6 +25,7 @@ void setup() {
   cat.setCostume(0);
   cat.goToXY(0,height/2);
   cat.penDown = true;
+  cat.size=100;
   cat.drawOnStage(stage);
   //cat.drawOwnPen();
   cat.penWidth(3);
@@ -43,8 +44,11 @@ void draw() {
   cat.colorEffect += 1;
   if (arrowDown[upArrow]) cat.pos.y -= 10;
   if (arrowDown[downArrow]) cat.pos.y += 10;
+  if (arrowDown[leftArrow]) cat.size -= 10;
+  if (arrowDown[rightArrow]) cat.size += 10;
   cat.wrapAtEdges();
-  cat.think(""+lines.get(current));
+  //cat.think(""+lines.get(current));
+  
   stage.scrollBackdrop(0,-2);
   println(stage.timer());
 }
@@ -56,7 +60,10 @@ void nextLine() {
 }
 
 void keyPressed() {
- if (key == ' ') nextLine();
+ if (key == ' ') { 
+   nextLine(); 
+   cat.think(""+lines.get(current)); 
+ }
  if (stage.askingQuestion) stage.questionKeycheck();
  if (key<256) {
    keyIsDown[key] = true; 

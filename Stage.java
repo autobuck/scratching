@@ -218,6 +218,7 @@ public class Stage {
     draw();
   }
 
+  // "scrolls" backdrop in any direction. Backdrop repeats.  
   public void scrollBackdrop(float x, float y) {
     scrollX += x;
     scrollY += y;
