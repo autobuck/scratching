@@ -93,9 +93,13 @@ public class Sprite {
    */
 
   public void draw() {
+    stamp(pos.x,pos.y);
+  }
+
+  public void stamp(float x,float y) {
     PImage costumeToDraw = costumes.get(costumeNumber);
     p.pushMatrix(); // save old visual style for other sprites
-    p.translate(pos.x, pos.y); // move Sprite to x,y position
+    p.translate(x, y); // move Sprite to x,y position
     if (localpen) p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
     if (visible) {
       // flip image if locked left/right and pointing left
