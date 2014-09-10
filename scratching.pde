@@ -28,6 +28,7 @@ void setup() {
   cat.drawOnStage(stage);
   //cat.drawOwnPen();
   cat.penWidth(3);
+  cat.ghostEffect = 50;
   cat.penColor((int)random(0,255),(int)random(0,255),(int)random(0,255));
   
   lines.add("It's BACON!!!");
@@ -55,8 +56,8 @@ void nextLine() {
 }
 
 void keyPressed() {
-  if (key==' ') nextLine();
- stage.questionKeycheck();
+ if (key == ' ') nextLine();
+ if (stage.askingQuestion) stage.questionKeycheck();
  if (key<256) {
    keyIsDown[key] = true; 
  }

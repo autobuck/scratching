@@ -360,7 +360,7 @@ public class Sprite {
   }
 
   // return distance to arbitrary grid position  
-  public float distanceToXY(int x, int y) { 
+  public float distanceToXY(float x, float y) { 
     PVector temp = new PVector(x, y);
     return pos.dist(temp);
   }
@@ -403,7 +403,7 @@ public class Sprite {
   
   // will return "move" speed of given x, y vector
   float speedForVector(float x, float y) {
-    return -99;
+    return distanceToXY(pos.x+x,pos.y+y);
   }
 
   // returns direction pointing towards given X, Y coordinates
@@ -424,29 +424,36 @@ public class Sprite {
     return directionToXY(target.pos.x, target.pos.y);
   }
 
-
   boolean withinSightRange(Sprite target, float range) {
     float directionTo = directionToSprite(target); //direction to other sprite
-    //p.println("1: "+direction+" 2: "+directionTo);
-    if (direction+(range/2) > directionTo && direction-(range/2) < directionTo) return true;
+    float diff = p.abs(directionTo-direction);
+    if (diff < 0+(range/2) || diff > 360-(range/2)) return true;
     else return false;
   }
 
+ // return "true" if target is ahead of Sprite
   boolean facingSprite(Sprite target) {
     float directionTo = directionToSprite(target); //direction to other sprite
-    if (direction+(90) > directionTo && direction-(90) < directionTo) return true;
+    float diff = p.abs(directionTo-direction);
+    float otherDirection = p.abs(direction-360);
+    if (diff < 90 || diff > 270) return true;
     else return false;
   }
 
+
+  // check if target is within 180 degrees on right side of Sprite
   boolean seesSpriteOnRight(Sprite target) {
     float directionTo = directionToSprite(target); //direction to other sprite
-    if (direction-(90) < directionTo && (direction > directionTo)) return true;
+    float diff = p.abs(directionTo-direction);
+    if (direction > directionTo && diff < 180 || direction < directionTo && diff > 180) return true;
     else return false;
   }
 
+  // check if target is within 180 degrees on left side of Sprite
   boolean seesSpriteOnLeft(Sprite target) {
     float directionTo = directionToSprite(target); //direction to other sprite
-    if (direction+(90) > directionTo && direction < directionTo) return true;
+    float diff = p.abs(directionTo-direction);
+    if (direction < directionTo && diff < 180 || direction > directionTo && diff > 180) return true;
     else return false;
   }
 

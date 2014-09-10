@@ -119,7 +119,7 @@ Color and Ghost effects can also be set via the properties Sprite.colorEffect an
 
 
 
-*Dialog.*
+*Dialog*
 
 `void say(String what)` Draw a word bubble with “speech arrow”.
 
@@ -127,7 +127,7 @@ Color and Ghost effects can also be set via the properties Sprite.colorEffect an
 
 
 
-*Moving and turning.*
+*Moving and turning*
 
 `void move(int distance)` Move the sprite some distance (in pixels). Note that this function accounts for the sprite's current angle.
 
@@ -179,7 +179,7 @@ Color and Ghost effects can also be set via the properties Sprite.colorEffect an
 
 
 
-*Detecting other Sprites.*
+*Detecting other Sprites*
 
 `boolean touchingSprite(Sprite target)` Returns true if the sprite is within the rectangular bounding box of another sprite.
 
@@ -256,7 +256,7 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 
 
 
-*”Ask” functionality to read a String of user input
+*”Ask” functionality to read a String of user input*
 
 `void ask(String newQuestion)` Ask a question.
 
