@@ -122,6 +122,7 @@ public class Stage {
       x += backdrops.get(backdropNumber).width;
     }
     p.image(pen.get(0, 0, p.width, p.height), 0, 0);
+    p.imageMode(p.CENTER);
     p.popMatrix();
   }
 
