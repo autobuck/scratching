@@ -134,7 +134,10 @@ public class Sprite {
         costumeToDraw.mask(alpha);
       }
       p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
-      if (speaking) {
+    }
+    p.popMatrix(); // restore default visual style
+    if (speaking) {
+      p.pushMatrix();
         float xMod = 0-50;
         if (size>100) xMod = 0-(50*(size/100)); //0-(costumes.get(costumeNumber).width)*(size/100);
         float yMod = 0-(sayHeight+((costumes.get(costumeNumber).height/2)*(size/100)))-30;
@@ -142,13 +145,12 @@ public class Sprite {
         if (xMod+pos.x+sayWidth+(sayMargin*2) > p.width) xMod -= p.abs(p.width-(xMod+pos.x+sayWidth+(sayMargin*2)));
         if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
         if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
+        p.translate(x, y); // move Sprite to x,y position        
         p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod , p.height/2+yMod);
+        if (dialogEndTime != -1 && dialogEndTime < p.millis()) { speaking = false; dialogEndTime = -1; }
+        p.popMatrix();
       }
-      if (dialogEndTime != -1 && dialogEndTime < p.millis()) { speaking = false; dialogEndTime = -1; }
-    }
-    p.popMatrix(); // restore default visual style
   }
-
   // set transparency effect
   public void setGhostEffect(int newAlpha) {
     ghostEffect = newAlpha;
