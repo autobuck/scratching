@@ -29,11 +29,13 @@ void setup() {
   cat.drawOnStage(stage);
   //cat.drawOwnPen();
   cat.penWidth(3);
-  cat.ghostEffect = 50;
+  //cat.ghostEffect = 50;
   cat.penColor((int)random(0,255),(int)random(0,255),(int)random(0,255));
   
   lines.add("It's BACON!!!");
   lines.add("This ought to be roughly two lines, with a bit more.");
+  lines.add("Show some respect.");
+  lines.add("Help me!");
   lines.add("Bacon ipsum dolor sit amet bresaola frankfurter prosciutto turkey, pork loin strip steak spare ribs bacon ball tip landjaeger capicola ribeye. Jerky pork belly turducken, landjaeger spare ribs meatball rump. Porchetta pork belly andouille ground round. Short ribs pancetta swine porchetta kielbasa pork chop ribeye frankfurter. Tail shankle biltong beef ribs ball tip chicken meatloaf turkey. Kevin rump frankfurter, boudin biltong kielbasa spare ribs tenderloin porchetta ground round tri-tip venison ham hock doner meatball.");
 }
   
@@ -41,7 +43,8 @@ void draw() {
   stage.draw();
   cat.draw();    
   cat.move(2);
-  cat.colorEffect += 1;
+  //cat.brightnessEffect += 1;
+  cat.saturationEffect += 1;
   if (arrowDown[upArrow]) cat.pos.y -= 10;
   if (arrowDown[downArrow]) cat.pos.y += 10;
   if (arrowDown[leftArrow]) cat.size -= 10;
