@@ -49,18 +49,18 @@ public class Sprite {
   public boolean penDown;
   public PGraphics pen;
   boolean localpen = false;
-  
+
   // say/text variables
   public PGraphics dialog;
   public boolean speaking = false;
-    int sayMargin = 10;
-    int lineHeight = 25;
-    float sayX = 0;
-    float sayY = 0;
-    float sayWidth = 0;
-    int numberOfLines = 0;
-    float sayHeight = 0;
-    int dialogEndTime = -1;
+  int sayMargin = 10;
+  int lineHeight = 25;
+  float sayX = 0;
+  float sayY = 0;
+  float sayWidth = 0;
+  int numberOfLines = 0;
+  float sayHeight = 0;
+  int dialogEndTime = -1;
   // add more variables (such as "int health") below to extend the Sprite's capabilities
 
   /* DIRECTION IS IN DEGREES! any math will require conversion.
@@ -98,11 +98,20 @@ public class Sprite {
    */
 
   public void draw() {
-    stamp(pos.x,pos.y);
+    stamp(pos.x, pos.y);
   }
 
-  public void stamp(float x,float y) {
-    PImage costumeToDraw = costumes.get(costumeNumber);
+  public void stamp(float x, float y) {
+//    costumeToDraw = costumes.get(costumeNumber).get(0,0,costumes.get(costumeNumber).width,costumes.get(costumeNumber).height);
+//    PImage costumeToDraw = costumes.get(costumeNumber);
+    PImage costumeToDraw = p.createImage(costumes.get(costumeNumber).width,costumes.get(costumeNumber).height,p.ARGB);
+    costumeToDraw.loadPixels();
+//    costumeToDraw.pixels = costumes.get(costumeNumber).pixels;
+    for (int i = 0; i < costumes.get(costumeNumber).pixels.length; i++) {
+      costumeToDraw.pixels[i] = costumes.get(costumeNumber).pixels[i];
+    }
+    costumeToDraw.updatePixels();
+    
     p.pushMatrix(); // save old visual style for other sprites
     p.translate(x, y); // move Sprite to x,y position
     if (localpen) p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
@@ -113,11 +122,11 @@ public class Sprite {
       if (rotationStyle==rotationStyle_360degrees) p.rotate(p.radians(-direction));
       // adjust hue for colorEffect
       if (colorEffect != 0) {
+        //costumeToDraw.loadPixels();
         p.colorMode(p.HSB);
-        costumeToDraw.loadPixels();
         for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
           int newColor = costumeToDraw.pixels[i];
-          float mappedColorEffect = p.map(colorEffect % 100,100,0,0,255)/255;
+          float mappedColorEffect = p.map(colorEffect % 100, 100, 0, 0, 255);
           float newHue = p.hue(newColor)+(mappedColorEffect);
           if (newColor != 0) newColor = p.color(newHue, p.saturation(newColor), p.brightness(newColor));
           costumeToDraw.pixels[i] = newColor;
@@ -127,25 +136,41 @@ public class Sprite {
       }
       // adjust exposure for brightnessEffect (- works good, + not so much)
       if (brightnessEffect != 0) {
-        p.colorMode(p.HSB);
-        costumeToDraw.loadPixels();
-        for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
-          int newColor = costumeToDraw.pixels[i];
-          float mappedBright = p.map(brightnessEffect,100,-100,255,-255)/255;
-          float newBrightness = p.brightness(newColor)+(mappedBright);
-          if (newColor != 0) newColor = p.color(p.hue(newColor), p.saturation(newColor), newBrightness);
-          costumeToDraw.pixels[i] = newColor;
+        if (brightnessEffect < 0) { // decrease brightness
+          p.colorMode(p.HSB);
+          //costumeToDraw.loadPixels();
+          for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
+            int newColor = costumeToDraw.pixels[i];
+            float mappedBright = p.map(brightnessEffect, -100, 100, -255, 255);
+            float newBrightness = p.brightness(newColor)+(mappedBright);
+            if (newColor != 0) newColor = p.color(p.hue(newColor), p.saturation(newColor), newBrightness);
+            costumeToDraw.pixels[i] = newColor;
+          }
+          costumeToDraw.updatePixels();
+          p.colorMode(p.RGB);
+        } else { // increase brightness with RGB, HSB works less well
+          //costumeToDraw.loadPixels();
+          for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
+            float mappedBright = p.map(brightnessEffect, -100, 100, -255, 255);
+            int newColor = costumeToDraw.pixels[i];
+            float newRed = p.red(newColor)+(mappedBright);
+            float newGreen = p.green(newColor)+(mappedBright);
+            float newBlue = p.blue(newColor)+(mappedBright);
+            p.constrain(newRed,0,255);
+            p.constrain(newGreen,0,255);
+            p.constrain(newBlue,0,255);
+            if (newColor != 0) newColor = p.color(newRed,newGreen,newBlue);
+            costumeToDraw.pixels[i] = newColor;
+          }
+          costumeToDraw.updatePixels();
         }
-        costumeToDraw.updatePixels();
-        p.colorMode(p.RGB);
       }
       // adjust saturation for saturationEffect. again, - is good, + not so much.
       if (saturationEffect != 0) {
-        p.colorMode(p.HSB);
-        costumeToDraw.loadPixels();
+        p.colorMode(p.HSB,255);
         for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
           int newColor = costumeToDraw.pixels[i];
-          float mappedSaturation = p.map(saturationEffect,100,-100,255,-255)/255;;
+          float mappedSaturation = p.map(saturationEffect, -100, 100, -255, 255);
           float newSaturation = p.saturation(newColor)+(mappedSaturation);
           if (newColor != 0) newColor = p.color(p.hue(newColor), newSaturation, p.brightness(newColor));
           costumeToDraw.pixels[i] = newColor;
@@ -171,18 +196,21 @@ public class Sprite {
     // now add dialog layer if Sprite is "speaking"
     if (speaking) {
       p.pushMatrix();
-        float xMod = 0-50;
-        if (size>100) xMod = 0-(50*(size/100)); //0-(costumes.get(costumeNumber).width)*(size/100);
-        float yMod = 0-(sayHeight+((costumes.get(costumeNumber).height/2)*(size/100)))-30;
-        if (xMod+pos.x < 0) xMod += p.abs(0-(xMod+pos.x));
-        if (xMod+pos.x+sayWidth+(sayMargin*2) > p.width) xMod -= p.abs(p.width-(xMod+pos.x+sayWidth+(sayMargin*2)));
-        if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
-        if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
-        p.translate(x, y); // move Sprite to x,y position        
-        p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod , p.height/2+yMod);
-        if (dialogEndTime != -1 && dialogEndTime < p.millis()) { speaking = false; dialogEndTime = -1; }
-        p.popMatrix();
+      float xMod = 0-50;
+      if (size>100) xMod = 0-(50*(size/100)); //0-(costumes.get(costumeNumber).width)*(size/100);
+      float yMod = 0-(sayHeight+((costumes.get(costumeNumber).height/2)*(size/100)))-30;
+      if (xMod+pos.x < 0) xMod += p.abs(0-(xMod+pos.x));
+      if (xMod+pos.x+sayWidth+(sayMargin*2) > p.width) xMod -= p.abs(p.width-(xMod+pos.x+sayWidth+(sayMargin*2)));
+      if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
+      if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
+      p.translate(x, y); // move Sprite to x,y position        
+      p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod, p.height/2+yMod);
+      if (dialogEndTime != -1 && dialogEndTime < p.millis()) { 
+        speaking = false; 
+        dialogEndTime = -1;
       }
+      p.popMatrix();
+    }
   }
   // set visual effects
   public void setGhostEffect(int newAlpha) {
@@ -257,14 +285,14 @@ public class Sprite {
   public void hide() {
     visible=false;
   }
-  
+
   // draws a text bubble with triangle arrow indicating speaking sprite
   public void say(String what) {
-    say(what,-1);
+    say(what, -1);
   }
-  
+
   // draws a text bubble with triangle arrow indicating speaking sprite
-  public void say(String what,int seconds) {
+  public void say(String what, int seconds) {
     if (seconds != -1) dialogEndTime = p.millis()+(seconds*1000);
     dialogCalc(what);
     dialog.beginDraw();
@@ -273,16 +301,16 @@ public class Sprite {
     dialog.fill(255);
     dialog.stroke(0);
     dialog.rect(sayX-sayMargin, sayY-sayMargin, sayWidth+(sayMargin*2), sayHeight+5, 10);
-    dialog.triangle(sayX+10,sayY-sayMargin+sayHeight+5,sayX+20,sayY-sayMargin+sayHeight+5,sayX+20,sayY-sayMargin+sayHeight+20+5);
+    dialog.triangle(sayX+10, sayY-sayMargin+sayHeight+5, sayX+20, sayY-sayMargin+sayHeight+5, sayX+20, sayY-sayMargin+sayHeight+20+5);
     dialog.noStroke();
-    dialog.triangle(sayX+10,sayY-sayMargin+sayHeight-4+5,sayX+20,sayY-sayMargin+sayHeight-4+5,sayX+20,sayY-sayMargin+sayHeight+20-4+5);
+    dialog.triangle(sayX+10, sayY-sayMargin+sayHeight-4+5, sayX+20, sayY-sayMargin+sayHeight-4+5, sayX+20, sayY-sayMargin+sayHeight+20-4+5);
     dialog.endDraw();
     dialogWrite(what);
   }
 
   // draw a text bubble with "thinking" bubbles indicating speaker
   public void think(String what) {
-    think(what,-1);
+    think(what, -1);
   }
 
   // draw a text bubble with "thinking" bubbles indicating speaker
@@ -294,14 +322,14 @@ public class Sprite {
     dialog.strokeWeight(2);
     dialog.fill(255);
     dialog.stroke(0);
-    dialog.ellipse(sayX+20,sayY-sayMargin+sayHeight+25,7,7);
-    dialog.ellipse(sayX+13,sayY-sayMargin+sayHeight+17,10,10);
-    dialog.ellipse(sayX+7,sayY-sayMargin+sayHeight+7,15,15);
+    dialog.ellipse(sayX+20, sayY-sayMargin+sayHeight+25, 7, 7);
+    dialog.ellipse(sayX+13, sayY-sayMargin+sayHeight+17, 10, 10);
+    dialog.ellipse(sayX+7, sayY-sayMargin+sayHeight+7, 15, 15);
     dialog.rect(sayX-sayMargin, sayY-sayMargin, sayWidth+(sayMargin*2), sayHeight+5, 10);
     dialog.endDraw();
     dialogWrite(what);
   }
-  
+
   // helper function for say/think. calculates text bubble position.
   public void dialogCalc(String what) {
     sayMargin = 10;
@@ -320,15 +348,15 @@ public class Sprite {
     if (sayX+sayWidth+sayMargin > p.width) sayX -= (sayX+sayWidth+sayMargin)-p.width;
     if (sayY+sayHeight+sayMargin > p.height) sayY -= (sayY+sayHeight+sayMargin)-p.height;
   }
-  
+
   // helper function for say/think. Writes dialog in text bubble.
   public void dialogWrite(String what) {
     speaking = true;  
     dialog.beginDraw();
     dialog.fill(0);
     dialog.textAlign(p.CENTER);
-    dialog.textFont(p.createFont("Helvetica", 18),18);
-    dialog.text(what,sayX, sayY-1, sayWidth, sayHeight);
+    dialog.textFont(p.createFont("Helvetica", 18), 18);
+    dialog.text(what, sayX, sayY-1, sayWidth, sayHeight);
     dialog.endDraw();
   }
 
@@ -467,10 +495,10 @@ public class Sprite {
   float directionForVector(float x, float y) {
     return directionToXY(pos.x+x, pos.y+y);
   }
-  
+
   // will return "move" speed of given x, y vector
   float speedForVector(float x, float y) {
-    return distanceToXY(pos.x+x,pos.y+y);
+    return distanceToXY(pos.x+x, pos.y+y);
   }
 
   // returns direction pointing towards given X, Y coordinates
@@ -498,7 +526,7 @@ public class Sprite {
     else return false;
   }
 
- // return "true" if target is ahead of Sprite
+  // return "true" if target is ahead of Sprite
   boolean facingSprite(Sprite target) {
     float directionTo = directionToSprite(target); //direction to other sprite
     float diff = p.abs(directionTo-direction);
@@ -562,11 +590,11 @@ public class Sprite {
     pen.clear();
     pen.endDraw();
   }
-  
+
   public void penUp() {
     penDown = false;
   }
-  
+
   public void penDown() {
     penDown = true;
   }
