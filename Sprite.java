@@ -431,7 +431,7 @@ public class Sprite {
 
   // check if a Sprite is touching another Sprite using simple rectangular hit box
   public boolean touchingSprite(Sprite target) {
-    if (!visible || !target.visible) return false;
+    if (!target.visible) return false;
     boolean touchingX, touchingY;
     PVector testVector;
     touchingX=false; 
@@ -450,6 +450,7 @@ public class Sprite {
 
   // check if a sprite is touching a sprite using spherical "distance" calculation
   public boolean touchingRoundSprite(Sprite target) {
+    if (!target.visible) return false;
     if (distanceToSprite(target)-(costumes.get(costumeNumber).width/2)*(size/100)-(target.costumes.get(target.costumeNumber).width/2)*(target.size/100) <= 0 ) return true;
     else return false;
   }
