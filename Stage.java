@@ -49,43 +49,65 @@ public class Stage {
   // and changing the "addDefaultBackdrops()" function below.
   // 
   // Use Stage.addDefaultBackdrop(); for the the X/Y grid, for debugging movement
-  public int startTime;
   public int backdropNumber, numberOfBackdrops;
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
+  ArrayList <Float> timers = new ArrayList<Float>();
   int scrollX, scrollY;
-  public PGraphics penLayer;
+  public PGraphics pen;
   boolean askingQuestion = false;
   String question = "What is your quest?";
   String questionText = "";
   String theAnswer = "";
   PFont questionFont;
- 
+
   Stage (PApplet parent) {
     p = parent;
     backdropNumber=0;
     numberOfBackdrops=0;
-    startTime=0;
-    resetTimer();
     scrollX = 0; 
     scrollY = 0;
-    penLayer = p.createGraphics(p.width, p.height);
+    pen = p.createGraphics(p.width, p.height);
     questionFont = p.createFont("Helvetica", 18); 
     p.textFont(questionFont,18);
     p.imageMode(p.CENTER);
+    addTimer();
+  }
+
+  public void addTimer() {
+    float temp = p.millis();
+    float t2 = temp/1000;
+    timers.add(t2);
   }
 
   // the timer returns seconds, in whole numbers (integer)
-  public int timer() {
-    int temp = p.millis()/1000;
-    return temp-startTime;
+  public float timer() {
+    float temp = p.millis();
+    float t2 = temp/1000;
+    return t2-timers.get(0);
+  } 
+
+  public float timer(int timerNumber) {
+    float temp = p.millis();
+    float t2 = temp/1000;
+    return t2-timers.get(timerNumber);
   } 
 
   // reset the stage timer
   public void resetTimer() {
-    startTime = p.millis()/1000;
+    float temp = p.millis();
+    float t2 = temp/1000;
+    timers.set(0,t2);
   }
 
-  public void tile(int backdrop) {
+  // reset the extra timers
+  public void resetTimer(int number) {
+    float temp = p.millis();
+    float t2 = temp/1000;
+    timers.set(number,t2);
+  }
+  
+
+  public void drawTiled() {
     p.pushMatrix();
     p.imageMode(p.CORNER);
     int x = 0;
@@ -93,13 +115,14 @@ public class Stage {
     while (x < p.width) {
       y = 0;
       while (y < p.height) {
-        p.image(backdrops.get(backdrop), x, y, backdrops.get(backdrop).width, 
-        backdrops.get(backdrop).height);
-        y += backdrops.get(backdrop).height;
+        p.image(backdrops.get(backdropNumber), x, y, backdrops.get(backdropNumber).width, 
+        backdrops.get(backdropNumber).height);
+        y += backdrops.get(backdropNumber).height;
       }
-      x += backdrops.get(backdrop).width;
+      x += backdrops.get(backdropNumber).width;
     }
-    p.image(penLayer.get(0, 0, p.width, p.height), 0, 0);
+    p.image(pen.get(0, 0, p.width, p.height), 0, 0);
+    p.imageMode(p.CENTER);
     p.popMatrix();
   }
 
@@ -159,7 +182,7 @@ public class Stage {
       p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width, 
       backdrops.get(backdropNumber).height);
     }
-    p.image(penLayer.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
+    p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
     if (askingQuestion) drawQuestionText(); // ask(question);
   }
 
@@ -195,6 +218,7 @@ public class Stage {
     draw();
   }
 
+  // "scrolls" backdrop in any direction. Backdrop repeats.  
   public void scrollBackdrop(float x, float y) {
     scrollX += x;
     scrollY += y;
