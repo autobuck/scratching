@@ -24,43 +24,29 @@ void setup() {
   cat.addDefaultCostumes();
   cat.setCostume(0);
   cat.goToXY(0,height/2);
-  cat.penDown = true;
   cat.size=100;
   cat.drawOnStage(stage);
-  //cat.drawOwnPen();
+  cat.penDown = true;
   cat.penWidth(3);
-  //cat.ghostEffect = 50;
+  cat.ghostEffect = 50;
   cat.penColor((int)random(0,255),(int)random(0,255),(int)random(0,255));
   
   lines.add("It's BACON!!!");
   lines.add("This ought to be roughly two lines, with a bit more.");
   lines.add("Show some respect.");
   lines.add("Help me!");
-  lines.add("Bacon ipsum dolor sit amet bresaola frankfurter prosciutto turkey, pork loin strip steak spare ribs bacon ball tip landjaeger capicola ribeye. Jerky pork belly turducken, landjaeger spare ribs meatball rump. Porchetta pork belly andouille ground round. Short ribs pancetta swine porchetta kielbasa pork chop ribeye frankfurter. Tail shankle biltong beef ribs ball tip chicken meatloaf turkey. Kevin rump frankfurter, boudin biltong kielbasa spare ribs tenderloin porchetta ground round tri-tip venison ham hock doner meatball.");
-//  cat.brightnessEffect = -100;
+  lines.add("Bacon ipsum dolor sit amet bresaola frankfurter prosciutto turkey, pork loin strip steak spare ribs bacon ball tip landjaeger capicola ribeye. Jerky pork belly turducken...");
 }
-  
-  float mod = 1;
   
 void draw() {
   stage.draw();
   cat.draw();    
   cat.move(2);
-  println("bright & sat & ghost & color: "+cat.brightnessEffect+","+cat.saturationEffect+","+cat.ghostEffect+","+cat.colorEffect);
   
-  if (arrowDown[upArrow]) cat.ghostEffect -= mod;
-  if (arrowDown[downArrow]) cat.ghostEffect += mod;
-  if (arrowDown[leftArrow]) cat.saturationEffect -= mod;
-  if (arrowDown[rightArrow]) cat.saturationEffect += mod;
-  if (keyIsDown['a']) cat.brightnessEffect -= mod;
-  if (keyIsDown['d']) cat.brightnessEffect += mod;
-  if (keyIsDown['w']) cat.colorEffect += mod;
-  if (keyIsDown['s']) cat.colorEffect -= mod;
+  if (arrowDown[upArrow]) cat.pos.y -= 10;
+  if (arrowDown[downArrow]) cat.pos.y += 10;
 
   cat.wrapAtEdges();
-  //cat.think(""+lines.get(current));
-  
-  stage.scrollBackdrop(0,-2);
 }
 
 void nextLine() {
@@ -74,6 +60,7 @@ void keyPressed() {
    nextLine(); 
    cat.think(""+lines.get(current)); 
  }
+ // you can add new code. but removing the lines below may break something
  if (stage.askingQuestion) stage.questionKeycheck();
  if (key<256) {
    keyIsDown[key] = true; 
@@ -89,6 +76,7 @@ void keyPressed() {
 }
 
 void keyReleased() {
+ // you can add new code. but removing the lines below may break something
  if (key<256) {
    keyIsDown[key] = false;  
  }
