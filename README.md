@@ -1,6 +1,6 @@
 # scratching
 
-### Scratching allows you to write Scratch programs in Processing.
+### scratching allows you to write Scratch programs in Processing.
 
 written by Buck Bailey and Eli Baum, 2014
 
@@ -71,101 +71,197 @@ You know what else you shouldn't forget? ***Semicolons!***
 
 Next, we have the `draw` function. The draw functions runs over and over again. So you can use to repeatedly draw to or update the window. Because of this, if you only want to draw something once (something that never needs to be updated), you can just put it in `setup`.
 
-`background(0);` You'll probably always want this line at the beginning of your draw function. It clears the screen: the argument is a color. 0 is black, 255 is white, everything in between is gray.
+`background(0);` You'll probably always want this line at the beginning of your draw function. It clears the screnn: the argument is a color. 0 is black, 255 is white, everything in between is gray.
 
-If you didn't clear the background, you would just keep seeing new images of the cat sprite on top of each other.
+If you didn't clear the background, you would just keep seeing new images of the cat sprite on top of eachother.
 
 `cat.move(2);` As you can probably guess, this command **moves** the **cat** sprite **2** pixels. Note that because the draw functions loops over and over again, the cat repeatedly moves 2 pixels — the result is that you see smooth motion on your screen.
 
-`cat.draw();` This actually draws the cat to the screen.
+`cat.update();` This actually draws the cat to the screen.
 
 ---
 ## Full Command Reference
 In no particular order.
 
 #### Sprite Commands
-“cat.” indicates an example Sprite name.
 
 `Sprite(PApplet parent)` Creates a new sprite in the specified `PApplet`. Will usually be `this`.
 
-`void cat.draw()` Draw the sprite.
+`void draw()` Draw the sprite.
 
-`void cat.setGhostEffect(int newAlpha)` Sets the ghost effect (transparency). 0 is fully transparent; 255 is fully opaque.
-(You can also use `cat.ghostEffect = newValue`)
 
-`void cat.move(int distance)` Move the sprite some distance (in pixels). Note that this function accounts for the sprite's current angle.
 
-`void cat.addDefaultCostumes()` Loads the default cat costumes.
+*Costuming*
 
-`void cat.addCostume(String filePath)` Add the costume image at the specified path. Image types `.gif`, `.jpg`, `.tga`, `.png`.
+`void loadDefaultCostumes()` Loads the default cat costumes.
 
-`void cat.nextCostume()` Switch to the next costume. Will wrap around to the first costume.
+`void addCostume(String filePath)` Add the costume image at the specified path. Image types `.gif`, `.jpg`, `.tga`, `.png`.
 
-`void cat.previousCostume()` Switch to the previous costume. Will wrap around to the last costume.
+`void nextCostume()` Switch to the next costume. Will wrap around to the first costume.
 
-`void cat.setCostume(int newCostumeNumber)` Switch to the specified costume. Be aware that the costume list is zero-index, so `setCostume(0)` will set the sprite to the first costume.
-You can also set the value directly: `cat.costumeNumber = int`
+`void previousCostume()` Switch to the previous costume. Will wrap around to the last costume.
 
-`void cat.show()` Show the sprite.
+`void setCostume(int newCostumeNumber)` Switch to the specified costume. Be aware that the costume list is zero-index, so `setCostume(0)` will set the sprite to the first costume.
 
-`void cat.hide()` Hide the sprite.
 
-You can also set `cat.visible = true/false`
 
-`void cat.say(String what)` Say something (in the console).
+*Visual Effects*
 
-`void cat.think(String what)` Think something (in the console).
+`void show()` Show the sprite.
 
-`void cat.turn(float angle)` Turn by specified angle, **degrees**.
+`void hide()` Hide the sprite. Note that this affects “touching” functions - a hidden sprite cannot be “seen” by Sprite, either!
 
-`void cat.turnLeft(float angle)	` Turn left.
+`void setGhostEffect(int newAlpha)` Sets the ghost effect (transparency). 100 is fully transparent; 0 is fully opaque. A Sprite hidden by the Ghost Effect can still be detected by other Sprites.
 
-`void cat.turnRight(float angle)` Turn right.
+`void setColorEffect(int newAlpha)` Sets the “color effect,” changing Sprite hues. Range is 0 to 100.
 
-`void cat.pointTowardsXY(int x, int y)` Point towards the coordinates (x, y).
+Color and Ghost effects can also be set via the properties Sprite.colorEffect and Sprite.ghostEffect.
 
-`void cat.pointInDirection(float angle)` Point in the specified direction, **degrees**.
-Same as `cat.direction = angle`
 
-`void cat.pointTowardsSprite(Sprite target)` Point towards another sprite.
 
-`void cat.pointTowardsMouse()` Points towards the mouse pointer. This will only work if the mouse pointer is contained within the applet window.
+*Dialog*
 
-`void cat.goToXY(int x, int y)` Sets the sprite's position to (x, y).
+`void say(String what)` Draw a word bubble with “speech arrow”.
 
-`void cat.goToSprite(Sprite target)` Set the sprite's position to that of another sprite.
+`void think(String what)` Draw a word bubble with “thought bubbles”.
 
-`boolean cat.touchingSprite(Sprite target)` Returns true if the sprite is within the rectangular bounding box of another sprite.
 
-`float cat.distanceToXY(int x, int y)` Returns the distance to another point.
 
-`float cat.distanceToMouse()` Returns the distance to the mouse pointer.
+*Moving and turning*
 
-`float cat.distanceToSprite(Sprite target)` Returns the distance to another sprite.
+`void move(int distance)` Move the sprite some distance (in pixels). Note that this function accounts for the sprite's current angle.
+
+`void turn(float angle)` Turn by specified angle, **degrees**.
+
+`void turnLeft(float angle)` Turn left.
+
+`void turnRight(float angle)` Turn right.
+
+`void wrapAtEdges()` “Wraps” Sprite from left to right, bottom to top, etc, when it has moved off-stage.
+
+
+`void pointTo(int x, int y)` Point To the coordinates (x, y).
+
+`void pointInDirection(float angle)` Point in the specified direction, **degrees**.
+
+`void pointToSprite(Sprite target)` Point to another sprite.
+
+`void pointToMouse()` Points To the mouse pointer. This will only work if the mouse pointer is contained within the applet window.
+
+
+`void goToXY(int x, int y)` Sets the sprite's position to (x, y).
+
+`void goToSprite(Sprite target)` Set the sprite's position to that of another sprite.
+
+`void changeXY(int x, int y)` Moves Sprite by x, y modifier.
+
+
+`float directionToXY(float x, float y)` Returns the direction from Sprite to X, Y coordinates.
+
+`float directionToSprite(Sprite target)` Returns a heading to point Sprite towards target Sprite.
+
+
+`float distanceToXY(int x, int y)` Returns the distance to another point.
+
+`float distanceToMouse()` Returns the distance to the mouse pointer.
+
+`float distanceToSprite(Sprite target)` Returns the distance to another sprite.
+
+
+
+*Translate Vector, Direction, and Distance values*
+
+`PVector vectorForSpeed(float distance)` Returns a PVector containing .x and .y differences for a given move distance. Uses the Sprite’s .direction property.
+
+`float directionForVector(float x, float y)` Returns the direction of a given .x and .y Vector.
+
+`float speedForVector(float x, float y)` Returns the move() speed of a Sprite given x and y Vector values.
+
+
+
+*Detecting other Sprites*
+
+`boolean touchingSprite(Sprite target)` Returns true if the sprite is within the rectangular bounding box of another sprite.
+
+`boolean touchingRoundSprite(Sprite target)` Returns true if the sprite is within a circular bounding box of another sprite. Uses width and assumes Sprite is actually round.
+
+`boolean facingSprite(Sprite target)` Returns true if Sprite is currently pointed towards Target. Uses 180 degree sight range.
+
+`boolean seesSpriteOnRight(Sprite target)` Returns true if target is to the right of the Sprite’s current direction.
+
+`boolean seesSpriteOnLeft(Sprite target)` Returns true if target is to the left of the Sprite’s current direction.
+
+`boolean withinSightRange(Sprite target, float range)` Similar to “facingSprite” but allows you to specify the visual range. Use a range of 1 to see if Sprite is pointed directly at target.
+
+Remember that *hidden* Sprites cannot be detected. But “Ghost Effected” Sprite can.
+
+
+
+*Pen actions*
+
+`void drawOnStage(Stage stageToDrawOn)` Use in setup() to attach Sprite’s “pen” commands to a Stage object.
+
+`void drawOwnCanvas()` Tells Sprite to draw its own pen canvas. This is the default, but it can introduce a lot of lag.
+
+`void penDown()` Sets the pen “down” on the canvas – begins drawing, in other words. When the Sprite is moved with functions like move() and goToXY(), it will draw a line behind it.
+
+`void penColor(int r, g, b)` Set pen color to specified RGB values.
+
+`void penWidth(int width)` Sets line width of the pen.
+
+`void penClear()` Erase the pen canvas.
+
+
 
 #### Stage Commands
 You can use a stage if you don't want just a boring solid-color static background.
 
 `Stage(PApplet parent)` Creates a stage in the specified applet. Will probably be `this`.
 
-`void stage.draw()` Draw the stage.
+`void draw()` Draw the stage.
 
-`int stage.timer()` Returns the number of seconds since the program started.
+`void drawTiled()` Fills the stage by repeating the backdrop in tiles.
 
-`void stage.resetTimer()` Set the timer to 0.
+`void scrollBackdrop(float x, y)` Scrolls the backdrop by x, y values. The backdrop will repeat.
 
-`void stage.questionKeycheck()` Run this inside of a keypress event if you are expecting responses.
 
-`String stage.answer()` Returns the answer to the asked question.
 
-`void stage.ask(String newQuestion)` Ask a question.
+*Setting the Backdrop*
 
-`void stage.addDefaultBackdrop()` Load the default backdrop(s) into the backdrop list.
+`void loadDefaultBackdrop()` Load the default backdrop(s) into the backdrop list.
 
-`void stage.addBackdrop(String filePath)` Add the backdrop image specified by the path.
+`void addBackdrop(String filePath)` Add the backdrop image specified by the path.
 
-`void stage.nextBackdrop()` Switch to the next backdrop.
+`void nextBackdrop()` Switch to the next backdrop.
 
-`void stage.previousBackdrop()` Switch to the previous backdrop.
+`void previousBackdrop()` Switch to the previous backdrop.
 
-`void stage.setBackdrop(int newBackdropNumber)` Switch to the specified (zero-indexed) backdrop.
+`void setBackdrop(int newBackdropNumber)` Switch to the specified (zero-indexed) backdrop.
+
+
+
+*Timer*
+
+
+`void addTimer()` Adds additional timers. Timer 0 is created when the Stage is initialized.
+
+`void resetTimer()` Sets timer 0 to 0.
+
+`void resetTimer(int number)` Resets a specific timer.
+
+`float timer()` Returns a decimal value for the default timer, 0.
+
+`float timer(int timerNumber)` Returns time since timer X was initialized (or reset).
+
+
+
+
+*”Ask” functionality to read a String of user input*
+
+`void ask(String newQuestion)` Ask a question.
+
+`String answer()` Returns the answer to the asked question.
+
+`void questionKeycheck()` This *must* run inside of a keypress event (void keyPressed) if you are expecting responses.
+
+
