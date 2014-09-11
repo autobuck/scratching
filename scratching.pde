@@ -15,8 +15,8 @@ ArrayList lines = new ArrayList<String>();
 
 void setup() {
   size(500, 500);
-  stage = new Stage(this);
   
+  stage = new Stage(this);
   stage.addDefaultBackdrop();
   stage.setBackdrop(0);
   
@@ -41,7 +41,7 @@ void setup() {
 void draw() {
   stage.draw();
   cat.draw();    
-  cat.move(3);
+  cat.move(2);
   
   if (arrowDown[upArrow]) cat.pos.y -= 10;
   if (arrowDown[downArrow]) cat.pos.y += 10;
