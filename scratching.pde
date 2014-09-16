@@ -16,13 +16,10 @@ void setup() {
   
   stage = new Stage(this);
   stage.addDefaultBackdrop();
-  stage.setBackdrop(0);
   
   cat = new Sprite(this);
   cat.addDefaultCostumes();
-  cat.setCostume(0);
   cat.goToXY(width/2,height/2);
-  cat.size=100;
 }
   
 void draw() {
@@ -33,7 +30,7 @@ void draw() {
   if (arrowDown[downArrow]) cat.pos.y += 10;
   
   if (keyIsDown['a']) cat.colorEffect ++;
-  if (keyIsDown['w']) cat.saturationEffect ++;
+  if (keyIsDown['w']) cat.ghostEffect ++;
 
   cat.wrapAtEdges();
 }
