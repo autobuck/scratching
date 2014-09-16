@@ -1,7 +1,7 @@
 Stage stage;
 Sprite cat;
 
-static int rotationStyle_allAround=0;
+static int rotationStyle_360degrees=0;
 static int rotationStyle_leftRight=1;
 static int rotationStyle_dontRotate=2;
 static int upArrow=0;
@@ -10,8 +10,6 @@ static int leftArrow=2;
 static int rightArrow=3;
 boolean[] keyIsDown = new boolean[256];
 boolean[] arrowDown = new boolean[4];
-ArrayList lines = new ArrayList<String>();
-  int current = 0;
 
 void setup() {
   size(500, 500);
@@ -23,43 +21,24 @@ void setup() {
   cat = new Sprite(this);
   cat.addDefaultCostumes();
   cat.setCostume(0);
-  cat.goToXY(0,height/2);
+  cat.goToXY(width/2,height/2);
   cat.size=100;
-  cat.drawOnStage(stage);
-  cat.penDown = true;
-  cat.penWidth(3);
-  cat.ghostEffect = 50;
-  cat.penColor((int)random(0,255),(int)random(0,255),(int)random(0,255));
-  
-  lines.add("It's BACON!!!");
-  lines.add("This ought to be roughly two lines, with a bit more.");
-  lines.add("Show some respect.");
-  lines.add("Help me!");
-  lines.add("Bacon ipsum dolor sit amet bresaola frankfurter prosciutto turkey, pork loin strip steak spare ribs bacon ball tip landjaeger capicola ribeye. Jerky pork belly turducken...");
 }
   
 void draw() {
   stage.draw();
   cat.draw();    
-  cat.move(2);
-  
+ 
   if (arrowDown[upArrow]) cat.pos.y -= 10;
   if (arrowDown[downArrow]) cat.pos.y += 10;
+  
+  if (keyIsDown['a']) cat.colorEffect ++;
+  if (keyIsDown['w']) cat.saturationEffect ++;
 
   cat.wrapAtEdges();
 }
 
-void nextLine() {
-  current++;
-  if (current > lines.size()-1) current = 0;
-  println(current+" "+lines.size());
-}
-
 void keyPressed() {
- if (key == ' ') { 
-   nextLine(); 
-   cat.think(""+lines.get(current)); 
- }
  // you can add new code. but removing the lines below may break something
  if (stage.askingQuestion) stage.questionKeycheck();
  if (key<256) {
