@@ -54,7 +54,6 @@ public class Stage {
   ArrayList <Float> timers = new ArrayList<Float>();
   int scrollX, scrollY;
   public PGraphics pen;
-  ArrayList <PGraphics> trails = new ArrayList<PGraphics>();
   boolean askingQuestion = false;
   String question = "What is your quest?";
   String questionText = "";
@@ -72,7 +71,6 @@ public class Stage {
     p.textFont(questionFont,18);
     p.imageMode(p.CENTER);
     addTimer();
-    trails.add(p.createGraphics(p.width,p.height));
   }
 
   public void addTimer() {
@@ -184,41 +182,8 @@ public class Stage {
       p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width, 
       backdrops.get(backdropNumber).height);
     }
-    drawTrails();
     p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
     if (askingQuestion) drawQuestionText(); // ask(question);
-  }
-  
-  public void drawTrails() {
-//    p.image(trails.get(0).get(0,0,p.width,p.height), (p.width/2), (p.height/2));
-    for (int i = 0; i < trails.size(); i++) {
-      p.image(trails.get(i).get(0,0,p.width,p.height), (p.width/2), (p.height/2));
-    }
-    trails.remove(0);
-    trails.add(p.createGraphics(p.width,p.height));
-    
-  }
-  
-  public void addTrail() {
-    trails.add(p.createGraphics(p.width,p.height));
-  }
-
-  public void addTrails(int number) {
-    for (int i = 0; i < number; i++) {
-      addTrail();
-    }
-  }
-  
-  public void setTrails(int number) {
-    if (number > trails.size() ) {
-      for (int i = trails.size(); i < number; i++) {
-        addTrail();
-      }
-    } else if (number < trails.size() ) {
-      for (int i = number; i > trails.size(); i-- ) {
-        trails.remove(0);
-      }
-    }
   }
 
   // load xy grid as backdrop 0

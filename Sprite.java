@@ -49,7 +49,6 @@ public class Sprite {
   public boolean penDown;
   public PGraphics pen;
   boolean localpen = false;
-  ArrayList <PGraphics> trails;
 
   // say/text variables
   public PGraphics dialog;
@@ -103,8 +102,11 @@ public class Sprite {
   }
 
   public void stamp(float x, float y) {
+//    costumeToDraw = costumes.get(costumeNumber).get(0,0,costumes.get(costumeNumber).width,costumes.get(costumeNumber).height);
+//    PImage costumeToDraw = costumes.get(costumeNumber);
     PImage costumeToDraw = p.createImage(costumes.get(costumeNumber).width,costumes.get(costumeNumber).height,p.ARGB);
     costumeToDraw.loadPixels();
+//    costumeToDraw.pixels = costumes.get(costumeNumber).pixels;
     for (int i = 0; i < costumes.get(costumeNumber).pixels.length; i++) {
       costumeToDraw.pixels[i] = costumes.get(costumeNumber).pixels[i];
     }
@@ -188,9 +190,7 @@ public class Sprite {
         costumeToDraw.mask(alpha);
       }
       // finally, draw adjusted image
-      trails.get(trails.size()-1).imageMode(p.CENTER);
-      trails.get(trails.size()-1).image(costumeToDraw, pos.x, pos.y, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
-//      pen.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+      p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
     }
     p.popMatrix(); // restore default visual style
     // now add dialog layer if Sprite is "speaking"
@@ -204,7 +204,7 @@ public class Sprite {
       if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
       if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
       p.translate(x, y); // move Sprite to x,y position        
-      pen.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod, p.height/2+yMod);
+      p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod, p.height/2+yMod);
       if (dialogEndTime != -1 && dialogEndTime < p.millis()) { 
         speaking = false; 
         dialogEndTime = -1;
@@ -552,12 +552,6 @@ public class Sprite {
     if (direction < directionTo && diff < 180 || direction > directionTo && diff > 180) return true;
     else return false;
   }
-
-  public void renderOnStage(Stage stage) {
-    trails = stage.trails;
-    localpen = false;
-  }
-
 
   // ***** Pen Actions *************************
   // * The Pen uses a PGraphics object to render art on a canvas beneath the Sprite.
