@@ -102,11 +102,8 @@ public class Sprite {
   }
 
   public void stamp(float x, float y) {
-//    costumeToDraw = costumes.get(costumeNumber).get(0,0,costumes.get(costumeNumber).width,costumes.get(costumeNumber).height);
-//    PImage costumeToDraw = costumes.get(costumeNumber);
     PImage costumeToDraw = p.createImage(costumes.get(costumeNumber).width,costumes.get(costumeNumber).height,p.ARGB);
     costumeToDraw.loadPixels();
-//    costumeToDraw.pixels = costumes.get(costumeNumber).pixels;
     for (int i = 0; i < costumes.get(costumeNumber).pixels.length; i++) {
       costumeToDraw.pixels[i] = costumes.get(costumeNumber).pixels[i];
     }
