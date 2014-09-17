@@ -144,8 +144,8 @@ public class Sprite {
     if (localpen) {
       if (trails.size() > 0) {
         trails.get(trails.size()-1).imageMode(p.CENTER);
-        trails.get(trails.size()-1).image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
-      } else p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
+        trails.get(trails.size()-1).image(pen.get(0, 0, p.width, p.height), p.width/2, p.height/2);
+      } else p.image(pen.get(0, 0, p.width, p.height), p.width/2, p.height/2);
     }
     if (visible) {
       // flip image if locked left/right and pointing left
@@ -225,7 +225,7 @@ public class Sprite {
       if (trails.size() >= 1) {
         trails.get(trails.size()-1).pushMatrix();
         trails.get(trails.size()-1).imageMode(p.CENTER);
-        trails.get(trails.size()-1).image(pen.get(0,0,p.width,p.height),p.width/2,p.height/2);
+        if (!localpen) trails.get(trails.size()-1).image(pen.get(0,0,p.width,p.height),p.width/2,p.height/2);
         trails.get(trails.size()-1).translate(x, y); // move Sprite to x,y position
         if (rotationStyle==rotationStyle_360degrees) trails.get(trails.size()-1).rotate(p.radians(-direction));
         if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) trails.get(trails.size()-1).scale(-1.0f, 1.0f);

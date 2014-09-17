@@ -16,7 +16,7 @@ void setup() {
   stage = new Stage(this);
   
   stage.addDefaultBackdrop();
-  stage.setTrails(0);
+  stage.setTrails(3,255);
   stage.setTrailRate(10);
   
   cat = new Sprite(this,stage);

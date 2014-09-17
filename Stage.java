@@ -57,6 +57,7 @@ public class Stage {
   public PGraphics pen, questionLayer;
   ArrayList <PGraphics> trails = new ArrayList<PGraphics>();
   int trailRate = 1; // default every other frame. 0 is every frame, 2 every third, etc.
+  int fadeColor = 0;
 
   boolean askingQuestion = false;
   String question = "What is your quest?";
@@ -207,7 +208,7 @@ public class Stage {
           trails.get(i).beginDraw();
           trails.get(i).pushStyle();
           trails.get(i).noStroke();
-          trails.get(i).fill(0, 100/trails.size()+1 );
+          trails.get(i).fill(fadeColor, 100/trails.size()+1 );
           trails.get(i).rect(0, 0, p.width, p.height);
           trails.get(i).popStyle();
           trails.get(i).endDraw();
@@ -246,6 +247,21 @@ public class Stage {
       }
     }
   }
+
+  // set number of motion trails and fadeout color
+  public void setTrails(int number, int newfade) {
+    fadeColor = 255;
+    if (number > trails.size() ) {
+      for (int i = trails.size (); i < number; i++) {
+        addTrail();
+      }
+    } else if (number < trails.size() ) {
+      for (int i = number; i > trails.size (); i-- ) {
+        trails.remove(0);
+      }
+    }
+  }
+
 
   // set frame rate of trailing images
   public void setTrailRate(int rate) {
