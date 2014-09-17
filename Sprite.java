@@ -82,7 +82,7 @@ public class Sprite {
     saturationEffect = 0;
     dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
-    //drawOnStage(stage);
+    drawOnStage(stage);
   }
 
   /* ==== Drawing ====
