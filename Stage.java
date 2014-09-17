@@ -56,6 +56,7 @@ public class Stage {
   int scrollX, scrollY;
   public PGraphics pen, questionLayer;
   ArrayList <PGraphics> trails = new ArrayList<PGraphics>();
+  int trailRate = 1; // default every other frame. 0 is every frame, 2 every third, etc.
 
   boolean askingQuestion = false;
   String question = "What is your quest?";
@@ -198,7 +199,6 @@ public class Stage {
     }
 
     // remove 1 and refresh new top layer
-    int trailRate = 1;
     if (p.frameCount % trailRate == 0) {
       trails.remove(0);
       trails.add(p.createGraphics(p.width, p.height));
@@ -241,6 +241,9 @@ public class Stage {
     }
   }
 
+  public void setTrailRate(int rate) {
+    trailRate = rate;
+  }
 
   // load xy grid as backdrop 0
   public void addDefaultBackdrop() {
