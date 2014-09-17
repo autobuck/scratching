@@ -561,8 +561,7 @@ public class Sprite {
 
   // ***** Pen Actions *************************
   // * The Pen uses a PGraphics object to render art on a canvas beneath the Sprite.
-  // * The Pen *must* be attached to a PGraphics canvas using drawOnStage(Stage) or drawOwnCanvas()
-
+  
   // attaches "pen" actions to a Stage's canvas. This canvas is rendered on top of the Stage during
   // Stage.draw() and is shared between all Sprites which are attached to the Stage.
   public void drawOnStage(Stage stage) {
