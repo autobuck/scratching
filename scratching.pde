@@ -16,23 +16,26 @@ void setup() {
   
   stage = new Stage(this);
   stage.addDefaultBackdrop();
+  stage.setBackdrop(0);
   
   cat = new Sprite(this,stage);
   cat.addDefaultCostumes();
+  cat.setCostume(0);
   cat.goToXY(width/2,height/2);
-  cat.penDown = true;
-  cat.penColor(0,0,0);
+cat.penDown=true;
+cat.penColor(0,0,0);
+  stage.setTrails(10);
 }
   
 void draw() {
   stage.draw();
-  cat.draw();    
- 
-  if (arrowDown[upArrow]) cat.changeXY(0,-10);
-  if (arrowDown[downArrow]) cat.changeXY(0,10);
+ cat.draw();    
   
-  if (keyIsDown['a']) cat.colorEffect ++;
-  if (keyIsDown['w']) cat.ghostEffect ++;
+  if (arrowDown[upArrow]) cat.changeY(-10);
+  if (arrowDown[downArrow]) cat.changeY(10);
+  
+  if (keyIsDown['a']) cat.ghostEffect ++;
+  if (keyIsDown['w']) cat.colorEffect ++;
 
   cat.wrapAtEdges();
 }
@@ -41,7 +44,7 @@ void keyPressed() {
  // you can add new code. but removing the lines below may break something
  if (stage.askingQuestion) stage.questionKeycheck();
  if (key<256) {
-   keyIsDown[key] = true; 
+   keyIsDown[key] = true;
  }
  if (key==CODED) {
    switch (keyCode) {

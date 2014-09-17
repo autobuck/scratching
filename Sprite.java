@@ -44,6 +44,7 @@ public class Sprite {
   public float saturationEffect;
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector pos = new PVector(0, 0);
+  ArrayList <PGraphics> trails;
 
   // pen related variables
   public boolean penDown;
@@ -83,6 +84,12 @@ public class Sprite {
     dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
     drawOnStage(stage);
+     renderOnStage(stage);
+ }
+ 
+   public void renderOnStage(Stage stage) {
+    trails = stage.trails;
+    //localpen = false;
   }
 
   /* ==== Drawing ====
@@ -98,16 +105,40 @@ public class Sprite {
 
   public void draw() {
     stamp(pos.x, pos.y);
+    if (speaking) {
+      if (trails.size() > 0)  trails.get(trails.size()-1).pushMatrix();
+      else p.pushMatrix();
+      float xMod = 0-50;
+      if (size>100) xMod = 0-(50*(size/100)); //0-(costumes.get(costumeNumber).width)*(size/100);
+      float yMod = 0-(sayHeight+((costumes.get(costumeNumber).height/2)*(size/100)))-30;
+      if (xMod+pos.x < 0) xMod += p.abs(0-(xMod+pos.x));
+      if (xMod+pos.x+sayWidth+(sayMargin*2) > p.width) xMod -= p.abs(p.width-(xMod+pos.x+sayWidth+(sayMargin*2)));
+      if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
+      if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
+      if (trails.size() > 0) {
+        trails.get(trails.size()-1).translate(pos.x, pos.y); // move Sprite to x,y position
+        trails.get(trails.size()-1).image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod, p.height/2+yMod);
+      } else {
+        p.translate(pos.x, pos.y); // move Sprite to x,y position
+        p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod, p.height/2+yMod);
+      }
+      if (dialogEndTime != -1 && dialogEndTime < p.millis()) { 
+        speaking = false; 
+        dialogEndTime = -1;
+      }
+      if (trails.size() > 0)  trails.get(trails.size()-1).popMatrix();
+      else p.popMatrix();
+    }
   }
 
   public void stamp(float x, float y) {
-    PImage costumeToDraw = p.createImage(costumes.get(costumeNumber).width,costumes.get(costumeNumber).height,p.ARGB);
+    PImage costumeToDraw = p.createImage(costumes.get(costumeNumber).width, costumes.get(costumeNumber).height, p.ARGB);
     costumeToDraw.loadPixels();
-    for (int i = 0; i < costumes.get(costumeNumber).pixels.length; i++) {
+    for (int i = 0; i < costumes.get (costumeNumber).pixels.length; i++) {
       costumeToDraw.pixels[i] = costumes.get(costumeNumber).pixels[i];
     }
     costumeToDraw.updatePixels();
-    
+
     p.pushMatrix(); // save old visual style for other sprites
     p.translate(x, y); // move Sprite to x,y position
     if (localpen) p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
@@ -152,10 +183,10 @@ public class Sprite {
             float newRed = p.red(newColor)+(mappedBright);
             float newGreen = p.green(newColor)+(mappedBright);
             float newBlue = p.blue(newColor)+(mappedBright);
-            p.constrain(newRed,0,255);
-            p.constrain(newGreen,0,255);
-            p.constrain(newBlue,0,255);
-            if (newColor != 0) newColor = p.color(newRed,newGreen,newBlue);
+            p.constrain(newRed, 0, 255);
+            p.constrain(newGreen, 0, 255);
+            p.constrain(newBlue, 0, 255);
+            if (newColor != 0) newColor = p.color(newRed, newGreen, newBlue);
             costumeToDraw.pixels[i] = newColor;
           }
           costumeToDraw.updatePixels();
@@ -163,7 +194,7 @@ public class Sprite {
       }
       // adjust saturation for saturationEffect. again, - is good, + not so much.
       if (saturationEffect != 0) {
-        p.colorMode(p.HSB,255);
+        p.colorMode(p.HSB, 255);
         for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
           int newColor = costumeToDraw.pixels[i];
           float mappedSaturation = p.map(saturationEffect, -100, 100, -255, 255);
@@ -186,28 +217,22 @@ public class Sprite {
         costumeToDraw.mask(alpha);
       }
       // finally, draw adjusted image
-      p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+      if (trails.size() >= 1) {
+        trails.get(trails.size()-1).pushMatrix();
+        trails.get(trails.size()-1).translate(x, y); // move Sprite to x,y position
+        if (rotationStyle==rotationStyle_360degrees) trails.get(trails.size()-1).rotate(p.radians(-direction));
+        trails.get(trails.size()-1).imageMode(p.CENTER);
+        trails.get(trails.size()-1).image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+        trails.get(trails.size()-1).popMatrix();
+      } else {
+        p.image(costumeToDraw, pos.x, pos.y, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+      }
+      //      pen.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
     }
     p.popMatrix(); // restore default visual style
     // now add dialog layer if Sprite is "speaking"
-    if (speaking) {
-      p.pushMatrix();
-      float xMod = 0-50;
-      if (size>100) xMod = 0-(50*(size/100)); //0-(costumes.get(costumeNumber).width)*(size/100);
-      float yMod = 0-(sayHeight+((costumes.get(costumeNumber).height/2)*(size/100)))-30;
-      if (xMod+pos.x < 0) xMod += p.abs(0-(xMod+pos.x));
-      if (xMod+pos.x+sayWidth+(sayMargin*2) > p.width) xMod -= p.abs(p.width-(xMod+pos.x+sayWidth+(sayMargin*2)));
-      if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
-      if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
-      p.translate(x, y); // move Sprite to x,y position        
-      p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod, p.height/2+yMod);
-      if (dialogEndTime != -1 && dialogEndTime < p.millis()) { 
-        speaking = false; 
-        dialogEndTime = -1;
-      }
-      p.popMatrix();
-    }
   }
+
   // set visual effects
   public void setGhostEffect(int newAlpha) {
     ghostEffect = newAlpha;
@@ -561,7 +586,8 @@ public class Sprite {
 
   // ***** Pen Actions *************************
   // * The Pen uses a PGraphics object to render art on a canvas beneath the Sprite.
-  
+  // * The Pen *must* be attached to a PGraphics canvas using drawOnStage(Stage) or drawOwnCanvas()
+
   // attaches "pen" actions to a Stage's canvas. This canvas is rendered on top of the Stage during
   // Stage.draw() and is shared between all Sprites which are attached to the Stage.
   public void drawOnStage(Stage stage) {
