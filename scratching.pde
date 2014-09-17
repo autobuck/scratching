@@ -21,6 +21,7 @@ void setup() {
 
   // add your own initialization code here
   question = 1;
+  stage.setTrails(2);
   askNextQuestion();
 }
   
