@@ -17,17 +17,19 @@ void setup() {
   stage = new Stage(this);
   stage.addDefaultBackdrop();
   
-  cat = new Sprite(this);
+  cat = new Sprite(this,stage);
   cat.addDefaultCostumes();
   cat.goToXY(width/2,height/2);
+  cat.penDown = true;
+  cat.penColor(0,0,0);
 }
   
 void draw() {
   stage.draw();
   cat.draw();    
  
-  if (arrowDown[upArrow]) cat.pos.y -= 10;
-  if (arrowDown[downArrow]) cat.pos.y += 10;
+  if (arrowDown[upArrow]) cat.changeXY(0,-10);
+  if (arrowDown[downArrow]) cat.changeXY(0,10);
   
   if (keyIsDown['a']) cat.colorEffect ++;
   if (keyIsDown['w']) cat.ghostEffect ++;

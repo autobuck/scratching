@@ -69,7 +69,7 @@ public class Sprite {
    * radians.
    */
   public float direction = 0;
-  Sprite (PApplet parent) {
+  Sprite (PApplet parent,Stage stage) {
     p = parent;
     costumeNumber=0;
     visible = true;
@@ -80,10 +80,9 @@ public class Sprite {
     colorEffect = 0;
     brightnessEffect = 0;
     saturationEffect = 0;
-    pen = p.createGraphics(p.width, p.height);
-    localpen = true;
     dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
+    drawOnStage(stage);
   }
 
   /* ==== Drawing ====
@@ -405,6 +404,16 @@ public class Sprite {
   // change location by X, Y vector  
   public void changeXY(float x, float y) {
     goToXY(pos.x+x, pos.y+y);
+  }
+  
+  // change X by distance
+  public void changeX(float x) {
+    goToXY(pos.x+x,pos.y);
+  }
+
+  // change Y position by distance
+  public void changeY(float y) {
+    goToXY(pos.x,pos.y+y);
   }
 
   /* move to specific location on grid */
