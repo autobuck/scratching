@@ -16,12 +16,13 @@ void setup() {
   stage = new Stage(this);
   
   stage.addDefaultBackdrop();
-  stage.setTrails(4);
-  stage.setTrailRate(5);
+  stage.setTrails(0);
+  stage.setTrailRate(10);
   
   cat = new Sprite(this,stage);
   cat.addDefaultCostumes();
   cat.goToXY(0,height/2);
+  cat.drawOwnCanvas();
   cat.penDown = true;
   cat.penWidth(3);
   cat.penColor((int)random(0,255),(int)random(0,255),(int)random(0,255));
@@ -29,14 +30,15 @@ void setup() {
 }
   
 void draw() {
-  cat.draw();    
-  stage.draw();
-  cat.move(2);
-  cat.wrapAtEdges();
   if (keyIsDown['8']) cat.pointInDirection(90);
   if (keyIsDown['2']) cat.pointInDirection(270);
   if (keyIsDown['4']) cat.pointInDirection(180);
   if (keyIsDown['6']) cat.pointInDirection(0);
+
+  cat.move(2);
+  cat.wrapAtEdges();
+  cat.draw();    
+  stage.draw();
 }
 
 void keyPressed() {

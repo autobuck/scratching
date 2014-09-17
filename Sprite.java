@@ -126,7 +126,7 @@ public class Sprite {
         speaking = false; 
         dialogEndTime = -1;
       }
-      if (trails.size() > 0)  trails.get(trails.size()-1).popMatrix();
+      if (trails.size() > 0) trails.get(trails.size()-1).popMatrix();
       else p.popMatrix();
     }
   }
@@ -141,7 +141,12 @@ public class Sprite {
 
     p.pushMatrix(); // save old visual style for other sprites
     p.translate(x, y); // move Sprite to x,y position
-    if (localpen) p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
+    if (localpen) {
+      if (trails.size() > 0) {
+        trails.get(trails.size()-1).imageMode(p.CENTER);
+        trails.get(trails.size()-1).image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
+      } else p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
+    }
     if (visible) {
       // flip image if locked left/right and pointing left
       if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f, 1.0f);
@@ -219,19 +224,19 @@ public class Sprite {
       // finally, draw adjusted image
       if (trails.size() >= 1) {
         trails.get(trails.size()-1).pushMatrix();
+        trails.get(trails.size()-1).imageMode(p.CENTER);
+        trails.get(trails.size()-1).image(pen.get(0,0,p.width,p.height),p.width/2,p.height/2);
         trails.get(trails.size()-1).translate(x, y); // move Sprite to x,y position
         if (rotationStyle==rotationStyle_360degrees) trails.get(trails.size()-1).rotate(p.radians(-direction));
         if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) trails.get(trails.size()-1).scale(-1.0f, 1.0f);
-        trails.get(trails.size()-1).imageMode(p.CENTER);
         trails.get(trails.size()-1).image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
         trails.get(trails.size()-1).popMatrix();
       } else {
+//        p.image(pen.get(0,0,p.width,p.height),p.width/2,p.height/2);
         p.image(costumeToDraw, pos.x, pos.y, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
       }
-      //      pen.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
     }
     p.popMatrix(); // restore default visual style
-    // now add dialog layer if Sprite is "speaking"
   }
 
   // set visual effects

@@ -192,7 +192,6 @@ public class Stage {
   }
 
   public void drawTrails() {
-    //    p.image(trails.get(0).get(0,0,p.width,p.height), (p.width/2), (p.height/2));
     //render each
     for (int i = 0; i < trails.size (); i++) {
       p.image(trails.get(i).get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
@@ -208,7 +207,7 @@ public class Stage {
           trails.get(i).beginDraw();
           trails.get(i).pushStyle();
           trails.get(i).noStroke();
-          trails.get(i).fill(0, 100/trails.size() );
+          trails.get(i).fill(0, 100/trails.size()+1 );
           trails.get(i).rect(0, 0, p.width, p.height);
           trails.get(i).popStyle();
           trails.get(i).endDraw();
@@ -219,16 +218,23 @@ public class Stage {
     }
   }
 
+  // add an additional motion trail
   public void addTrail() {
     trails.add(p.createGraphics(p.width, p.height));
   }
 
+  // add multiple trails
   public void addTrails(int number) {
     for (int i = 0; i < number; i++) {
       addTrail();
     }
   }
+  
+  public void removeTrail() {
+    if (trails.size() > 0) trails.remove(0);
+  }
 
+  // set number of motion trails
   public void setTrails(int number) {
     if (number > trails.size() ) {
       for (int i = trails.size (); i < number; i++) {
@@ -241,6 +247,7 @@ public class Stage {
     }
   }
 
+  // set frame rate of trailing images
   public void setTrailRate(int rate) {
     trailRate = rate;
   }
