@@ -69,7 +69,7 @@ public class Sprite {
    * radians.
    */
   public float direction = 0;
-  Sprite (PApplet parent,Stage stage) {
+  Sprite (PApplet parent, Stage stage) {
     p = parent;
     costumeNumber=0;
     visible = true;
@@ -82,7 +82,7 @@ public class Sprite {
     saturationEffect = 0;
     dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
-    drawOnStage(stage);
+    //drawOnStage(stage);
   }
 
   /* ==== Drawing ====
@@ -98,98 +98,6 @@ public class Sprite {
 
   public void draw() {
     stamp(pos.x, pos.y);
-  }
-
-  public void stamp(float x, float y) {
-    PImage costumeToDraw = p.createImage(costumes.get(costumeNumber).width,costumes.get(costumeNumber).height,p.ARGB);
-    costumeToDraw.loadPixels();
-    for (int i = 0; i < costumes.get(costumeNumber).pixels.length; i++) {
-      costumeToDraw.pixels[i] = costumes.get(costumeNumber).pixels[i];
-    }
-    costumeToDraw.updatePixels();
-    
-    p.pushMatrix(); // save old visual style for other sprites
-    p.translate(x, y); // move Sprite to x,y position
-    if (localpen) p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
-    if (visible) {
-      // flip image if locked left/right and pointing left
-      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f, 1.0f);
-      // if allowed to rotate, rotate
-      if (rotationStyle==rotationStyle_360degrees) p.rotate(p.radians(-direction));
-      // adjust hue for colorEffect
-      if (colorEffect != 0) {
-        //costumeToDraw.loadPixels();
-        p.colorMode(p.HSB);
-        for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
-          int newColor = costumeToDraw.pixels[i];
-          float mappedColorEffect = p.map(colorEffect % 100, 100, 0, 0, 255);
-          float newHue = p.hue(newColor)+(mappedColorEffect);
-          if (newColor != 0) newColor = p.color(newHue, p.saturation(newColor), p.brightness(newColor));
-          costumeToDraw.pixels[i] = newColor;
-        }
-        costumeToDraw.updatePixels();
-        p.colorMode(p.RGB);
-      }
-      // adjust exposure for brightnessEffect (- works good, + not so much)
-      if (brightnessEffect != 0) {
-        if (brightnessEffect < 0) { // decrease brightness
-          p.colorMode(p.HSB);
-          //costumeToDraw.loadPixels();
-          for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
-            int newColor = costumeToDraw.pixels[i];
-            float mappedBright = p.map(brightnessEffect, -100, 100, -255, 255);
-            float newBrightness = p.brightness(newColor)+(mappedBright);
-            if (newColor != 0) newColor = p.color(p.hue(newColor), p.saturation(newColor), newBrightness);
-            costumeToDraw.pixels[i] = newColor;
-          }
-          costumeToDraw.updatePixels();
-          p.colorMode(p.RGB);
-        } else { // increase brightness with RGB, HSB works less well
-          //costumeToDraw.loadPixels();
-          for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
-            float mappedBright = p.map(brightnessEffect, -100, 100, -255, 255);
-            int newColor = costumeToDraw.pixels[i];
-            float newRed = p.red(newColor)+(mappedBright);
-            float newGreen = p.green(newColor)+(mappedBright);
-            float newBlue = p.blue(newColor)+(mappedBright);
-            p.constrain(newRed,0,255);
-            p.constrain(newGreen,0,255);
-            p.constrain(newBlue,0,255);
-            if (newColor != 0) newColor = p.color(newRed,newGreen,newBlue);
-            costumeToDraw.pixels[i] = newColor;
-          }
-          costumeToDraw.updatePixels();
-        }
-      }
-      // adjust saturation for saturationEffect. again, - is good, + not so much.
-      if (saturationEffect != 0) {
-        p.colorMode(p.HSB,255);
-        for (int i = 0; i < costumeToDraw.pixels.length-1; i++) {
-          int newColor = costumeToDraw.pixels[i];
-          float mappedSaturation = p.map(saturationEffect, -100, 100, -255, 255);
-          float newSaturation = p.saturation(newColor)+(mappedSaturation);
-          if (newColor != 0) newColor = p.color(p.hue(newColor), newSaturation, p.brightness(newColor));
-          costumeToDraw.pixels[i] = newColor;
-        }
-        costumeToDraw.updatePixels();
-        p.colorMode(p.RGB);
-      }
-      // apply "ghost effect" to fade Sprite
-      if (ghostEffect > 0) {
-        int calculatedAlpha = (int)p.map(ghostEffect, 100, 0, 0, 255); // use "map" to translate 0-100 "ghostEffect" range to 255-0 "alpha" range        
-        // set up alpha mask
-        int[] alpha = new int[costumeToDraw.width*costumeToDraw.height];
-        for (int i=0; i<alpha.length; i++) {
-          // only fade non-zero pixels; 0 is full-transparency
-          if (costumeToDraw.pixels[i]!=0) alpha[i]=calculatedAlpha;
-        }
-        costumeToDraw.mask(alpha);
-      }
-      // finally, draw adjusted image
-      p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
-    }
-    p.popMatrix(); // restore default visual style
-    // now add dialog layer if Sprite is "speaking"
     if (speaking) {
       p.pushMatrix();
       float xMod = 0-50;
@@ -199,7 +107,7 @@ public class Sprite {
       if (xMod+pos.x+sayWidth+(sayMargin*2) > p.width) xMod -= p.abs(p.width-(xMod+pos.x+sayWidth+(sayMargin*2)));
       if (yMod+pos.y < 0) yMod += p.abs(0-(yMod+pos.y));
       if (yMod+pos.y+sayHeight+(sayMargin*2) > p.width) yMod -= p.abs(p.width-(yMod+pos.y+sayHeight+(sayMargin*2)));
-      p.translate(x, y); // move Sprite to x,y position        
+      p.translate(pos.x, pos.y); // move Sprite to x,y position        
       p.image(dialog.get(0, 0, p.width, p.height), p.width/2+xMod, p.height/2+yMod);
       if (dialogEndTime != -1 && dialogEndTime < p.millis()) { 
         speaking = false; 
@@ -208,6 +116,137 @@ public class Sprite {
       p.popMatrix();
     }
   }
+
+  public void stamp(float x, float y) {
+    PImage costumePointer;
+    PImage costumeToDraw;
+
+    if (ghostEffect !=0 || saturationEffect !=0 || colorEffect !=0 || brightnessEffect !=0) {       
+      costumeToDraw = p.createImage(costumes.get(costumeNumber).width, costumes.get(costumeNumber).height, p.ARGB);
+      p.println(ghostEffect+" "+saturationEffect+" "+colorEffect+" "+brightnessEffect);
+      costumeToDraw.loadPixels();
+      for (int i = 0; i < costumes.get (costumeNumber).pixels.length; i++) {
+        costumeToDraw.pixels[i] = costumes.get(costumeNumber).pixels[i];
+      }
+      costumeToDraw.updatePixels();
+      costumePointer = costumeToDraw;
+    } else costumePointer = costumes.get(costumeNumber);
+
+    p.pushMatrix(); // save old visual style for other sprites
+    p.translate(x, y); // move Sprite to x,y position
+    if (localpen) p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
+    if (visible) {
+      // flip image if locked left/right and pointing left
+      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f, 1.0f);
+      // if allowed to rotate, rotate
+      if (rotationStyle==rotationStyle_360degrees) p.rotate(p.radians(-direction));
+      // adjust hue for colorEffect
+       if (colorEffect != 0) {
+       //costumeToDraw.loadPixels();
+       p.colorMode(p.HSB);
+       for (int i = 0; i < costumePointer.pixels.length-1; i++) {
+       int newColor = costumePointer.pixels[i];
+       float mappedColorEffect = p.map(colorEffect % 100, 100, 0, 0, 255);
+       float newHue = p.hue(newColor)+(mappedColorEffect);
+       if (newColor != 0) newColor = p.color(newHue, p.saturation(newColor), p.brightness(newColor));
+       costumePointer.pixels[i] = newColor;
+       }
+       costumePointer.updatePixels();
+       p.colorMode(p.RGB);
+       }
+       // adjust exposure for brightnessEffect (- works good, + not so much)
+       if (brightnessEffect != 0) {
+       if (brightnessEffect < 0) { // decrease brightness
+       p.colorMode(p.HSB);
+       //costumeToDraw.loadPixels();
+       for (int i = 0; i < costumePointer.pixels.length-1; i++) {
+       int newColor = costumePointer.pixels[i];
+       float mappedBright = p.map(brightnessEffect, -100, 100, -255, 255);
+       float newBrightness = p.brightness(newColor)+(mappedBright);
+       if (newColor != 0) newColor = p.color(p.hue(newColor), p.saturation(newColor), newBrightness);
+       costumePointer.pixels[i] = newColor;
+       }
+       costumePointer.updatePixels();
+       p.colorMode(p.RGB);
+       } else { // increase brightness with RGB, HSB works less well
+       //costumeToDraw.loadPixels();
+       for (int i = 0; i < costumePointer.pixels.length-1; i++) {
+       float mappedBright = p.map(brightnessEffect, -100, 100, -255, 255);
+       int newColor = costumePointer.pixels[i];
+       float newRed = p.red(newColor)+(mappedBright);
+       float newGreen = p.green(newColor)+(mappedBright);
+       float newBlue = p.blue(newColor)+(mappedBright);
+       p.constrain(newRed,0,255);
+       p.constrain(newGreen,0,255);
+       p.constrain(newBlue,0,255);
+       if (newColor != 0) newColor = p.color(newRed,newGreen,newBlue);
+       costumePointer.pixels[i] = newColor;
+       }
+       costumePointer.updatePixels();
+       }
+       }
+       // adjust saturation for saturationEffect. again, - is good, + not so much.
+       if (saturationEffect != 0) {
+       p.colorMode(p.HSB,255);
+       for (int i = 0; i < costumePointer.pixels.length-1; i++) {
+       int newColor = costumePointer.pixels[i];
+       float mappedSaturation = p.map(saturationEffect, -100, 100, -255, 255);
+       float newSaturation = p.saturation(newColor)+(mappedSaturation);
+       if (newColor != 0) newColor = p.color(p.hue(newColor), newSaturation, p.brightness(newColor));
+       costumePointer.pixels[i] = newColor;
+       }
+       costumePointer.updatePixels();
+       p.colorMode(p.RGB);
+       }
+       // apply "ghost effect" to fade Sprite
+       if (ghostEffect > 0) {
+       int calculatedAlpha = (int)p.map(ghostEffect, 100, 0, 0, 255); // use "map" to translate 0-100 "ghostEffect" range to 255-0 "alpha" range        
+       // set up alpha mask
+       int[] alpha = new int[costumePointer.width*costumePointer.height];
+       for (int i=0; i<alpha.length; i++) {
+       // only fade non-zero pixels; 0 is full-transparency
+       if (costumePointer.pixels[i]!=0) alpha[i]=calculatedAlpha;
+       }
+       costumePointer.mask(alpha);
+       }
+      // finally, draw adjusted image
+      //      p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+      p.image(costumePointer, 0, 0, costumes.get(costumeNumber).width*(size/100), costumes.get(costumeNumber).height*(size/100));
+    }
+    p.popMatrix(); // restore default visual style
+    // now add dialog layer if Sprite is "speaking"
+  }
+
+  /*
+    public void draw() {    
+   if (visible) {
+   p.pushMatrix(); // save old visual style for other sprites
+   // set the center of the screen to (0, 0)
+   //p.translate((p.width/2)+pos.x, (p.height/2)+pos.y);    
+   p.translate(pos.x, pos.y);    
+   
+   p.imageMode(p.CENTER);
+   // locked left-right rotation
+   if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f,1.0f);
+   if (rotationStyle==rotationStyle_allAround) p.rotate(p.radians(-direction));
+   if (ghostEffect > 0) {
+   int calculatedAlpha = (int)p.map(ghostEffect,100,0,0,255);
+   
+   int[] alpha = new int[costumes.get(costumeNumber).width*costumes.get(costumeNumber).height];
+   for (int i=0; i<alpha.length; i++) {
+   // only fade non-zero pixels; 0 is full-transparency
+   if (costumes.get(costumeNumber).pixels[i]!=0) alpha[i]=calculatedAlpha;
+   }
+   costumes.get(costumeNumber).mask(alpha);
+   }
+   p.image(costumes.get(costumeNumber), 0, 0, costumes.get(costumeNumber).width*(size/100),
+   costumes.get(costumeNumber).height*(size/100));
+   
+   p.popMatrix(); // restore default visual style
+   }
+   }
+   */
+
   // set visual effects
   public void setGhostEffect(int newAlpha) {
     ghostEffect = newAlpha;
@@ -405,15 +444,15 @@ public class Sprite {
   public void changeXY(float x, float y) {
     goToXY(pos.x+x, pos.y+y);
   }
-  
+
   // change X by distance
   public void changeX(float x) {
-    goToXY(pos.x+x,pos.y);
+    goToXY(pos.x+x, pos.y);
   }
 
   // change Y position by distance
   public void changeY(float y) {
-    goToXY(pos.x,pos.y+y);
+    goToXY(pos.x, pos.y+y);
   }
 
   /* move to specific location on grid */
