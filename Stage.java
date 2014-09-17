@@ -36,7 +36,6 @@ import processing.core.PImage;
 import processing.core.PFont;
 import java.util.ArrayList;
 import processing.core.PGraphics;
-import java.util.Arrays; 
 
 public class Stage {
 
@@ -54,11 +53,7 @@ public class Stage {
   public ArrayList<PImage> backdrops = new ArrayList<PImage>();
   ArrayList <Float> timers = new ArrayList<Float>();
   int scrollX, scrollY;
-  public PGraphics pen, questionLayer;
-  ArrayList <PGraphics> trails = new ArrayList<PGraphics>();
-  int trailRate = 1; // default every other frame. 0 is every frame, 2 every third, etc.
-  int fadeColor = 0;
-
+  public PGraphics pen;
   boolean askingQuestion = false;
   String question = "What is your quest?";
   String questionText = "";
@@ -72,12 +67,10 @@ public class Stage {
     scrollX = 0; 
     scrollY = 0;
     pen = p.createGraphics(p.width, p.height);
-    questionLayer = p.createGraphics(p.width, p.height);
     questionFont = p.createFont("Helvetica", 18); 
-    p.textFont(questionFont, 18);
+    p.textFont(questionFont,18);
     p.imageMode(p.CENTER);
     addTimer();
-    trails.add(p.createGraphics(p.width, p.height));
   }
 
   public void addTimer() {
@@ -103,16 +96,16 @@ public class Stage {
   public void resetTimer() {
     float temp = p.millis();
     float t2 = temp/1000;
-    timers.set(0, t2);
+    timers.set(0,t2);
   }
 
   // reset the extra timers
   public void resetTimer(int number) {
     float temp = p.millis();
     float t2 = temp/1000;
-    timers.set(number, t2);
+    timers.set(number,t2);
   }
-
+  
 
   public void drawTiled() {
     p.pushMatrix();
@@ -186,86 +179,11 @@ public class Stage {
       p.image(backdrops.get(backdropNumber), p.width+(p.width/2)+scrollXmod, p.height+(p.height/2)-scrollYmod, backdrops.get(backdropNumber).width, 
       backdrops.get(backdropNumber).height);
     } else {
-      p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width, backdrops.get(backdropNumber).height);
+      p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width, 
+      backdrops.get(backdropNumber).height);
     }
+    p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
     if (askingQuestion) drawQuestionText(); // ask(question);
-    drawTrails();
-  }
-
-  public void drawTrails() {
-    //render each
-    for (int i = 0; i < trails.size (); i++) {
-      p.image(trails.get(i).get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
-    }
-
-    // remove 1 and refresh new top layer
-    if (p.frameCount % trailRate == 0) {
-      trails.remove(0);
-      trails.add(p.createGraphics(p.width, p.height));
-      // fade out older layers
-      if (trails.size() > 1) {
-        for (int i = 0; i < trails.size ()-1; i++) {
-          trails.get(i).beginDraw();
-          trails.get(i).pushStyle();
-          trails.get(i).noStroke();
-          trails.get(i).fill(fadeColor, 100/trails.size()+1 );
-          trails.get(i).rect(0, 0, p.width, p.height);
-          trails.get(i).popStyle();
-          trails.get(i).endDraw();
-        }
-      }
-    } else {
-      trails.get(trails.size()-1).clear();
-    }
-  }
-
-  // add an additional motion trail
-  public void addTrail() {
-    trails.add(p.createGraphics(p.width, p.height));
-  }
-
-  // add multiple trails
-  public void addTrails(int number) {
-    for (int i = 0; i < number; i++) {
-      addTrail();
-    }
-  }
-  
-  public void removeTrail() {
-    if (trails.size() > 0) trails.remove(0);
-  }
-
-  // set number of motion trails
-  public void setTrails(int number) {
-    if (number > trails.size() ) {
-      for (int i = trails.size (); i < number; i++) {
-        addTrail();
-      }
-    } else if (number < trails.size() ) {
-      for (int i = number; i > trails.size (); i-- ) {
-        trails.remove(0);
-      }
-    }
-  }
-
-  // set number of motion trails and fadeout color
-  public void setTrails(int number, int newfade) {
-    fadeColor = 255;
-    if (number > trails.size() ) {
-      for (int i = trails.size (); i < number; i++) {
-        addTrail();
-      }
-    } else if (number < trails.size() ) {
-      for (int i = number; i > trails.size (); i-- ) {
-        trails.remove(0);
-      }
-    }
-  }
-
-
-  // set frame rate of trailing images
-  public void setTrailRate(int rate) {
-    trailRate = rate;
   }
 
   // load xy grid as backdrop 0
@@ -284,17 +202,20 @@ public class Stage {
   public void nextBackdrop() { 
     backdropNumber++;
     if (backdropNumber > numberOfBackdrops + 1) backdropNumber=0;
+    draw();
   }
 
   // change to previous backdrop
-  public void previousBackdrop() {
+  public void previousCostume() {
     backdropNumber--;
     if (backdropNumber < 0) backdropNumber=backdropNumber;
+    draw();
   }
 
   // switch to specific costume
   public void setBackdrop(int newBackdropNumber) {
     backdropNumber=newBackdropNumber;
+    draw();
   }
 
   // "scrolls" backdrop in any direction. Backdrop repeats.  
@@ -302,19 +223,21 @@ public class Stage {
     scrollX += x;
     scrollY += y;
   }
-
-  public void questionKeycheck() {
-    if (p.key != p.CODED) {
-      if (p.key==p.BACKSPACE)
-        questionText = questionText.substring(0, p.max(0, questionText.length()-1));
-      else if (p.key==p.TAB)
+  
+    public void questionKeycheck() {
+     if (p.key != p.CODED) {
+     if (p.key==p.BACKSPACE)
+        questionText = questionText.substring(0,p.max(0,questionText.length()-1));
+     else if (p.key==p.TAB)
         questionText += "    ";
-      else if (p.key==p.ENTER|p.key==p.RETURN) {
+     else if (p.key==p.ENTER|p.key==p.RETURN) {
         theAnswer = questionText;
         questionText="";
         askingQuestion = false;
-      } else if (p.key==p.ESC|p.key==p.DELETE) {
-      } else questionText += p.key;
+     }
+     else if (p.key==p.ESC|p.key==p.DELETE) {
+     }
+     else questionText += p.key;
     }
   }
 
@@ -322,8 +245,9 @@ public class Stage {
     String finalResponse;
     if (theAnswer!="") { 
       finalResponse=theAnswer; 
-      return finalResponse;
-    } else return "";
+      return finalResponse; 
+    } 
+    else return "";
   }
 
   public void ask(String newQuestion) {
@@ -334,20 +258,15 @@ public class Stage {
   }
 
   public void drawQuestionText() {
-    questionLayer.beginDraw();
-    questionLayer.pushStyle();
-    questionLayer.clear();
-    questionLayer.stroke(0);
-    questionLayer.fill(0, 125, 175);
-    questionLayer.rect(20, p.height-65, p.width-40, 45, 15);
-    questionLayer.fill(255);
-    questionLayer.rect(23, p.height-62, p.width-46, 40, 15);
-    questionLayer.fill(0, 0, 0);
-    questionLayer.textFont(questionFont, 18);
-    questionLayer.text(question+" "+questionText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 30, p.height-35);
-    questionLayer.popStyle();
-    questionLayer.endDraw();
-    trails.get(trails.size()-1).image(questionLayer.get(0, 0, p.width, p.height), 0, 0);
+    p.pushStyle();
+    p.stroke(0);
+    p.fill(0,125,175);
+    p.rect(20,p.height-65,p.width-40,45,15);
+    p.fill(255);
+    p.rect(23,p.height-62,p.width-46,40,15);
+    p.fill(0,0,0);
+    p.textFont(questionFont,18);
+    p.text(question+" "+questionText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 30, p.height-35);
+    p.popStyle();
   }
 }
-

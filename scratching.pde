@@ -13,35 +13,33 @@ boolean[] arrowDown = new boolean[4];
 
 void setup() {
   size(500, 500);
-  stage = new Stage(this);
   
+  stage = new Stage(this);
   stage.addDefaultBackdrop();
-  stage.setTrails(3,255);
-  stage.setTrailRate(10);
   
   cat = new Sprite(this,stage);
   cat.addDefaultCostumes();
-  cat.goToXY(0,height/2);
-  cat.drawOwnCanvas();
+  cat.goToXY(width/2,height/2);
   cat.penDown = true;
-  cat.penWidth(3);
-  cat.penColor((int)random(0,255),(int)random(0,255),(int)random(0,255));
-  cat.rotationStyle = rotationStyle_leftRight;
+  cat.penColor(0,0,0);
 }
   
 void draw() {
-  if (keyIsDown['8']) cat.pointInDirection(90);
-  if (keyIsDown['2']) cat.pointInDirection(270);
-  if (keyIsDown['4']) cat.pointInDirection(180);
-  if (keyIsDown['6']) cat.pointInDirection(0);
-
-  cat.move(2);
-  cat.wrapAtEdges();
-  cat.draw();    
   stage.draw();
+  cat.draw();    
+ 
+  if (arrowDown[upArrow]) cat.changeXY(0,-10);
+  if (arrowDown[downArrow]) cat.changeXY(0,10);
+  
+  if (keyIsDown['a']) cat.colorEffect ++;
+  if (keyIsDown['w']) cat.ghostEffect ++;
+
+  cat.wrapAtEdges();
 }
 
 void keyPressed() {
+ // you can add new code. but removing the lines below may break something
+ if (stage.askingQuestion) stage.questionKeycheck();
  if (key<256) {
    keyIsDown[key] = true; 
  }
@@ -56,6 +54,7 @@ void keyPressed() {
 }
 
 void keyReleased() {
+ // you can add new code. but removing the lines below may break something
  if (key<256) {
    keyIsDown[key] = false;  
  }
