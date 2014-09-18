@@ -80,7 +80,7 @@ public class Sprite {
     colorEffect = 0;
     brightnessEffect = 0;
     saturationEffect = 0;
-    dialog = p.createGraphics(p.width, p.height);
+    //dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
     drawOnStage(stage);
   }
@@ -330,6 +330,7 @@ public class Sprite {
   public void say(String what, int seconds) {
     if (seconds != -1) dialogEndTime = p.millis()+(seconds*1000);
     dialogCalc(what);
+    if (dialog==null) dialog = p.createGraphics(p.width,p.height);
     dialog.beginDraw();
     dialog.clear();
     dialog.strokeWeight(2);
@@ -353,6 +354,7 @@ public class Sprite {
     dialogCalc(what);
     if (seconds != -1) dialogEndTime = p.millis()+(seconds*1000);
     dialog.beginDraw();
+    if (dialog==null) dialog = p.createGraphics(p.width,p.height);
     dialog.clear();
     dialog.strokeWeight(2);
     dialog.fill(255);
