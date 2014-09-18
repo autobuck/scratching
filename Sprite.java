@@ -3,7 +3,7 @@
  *
  * This file seeks to implement Scratch blocks and sprites in
  * Processing, in order to facilitate a transition from Scratch
- * into p.
+ * into Processing.
  * See: http://wiki.scratch.mit.edu/wiki/Blocks
  *
  * Sound blocks are NOT included (for sanity's sake). 
@@ -12,11 +12,6 @@
  * Points are stored in the 'PVector' type because Processing
  * contains built-in functions for accessing and manipulating such
  * objects.
- *
- * Avoid changing this file in any way! Do not use the Sprite class!
- * Instead, make a new tab and make a new .java file with a new name.
- * Copy the contents of this to your new tab and extend the code there.
- * This way you will always have a fresh template to start new objects.
  *
  */
 
@@ -28,12 +23,11 @@ import java.util.ArrayList;
 
 
 public class Sprite {
-
-  // without this, built-in functions are broken. use p.whatever to access functionality
-  PApplet p;
   static int rotationStyle_360degrees=0;
   static int rotationStyle_leftRight=1;
   static int rotationStyle_dontRotate=2;
+  // without this, built-in functions are broken. use p.whatever to access functionality
+  PApplet p;
   public int rotationStyle;
   public int costumeNumber, numberOfCostumes;
   public float size; 
@@ -61,6 +55,7 @@ public class Sprite {
   int numberOfLines = 0;
   float sayHeight = 0;
   int dialogEndTime = -1;
+  
   // add more variables (such as "int health") below to extend the Sprite's capabilities
 
   /* DIRECTION IS IN DEGREES! any math will require conversion.
@@ -69,10 +64,12 @@ public class Sprite {
    * radians.
    */
   public float direction = 0;
+
+  // this "Constructor" sets up default values and attached the Sprite to a Stage (passed as a parameter in your Sketch)
   Sprite (PApplet parent, Stage stage) {
     p = parent;
-    costumeNumber=0;
     visible = true;
+    costumeNumber=0;
     numberOfCostumes=0;
     size=100;
     rotationStyle=rotationStyle_360degrees;
@@ -80,7 +77,6 @@ public class Sprite {
     colorEffect = 0;
     brightnessEffect = 0;
     saturationEffect = 0;
-    //dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
     drawOnStage(stage);
   }
@@ -91,9 +87,7 @@ public class Sprite {
    * an Image object. This image object can be individually
    * manipulated during the program.
    *
-   * The .update() function must be called for all sprites.
-   * It may be easiest to store sprites in an array of Sprites,
-   * and looping through the array to redraw all sprites.
+   * The .draw() function must be called for all sprites.
    */
 
   public void draw() {
@@ -115,6 +109,10 @@ public class Sprite {
       }
       p.popMatrix();
     }
+  }
+
+  public void stamp() {
+    stamp(pos.x,pos.y);
   }
 
   public void stamp(float x, float y) {
