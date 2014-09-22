@@ -27,6 +27,9 @@ void setup() {
   cat.addDefaultCostumes();
   cat.goToXY(width/2,height/2);
   cat.penDown();
+  cat.penColor(255,0,255);
+  stage.setTrails(1);
+  cat.direction = 90;
 }
   
 void draw() {
@@ -36,7 +39,14 @@ void draw() {
   cat.draw();  
   stage.draw();
  
+   if (mousePressed) stage.addTrail();
+  else stage.removeTrail();
+  
+  if (arrowIsDown[leftArrow]) cat.direction += 5;
+  if (arrowIsDown[rightArrow]) cat.direction -= 5;
+  cat.say(""+cat.direction % 360);
 }
+
 
 // the code below is essential for certain Scratching functions. Do not change keyPressed
 // or keyReleased - unless you're absolute sure you know what you're doing!

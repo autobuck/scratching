@@ -188,7 +188,6 @@ public class Stage {
     }
     p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
     drawTrails();
-    //if (askingQuestion) drawQuestionText(); // ask(question);
   }
 
   public void drawTrails() {
@@ -242,6 +241,9 @@ public class Stage {
     }
   }
 
+public void removeTrail() {
+  if (trails.size() > 1) trails.remove(0);
+}
 
   // load xy grid as backdrop 0
   public void addDefaultBackdrop() {

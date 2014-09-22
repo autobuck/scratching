@@ -220,7 +220,7 @@ public class Sprite {
       if (trails.size() >= 1) {
         trails.get(trails.size()-1).pushMatrix();
         trails.get(trails.size()-1).translate(x, y); // move Sprite to x,y position
-        if (rotationStyle==rotationStyle_360degrees) trails.get(trails.size()-1).rotate(p.radians(-direction));
+        if (rotationStyle==rotationStyle_360degrees) trails.get(trails.size()-1).rotate(p.radians((-direction)+90));
         trails.get(trails.size()-1).imageMode(p.CENTER);
         trails.get(trails.size()-1).image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
         trails.get(trails.size()-1).popMatrix();
