@@ -639,6 +639,26 @@ public class Sprite {
         else return false;
   }
   
+  public boolean touchingTopEdge() {
+    if (pos.y - (costumes.get(costumeNumber).height/2) < 0) return true;
+    else return false;
+  }
+  
+  public boolean touchingBottomEdge() {
+    if (pos.y + (costumes.get(costumeNumber).height/2) > p.height) return true;
+    else return false;
+  }
+  
+  public boolean touchingLeftEdge() {
+    if (pos.x - (costumes.get(costumeNumber).width/2) < 0) return true;
+    else return false;
+  }
+  
+  public boolean touchingRightEdge() {
+    if (pos.x + (costumes.get(costumeNumber).width/2) > p.width) return true;
+    else return false;
+  }
+  
   public boolean isOffStage() {
     if (pos.x - (costumes.get(costumeNumber).width/2) > p.width
         || pos.x + (costumes.get(costumeNumber).width/2) < 0
