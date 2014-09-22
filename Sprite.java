@@ -630,5 +630,21 @@ public class Sprite {
   public void penDown() {
     penDown = true;
   }
+  
+  public boolean touchingEdge() {
+    if (pos.x + (costumes.get(costumeNumber).width/2) > p.width
+        || pos.x - (costumes.get(costumeNumber).width/2) < 0
+        || pos.y + (costumes.get(costumeNumber).height/2) > p.height
+        || pos.y - (costumes.get(costumeNumber).height/2) < 0) return true;
+        else return false;
+  }
+  
+  public boolean isOffStage() {
+    if (pos.x - (costumes.get(costumeNumber).width/2) > p.width
+        || pos.x + (costumes.get(costumeNumber).width/2) < 0
+        || pos.y - (costumes.get(costumeNumber).height/2) > p.height
+        || pos.y + (costumes.get(costumeNumber).height/2) < 0) return true;
+        else return false;
+  }
 }
 
