@@ -26,21 +26,15 @@ void setup() {
   cat = new Sprite(this,stage);
   cat.addDefaultCostumes();
   cat.goToXY(width/2,height/2);
+  cat.penDown();
 }
   
 void draw() {
-  // check arrow keys and move the cat up and down
-  if (arrowIsDown[upArrow]) cat.changeY(-10);
-  if (arrowIsDown[downArrow]) cat.changeY(10);
-  cat.wrapAtEdges(); // if the cat is off one edge, reappear at the opposite end
-  
-  // check letter keys & adjust visual effects
-  if (keyIsDown['a']) cat.colorEffect ++;
-  if (keyIsDown['w']) cat.ghostEffect ++;
+  cat.goToXY(mouseX,mouseY);
 
   // finally, draw the stage and then draw the cat 
+  cat.draw();  
   stage.draw();
-  cat.draw();    
  
 }
 
@@ -53,10 +47,10 @@ void keyPressed() {
  }
  if (key==CODED) {
    switch (keyCode) {
-     case UP: arrowDown[upArrow]=true; break;
-     case DOWN: arrowDown[downArrow]=true; break;
-     case LEFT: arrowDown[leftArrow]=true;  break;
-     case RIGHT: arrowDown[rightArrow]=true; break;
+     case UP: arrowIsDown[upArrow]=true; break;
+     case DOWN: arrowIsDown[downArrow]=true; break;
+     case LEFT: arrowIsDown[leftArrow]=true;  break;
+     case RIGHT: arrowIsDown[rightArrow]=true; break;
    }
  }
 }
@@ -69,10 +63,10 @@ void keyReleased() {
  }
   if (key==CODED) {
    switch (keyCode) {
-     case UP: arrowDown[upArrow]=false; break;
-     case DOWN: arrowDown[downArrow]=false; break;
-     case LEFT: arrowDown[leftArrow]=false;  break;
-     case RIGHT: arrowDown[rightArrow]=false; break;
+     case UP: arrowIsDown[upArrow]=false; break;
+     case DOWN: arrowIsDown[downArrow]=false; break;
+     case LEFT: arrowIsDown[leftArrow]=false;  break;
+     case RIGHT: arrowIsDown[rightArrow]=false; break;
    }
  }
 }

@@ -186,8 +186,8 @@ public class Stage {
       p.image(backdrops.get(backdropNumber), (p.width/2), (p.height/2), backdrops.get(backdropNumber).width, 
       backdrops.get(backdropNumber).height);
     }
-    drawTrails();
     p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
+    drawTrails();
     //if (askingQuestion) drawQuestionText(); // ask(question);
   }
 
