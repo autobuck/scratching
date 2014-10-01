@@ -631,6 +631,8 @@ public class Sprite {
     penDown = true;
   }
   
+  
+  // next 10 functions for touchingEdge/offStage detection
   public boolean touchingEdge() {
     if (pos.x + (costumes.get(costumeNumber).width/2) > p.width
         || pos.x - (costumes.get(costumeNumber).width/2) < 0

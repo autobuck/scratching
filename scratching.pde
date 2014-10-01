@@ -33,24 +33,14 @@ void setup() {
 }
   
 void draw() {
-  //cat.goToXY(mouseX,mouseY);
+  cat.goToXY(mouseX,mouseY);
 
   // finally, draw the stage and then draw the cat 
   cat.draw();  
   stage.draw();
  
-   if (mousePressed) stage.addTrail();
+  if (mousePressed) stage.addTrail();
   else stage.removeTrail();
-  
-  if (arrowIsDown[leftArrow]) cat.pos.x += 5;
-  if (arrowIsDown[rightArrow]) cat.pos.x -= 5;
-  if (arrowIsDown[downArrow]) cat.pos.y += 5;
-  if (arrowIsDown[upArrow]) cat.pos.y -= 5;
-  cat.say(""+cat.direction % 360);
-  
-  if (cat.isOffStage()) println("off");
-  else if (cat.touchingEdge()) println("edge");
-  else println("nope");
 }
 
 
