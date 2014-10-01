@@ -19,11 +19,9 @@ Sprite cat;
 void setup() {
   // first, create a Processing window 500 px by 500 px
   size(500, 500);
-  
   // next, initialize a Stage object with the X-Y grid backdrop
   stage = new Stage(this);
   stage.addDefaultBackdrop();
-  
   // now add a "cat" Sprite object & attach it to our stage. Go to the center of the screen.
   cat = new Sprite(this,stage);
   cat.addDefaultCostumes();
