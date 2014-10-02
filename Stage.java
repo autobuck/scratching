@@ -36,6 +36,7 @@ import processing.core.PImage;
 import processing.core.PFont;
 import java.util.ArrayList;
 import processing.core.PGraphics;
+ import java.util.Arrays; 
 
 public class Stage {
 
@@ -54,6 +55,8 @@ public class Stage {
   ArrayList <Float> timers = new ArrayList<Float>();
   int scrollX, scrollY;
   public PGraphics pen;
+  ArrayList <PGraphics> trails = new ArrayList<PGraphics>();
+  
   boolean askingQuestion = false;
   String question = "What is your quest?";
   String questionText = "";
@@ -71,6 +74,7 @@ public class Stage {
     p.textFont(questionFont,18);
     p.imageMode(p.CENTER);
     addTimer();
+    trails.add(p.createGraphics(p.width, p.height));
   }
 
   public void addTimer() {
@@ -126,7 +130,7 @@ public class Stage {
     p.popMatrix();
   }
 
-  public void draw() {    
+    public void draw() {    
     int scrollXmod = scrollX % p.width;
     int scrollYmod = scrollY % p.height;
     // current logic doesn't check direction of scroll & draws unnecessary off-screen backdrops!
@@ -183,8 +187,63 @@ public class Stage {
       backdrops.get(backdropNumber).height);
     }
     p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
-    if (askingQuestion) drawQuestionText(); // ask(question);
+    drawTrails();
   }
+
+  public void drawTrails() {
+    //    p.image(trails.get(0).get(0,0,p.width,p.height), (p.width/2), (p.height/2));
+    //render each
+    for (int i = 0; i < trails.size (); i++) {
+      p.image(trails.get(i).get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
+    }
+
+    // remove 1 and refresh new top layer
+    int trailRate = 1;
+    if (p.frameCount % trailRate == 0) {
+    trails.remove(0);
+    trails.add(p.createGraphics(p.width, p.height));
+    // fade out older layers
+    if (trails.size() > 1) {
+      for (int i = 0; i < trails.size ()-1; i++) {
+        trails.get(i).beginDraw();
+        trails.get(i).pushStyle();
+        trails.get(i).noStroke();
+        trails.get(i).fill(0,100/trails.size() );
+        trails.get(i).rect(0,0,p.width,p.height);
+        trails.get(i).popStyle();
+        trails.get(i).endDraw();
+      }
+    }
+    } else {
+      trails.get(trails.size()-1).clear();
+    }
+  }
+
+  public void addTrail() {
+    trails.add(p.createGraphics(p.width, p.height));
+  }
+
+  public void addTrails(int number) {
+    for (int i = 0; i < number; i++) {
+      addTrail();
+    }
+  }
+
+  public void setTrails(int number) {
+    if (number > trails.size() ) {
+      for (int i = trails.size (); i < number; i++) {
+        addTrail();
+      }
+    } else if (number < trails.size() ) {
+      for (int i = number; i > trails.size (); i-- ) {
+        trails.remove(0);
+      }
+    }
+  }
+
+public void removeTrail() {
+  if (trails.size() > 1) trails.remove(0);
+}
 
   // load xy grid as backdrop 0
   public void addDefaultBackdrop() {
@@ -202,20 +261,17 @@ public class Stage {
   public void nextBackdrop() { 
     backdropNumber++;
     if (backdropNumber > numberOfBackdrops + 1) backdropNumber=0;
-    draw();
   }
 
   // change to previous backdrop
-  public void previousCostume() {
+  public void previousBackdrop() {
     backdropNumber--;
     if (backdropNumber < 0) backdropNumber=backdropNumber;
-    draw();
   }
 
   // switch to specific costume
   public void setBackdrop(int newBackdropNumber) {
     backdropNumber=newBackdropNumber;
-    draw();
   }
 
   // "scrolls" backdrop in any direction. Backdrop repeats.  
