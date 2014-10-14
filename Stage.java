@@ -187,7 +187,7 @@ public class Stage {
       backdrops.get(backdropNumber).height);
     }
     p.image(pen.get(0, 0, p.width, p.height), (p.width/2), (p.height/2));
-    drawTrails();
+    if (trails.size()>0) drawTrails();
   }
 
   public void drawTrails() {
@@ -235,14 +235,14 @@ public class Stage {
         addTrail();
       }
     } else if (number < trails.size() ) {
-      for (int i = number; i > trails.size (); i-- ) {
+      do {
         trails.remove(0);
-      }
+       } while (trails.size () > number);
     }
   }
 
 public void removeTrail() {
-  if (trails.size() > 1) trails.remove(0);
+  if (trails.size() > 0) trails.remove(0);
 }
 
   // load xy grid as backdrop 0

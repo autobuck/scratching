@@ -14,10 +14,24 @@
  * objects.
  *
  * Avoid changing this file in any way! Do not use the Sprite class!
- * Instead, make a new tab and make a new .java file with a new name.
- * Copy the contents of this to your new tab and extend the code there.
- * This way you will always have a fresh template to start new objects.
- *
+ * Instead, make a new tab and make a new .java file with a new name
+ * such as Player.java
+ * 
+ * Add the following double-slashed //code, uncomment it, and adapt for your needs.
+ * 
+//import processing.core.PApplet;
+//import processing.core.PImage;
+//import processing.core.PFont;
+//import java.util.ArrayList;
+//import processing.core.PGraphics;
+//import java.util.Arrays; 
+//
+//public class Player extends Sprite {
+//  Player (PApplet parent, Stage stage) {
+//    super(parent, stage); // super invokes the Sprite's own constructor (set up code)
+//  }
+//}
+//
  */
 
 import processing.core.PApplet;
@@ -63,6 +77,8 @@ public class Sprite {
   float sayHeight = 0;
   int dialogEndTime = -1;
   // add more variables (such as "int health") below to extend the Sprite's capabilities
+  
+  int shooterTimeout = 20;
 
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
@@ -81,10 +97,10 @@ public class Sprite {
     colorEffect = 0;
     brightnessEffect = 0;
     saturationEffect = 0;
-    dialog = p.createGraphics(p.width, p.height);
+    //dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
     drawOnStage(stage);
-     renderOnStage(stage);
+    renderOnStage(stage);
  }
  
    public void renderOnStage(Stage stage) {
@@ -143,10 +159,6 @@ public class Sprite {
     p.translate(x, y); // move Sprite to x,y position
     if (localpen) p.image(pen.get(0, 0, p.width, p.height), p.width/2-pos.x, p.height/2-pos.y);
     if (visible) {
-      // flip image if locked left/right and pointing left
-      if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f, 1.0f);
-      // if allowed to rotate, rotate
-      if (rotationStyle==rotationStyle_360degrees) p.rotate(p.radians(-direction));
       // adjust hue for colorEffect
       if (colorEffect != 0) {
         //costumeToDraw.loadPixels();
@@ -221,11 +233,17 @@ public class Sprite {
         trails.get(trails.size()-1).pushMatrix();
         trails.get(trails.size()-1).translate(x, y); // move Sprite to x,y position
         if (rotationStyle==rotationStyle_360degrees) trails.get(trails.size()-1).rotate(p.radians((-direction)+90));
+        if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) trails.get(trails.size()-1).scale(-1.0f, 1.0f);
         trails.get(trails.size()-1).imageMode(p.CENTER);
         trails.get(trails.size()-1).image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
         trails.get(trails.size()-1).popMatrix();
+        p.println("sprite drawn on stage: "+trails.size());
       } else {
-        p.image(costumeToDraw, pos.x, pos.y, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+        if (rotationStyle==rotationStyle_360degrees) p.rotate(p.radians(-direction+90));
+        if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f, 1.0f);
+        //p.image(costumeToDraw, pos.x, pos.y, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+        p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
+        p.println("sprite drawn on sketch");
       }
       //      pen.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
     }
@@ -309,6 +327,7 @@ public class Sprite {
 
   // draws a text bubble with triangle arrow indicating speaking sprite
   public void say(String what) {
+    if (dialog==null) dialog = p.createGraphics(p.width, p.height);
     say(what, -1);
   }
 
@@ -331,6 +350,7 @@ public class Sprite {
 
   // draw a text bubble with "thinking" bubbles indicating speaker
   public void think(String what) {
+    if (dialog==null) dialog = p.createGraphics(p.width, p.height);
     think(what, -1);
   }
 
@@ -689,4 +709,3 @@ public class Sprite {
     else return false;
   }
 }
-
