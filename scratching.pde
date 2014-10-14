@@ -28,7 +28,6 @@ void setup() {
   cat.goToXY(width/2,height/2);
   cat.penDown();
   cat.penColor(255,0,255);
-  stage.setTrails(0);
   cat.direction = 90;
 }
   

@@ -62,6 +62,7 @@ public class Stage {
   String questionText = "";
   String theAnswer = "";
   PFont questionFont;
+  int fadeColor = 0;
 
   Stage (PApplet parent) {
     p = parent;
@@ -74,7 +75,6 @@ public class Stage {
     p.textFont(questionFont,18);
     p.imageMode(p.CENTER);
     addTimer();
-    trails.add(p.createGraphics(p.width, p.height));
   }
 
   public void addTimer() {
@@ -208,7 +208,7 @@ public class Stage {
         trails.get(i).beginDraw();
         trails.get(i).pushStyle();
         trails.get(i).noStroke();
-        trails.get(i).fill(0,100/trails.size() );
+        trails.get(i).fill(fadeColor,100/trails.size() );
         trails.get(i).rect(0,0,p.width,p.height);
         trails.get(i).popStyle();
         trails.get(i).endDraw();
