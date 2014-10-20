@@ -23,55 +23,77 @@ void setup() {
   stage = new Stage(this);
   stage.addDefaultBackdrop();
   // now add a "cat" Sprite object & attach it to our stage. Go to the center of the screen.
-  cat = new Sprite(this,stage);
+  cat = new Sprite(this, stage);
   cat.addDefaultCostumes();
-  cat.goToXY(width/2,height/2);
+  cat.goToXY(width/2, height/2);
   cat.penDown();
-  cat.penColor(255,0,255);
+  cat.penColor(255, 0, 255);
   cat.direction = 90;
 }
-  
+
 void draw() {
-  cat.goToXY(mouseX,mouseY);
+  cat.goToXY(mouseX, mouseY);
 
   // finally, draw the stage and then draw the cat 
   stage.draw();
   cat.draw();  
- 
+
   if (mousePressed) stage.addTrail();
   else stage.removeTrail();
 }
 
 
-// the code below is essential for certain Scratching functions. Do not change keyPressed
-// or keyReleased - unless you're absolute sure you know what you're doing!
+// the code below is essential for Scratching keyboard functions. Do not change keyPressed
+// or keyReleased unless you're absolute sure you know what you're doing!
 void keyPressed() { 
- if (stage.askingQuestion) stage.questionKeycheck();
- if (key<256) {
-   keyIsDown[key] = true; 
- }
- if (key==CODED) {
-   switch (keyCode) {
-     case UP: arrowIsDown[upArrow]=true; break;
-     case DOWN: arrowIsDown[downArrow]=true; break;
-     case LEFT: arrowIsDown[leftArrow]=true;  break;
-     case RIGHT: arrowIsDown[rightArrow]=true; break;
-   }
- }
+  keyDownCheck();
 }
 
-// the code below is essential for certain Scratching functions. Do not change keyPressed
-// or keyReleased - unless you're absolute sure you know what you're doing!
 void keyReleased() {
- if (key<256) {
-   keyIsDown[key] = false;  
- }
+  keyUpCheck();
+}
+
+void keyUpCheck() {
+  if (key<256) {
+    keyIsDown[key] = false;
+  }
   if (key==CODED) {
-   switch (keyCode) {
-     case UP: arrowIsDown[upArrow]=false; break;
-     case DOWN: arrowIsDown[downArrow]=false; break;
-     case LEFT: arrowIsDown[leftArrow]=false;  break;
-     case RIGHT: arrowIsDown[rightArrow]=false; break;
-   }
- }
+    switch (keyCode) {
+    case UP: 
+      arrowIsDown[upArrow]=false; 
+      break;
+    case DOWN: 
+      arrowIsDown[downArrow]=false; 
+      break;
+    case LEFT: 
+      arrowIsDown[leftArrow]=false;  
+      break;
+    case RIGHT: 
+      arrowIsDown[rightArrow]=false; 
+      break;
+    }
+  }
+}
+
+void keyDownCheck() {
+  if (stage.askingQuestion) stage.questionKeycheck();
+  if (key<256) {
+    keyIsDown[key] = true;
+  }
+  if (key==CODED) {
+    switch (keyCode) {
+    case UP: 
+      arrowIsDown[upArrow]=true; 
+      break;
+    case DOWN: 
+      arrowIsDown[downArrow]=true; 
+      break;
+    case LEFT: 
+      arrowIsDown[leftArrow]=true;  
+      break;
+    case RIGHT: 
+      arrowIsDown[rightArrow]=true; 
+      break;
+    }
+  }
 }
