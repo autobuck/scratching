@@ -196,6 +196,19 @@ Color and Ghost effects can also be set via the properties Sprite.colorEffect an
 Remember that *hidden* Sprites cannot be detected. But “Ghost Effected” Sprite can.
 
 
+*Detecting Stage boundaries*
+
+`boolean touchingTopEdge()`
+`boolean touchingBottomEdge()`
+`boolean touchingLeftEdge()`
+`boolean touchingRightEdge()` 
+`boolean touchingEdge()` Detect whether the Sprite is touching an edge of the screen.
+
+`boolean isOffStageTop()`
+`boolean isOffStageBottom()`
+`boolean isOffStageLeft()`
+`boolean isOffStageRight()`
+`boolean isOffStage()` Returns true if Sprite has moved off stage. You can specify which edge.
 
 *Pen actions*
 
@@ -274,13 +287,12 @@ One of the great things about Processing is sharing your project with friends an
 
 In your code, in EVERY tab, replace ALL “images/“ with “program_name.app/”
 
-In your void setup(), add: if (frame!=null) frame.setTitle(“Program Name”);
-(Or you can put this in your draw() to change the title during gameplay.)
+In your void setup(), add: `if (frame!=null) frame.setTitle(“Program Name”);` Or you can put this in your draw() to change the title during gameplay.
 
 Select Export Application from the File menu.
 Select Mac OSX and Embed Java. Full Screen is your choice.
 
-Double-click “fix_export.command” to embed your images/ folder into the application.
+Double-click `fix\_export.command` to embed your `images` folder into the application.
 This will also copy your images folder to appname.app, allowing you to continue testing in the PDE. From now on you will have to run fix_export.command every time you add new art to your images/ folder.
 
 #### To change the app icon:
@@ -290,5 +302,4 @@ Use the web site http://iconverticons.com/online/ to create an .ICNS file from o
 
 You may not see the new icon until you restart your computer or copy the application to a new folder. Don’t worry, it’s there.
 
-Distribute app.
 You can move the file around but you CANNOT rename the application. It will stop working.
