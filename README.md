@@ -265,3 +265,30 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 `void questionKeycheck()` This *must* run inside of a keypress event (void keyPressed) if you are expecting responses.
 
 
+
+## Exporting Applications
+
+One of the great things about Processing is sharing your project with friends and family. Because Processing doesn't know to include your images when it compiles your application, we need to go thro
+
+### Exporting Application for Mac
+
+In your code, in EVERY tab, replace ALL “images/“ with “program_name.app/”
+
+In your void setup(), add: if (frame!=null) frame.setTitle(“Program Name”);
+(Or you can put this in your draw() to change the title during gameplay.)
+
+Select Export Application from the File menu.
+Select Mac OSX and Embed Java. Full Screen is your choice.
+
+Double-click “fix_export.command” to embed your images/ folder into the application.
+This will also copy your images folder to appname.app, allowing you to continue testing in the PDE. From now on you will have to run fix_export.command every time you add new art to your images/ folder.
+
+#### To change the app icon:
+Right click and “Show Contents” of the application created inside application.macosx/ folder
+You can replace Contents/Resources/sketch.icns with your own .ICNS file.
+Use the web site http://iconverticons.com/online/ to create an .ICNS file from one of your game images. 
+
+You may not see the new icon until you restart your computer or copy the application to a new folder. Don’t worry, it’s there.
+
+Distribute app.
+You can move the file around but you CANNOT rename the application. It will stop working.
