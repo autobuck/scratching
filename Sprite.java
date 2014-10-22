@@ -97,7 +97,6 @@ public class Sprite {
     colorEffect = 0;
     brightnessEffect = 0;
     saturationEffect = 0;
-    //dialog = p.createGraphics(p.width, p.height);
     p.imageMode(p.CENTER);
     drawOnStage(stage);
     renderOnStage(stage);

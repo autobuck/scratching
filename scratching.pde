@@ -18,7 +18,7 @@ Sprite cat;
 // Setup runs once, and sets some default values
 void setup() {
   // first, create a Processing window 500 px by 500 px
-  size(500, 500);
+  size(1500, 1000);
   // next, initialize a Stage object with the X-Y grid backdrop
   stage = new Stage(this);
   stage.addDefaultBackdrop();
@@ -37,6 +37,7 @@ void draw() {
   // finally, draw the stage and then draw the cat 
   stage.draw();
   cat.draw();  
+  frame.setTitle("FPS: "+frameRate);
 
   if (mousePressed) stage.addTrail();
   else stage.removeTrail();
