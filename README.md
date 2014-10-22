@@ -295,7 +295,15 @@ Change Stage.fadeColor from 0 to 255 for black to white.
 
 ## Exporting Applications
 
-One of the great things about Processing is sharing your project with friends and family. Because Processing doesn't know to include your images when it compiles your application, we need to go thro
+One of the great things about Processing is sharing your project with friends and family. But Processing does not include art files (such as .png) when it compiles an application! Don't worry, we have a fix. 
+
+### Exporting for Windows
+
+Unfortunately, exporting for Windows does not work at this time.
+
+### Exporting for Linux
+
+Exporting for Linux is untested, but "should" be the much the same as Mac OS. If you adapt fix_export.command for Linux, please send us an update!
 
 ### Exporting Application for Mac
 
