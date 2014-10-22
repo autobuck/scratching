@@ -125,6 +125,7 @@ Color and Ghost effects can also be set via the properties Sprite.colorEffect an
 
 `void think(String what)` Draw a word bubble with “thought bubbles”.
 
+Optionally, include a second argument to say/think for a number of seconds, for example, `Sprite.say("Hello!",2)`
 
 
 *Moving and turning*
@@ -237,6 +238,8 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 
 `void scrollBackdrop(float x, y)` Scrolls the backdrop by x, y values. The backdrop will repeat.
 
+Scrolling is currently in development - it works but not efficiently.
+
 
 
 *Setting the Backdrop*
@@ -278,6 +281,17 @@ You can use a stage if you don't want just a boring solid-color static backgroun
 `void questionKeycheck()` This *must* run inside of a keypress event (void keyPressed) if you are expecting responses.
 
 
+*Motion trails (experimental)*
+
+Introduces lag. Degrades background image quality.
+
+void addTrail();
+
+void removeTrail();
+
+void setTrails(int number);
+
+Change Stage.fadeColor from 0 to 255 for black to white.
 
 ## Exporting Applications
 
