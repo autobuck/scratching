@@ -19,19 +19,19 @@
  * 
  * Add the following double-slashed //code, uncomment it, and adapt for your needs.
  * 
-//import processing.core.PApplet;
-//import processing.core.PImage;
-//import processing.core.PFont;
-//import java.util.ArrayList;
-//import processing.core.PGraphics;
-//import java.util.Arrays; 
-//
-//public class Player extends Sprite {
-//  Player (PApplet parent, Stage stage) {
-//    super(parent, stage); // super invokes the Sprite's own constructor (set up code)
-//  }
-//}
-//
+import processing.core.PApplet;
+import processing.core.PImage;
+import processing.core.PFont;
+import java.util.ArrayList;
+import processing.core.PGraphics;
+import java.util.Arrays; 
+
+public class Player extends Sprite {
+  Player (PApplet parent, Stage stage) {
+    super(parent, stage); // super invokes the Sprite's own constructor (set up code)
+  }
+}
+
  */
 
 import processing.core.PApplet;
@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class Sprite {
 
   // without this, built-in functions are broken. use p.whatever to access functionality
-  PApplet p;
+  public PApplet p;
   static int rotationStyle_360degrees=0;
   static int rotationStyle_leftRight=1;
   static int rotationStyle_dontRotate=2;
@@ -59,6 +59,9 @@ public class Sprite {
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector pos = new PVector(0, 0);
   ArrayList <PGraphics> trails;
+  boolean[] keyIsDown = new boolean[256];
+
+  public boolean remove = false;
 
   // pen related variables
   public boolean penDown;
@@ -78,15 +81,13 @@ public class Sprite {
   int dialogEndTime = -1;
   // add more variables (such as "int health") below to extend the Sprite's capabilities
   
-  int shooterTimeout = 20;
-
   /* DIRECTION IS IN DEGREES! any math will require conversion.
    * This for end-user simplicity.
    * Use degrees() to convert to degrees; radians() to convert to
    * radians.
    */
   public float direction = 0;
-  Sprite (PApplet parent,Stage stage) {
+  Sprite (PApplet parent,Stage stage,boolean[] keys) {
     p = parent;
     costumeNumber=0;
     visible = true;
@@ -100,6 +101,7 @@ public class Sprite {
     p.imageMode(p.CENTER);
     drawOnStage(stage);
     renderOnStage(stage);
+    keyIsDown = keys;
  }
  
    public void renderOnStage(Stage stage) {
@@ -236,13 +238,11 @@ public class Sprite {
         trails.get(trails.size()-1).imageMode(p.CENTER);
         trails.get(trails.size()-1).image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
         trails.get(trails.size()-1).popMatrix();
-        p.println("sprite drawn on stage: "+trails.size());
       } else {
         if (rotationStyle==rotationStyle_360degrees) p.rotate(p.radians(-direction+90));
         if (((direction%360<=270) & (direction%360>=90)) & rotationStyle==rotationStyle_leftRight) p.scale(-1.0f, 1.0f);
         //p.image(costumeToDraw, pos.x, pos.y, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
         p.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
-        p.println("sprite drawn on sketch");
       }
       //      pen.image(costumeToDraw, 0, 0, costumeToDraw.width*(size/100), costumeToDraw.height*(size/100));
     }

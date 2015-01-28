@@ -36,7 +36,7 @@ import processing.core.PImage;
 import processing.core.PFont;
 import java.util.ArrayList;
 import processing.core.PGraphics;
- import java.util.Arrays; 
+import java.util.Arrays; 
 
 public class Stage {
 
@@ -56,7 +56,7 @@ public class Stage {
   int scrollX, scrollY;
   public PGraphics pen;
   ArrayList <PGraphics> trails = new ArrayList<PGraphics>();
-  
+
   boolean askingQuestion = false;
   String question = "What is your quest?";
   String questionText = "";
@@ -72,7 +72,7 @@ public class Stage {
     scrollY = 0;
     pen = p.createGraphics(p.width, p.height);
     questionFont = p.createFont("Helvetica", 18); 
-    p.textFont(questionFont,18);
+    p.textFont(questionFont, 18);
     p.imageMode(p.CENTER);
     addTimer();
   }
@@ -100,16 +100,16 @@ public class Stage {
   public void resetTimer() {
     float temp = p.millis();
     float t2 = temp/1000;
-    timers.set(0,t2);
+    timers.set(0, t2);
   }
 
   // reset the extra timers
   public void resetTimer(int number) {
     float temp = p.millis();
     float t2 = temp/1000;
-    timers.set(number,t2);
+    timers.set(number, t2);
   }
-  
+
 
   public void drawTiled() {
     p.pushMatrix();
@@ -130,7 +130,7 @@ public class Stage {
     p.popMatrix();
   }
 
-    public void draw() {    
+  public void draw() {    
     int scrollXmod = scrollX % p.width;
     int scrollYmod = scrollY % p.height;
     // current logic doesn't check direction of scroll & draws unnecessary off-screen backdrops!
@@ -200,20 +200,21 @@ public class Stage {
     // remove 1 and refresh new top layer
     int trailRate = 1;
     if (p.frameCount % trailRate == 0) {
-    trails.remove(0);
-    trails.add(p.createGraphics(p.width, p.height));
-    // fade out older layers
-    if (trails.size() > 1) {
-      for (int i = 0; i < trails.size ()-1; i++) {
-        trails.get(i).beginDraw();
-        trails.get(i).pushStyle();
-        trails.get(i).noStroke();
-        trails.get(i).fill(fadeColor,100/trails.size() );
-        trails.get(i).rect(0,0,p.width,p.height);
-        trails.get(i).popStyle();
-        trails.get(i).endDraw();
+      trails.remove(0);
+      trails.add(p.createGraphics(p.width, p.height));
+      // fade out older layers
+      if (trails.size() > 1) {
+        for (int i = 0; i < trails.size ()-1; i++) {
+          trails.get(i).beginDraw();
+          trails.get(i).pushStyle();
+          trails.get(i).noStroke();
+          trails.get(i).fill(fadeColor, 100/trails.size() );
+          trails.get(i).rect(0, 0, p.width, p.height);
+//          trails.get(i).tint(255,120);
+          trails.get(i).popStyle();
+          trails.get(i).endDraw();
+        }
       }
-    }
     } else {
       trails.get(trails.size()-1).clear();
     }
@@ -237,13 +238,14 @@ public class Stage {
     } else if (number < trails.size() ) {
       do {
         trails.remove(0);
-       } while (trails.size () > number);
+      } 
+      while (trails.size () > number);
     }
   }
 
-public void removeTrail() {
-  if (trails.size() > 0) trails.remove(0);
-}
+  public void removeTrail() {
+    if (trails.size() > 0) trails.remove(0);
+  }
 
   // load xy grid as backdrop 0
   public void addDefaultBackdrop() {
@@ -279,21 +281,19 @@ public void removeTrail() {
     scrollX += x;
     scrollY += y;
   }
-  
-    public void questionKeycheck() {
-     if (p.key != p.CODED) {
-     if (p.key==p.BACKSPACE)
-        questionText = questionText.substring(0,p.max(0,questionText.length()-1));
-     else if (p.key==p.TAB)
+
+  public void questionKeycheck() {
+    if (p.key != p.CODED) {
+      if (p.key==p.BACKSPACE)
+        questionText = questionText.substring(0, p.max(0, questionText.length()-1));
+      else if (p.key==p.TAB)
         questionText += "    ";
-     else if (p.key==p.ENTER|p.key==p.RETURN) {
+      else if (p.key==p.ENTER|p.key==p.RETURN) {
         theAnswer = questionText;
         questionText="";
         askingQuestion = false;
-     }
-     else if (p.key==p.ESC|p.key==p.DELETE) {
-     }
-     else questionText += p.key;
+      } else if (p.key==p.ESC|p.key==p.DELETE) {
+      } else questionText += p.key;
     }
   }
 
@@ -301,9 +301,8 @@ public void removeTrail() {
     String finalResponse;
     if (theAnswer!="") { 
       finalResponse=theAnswer; 
-      return finalResponse; 
-    } 
-    else return "";
+      return finalResponse;
+    } else return "";
   }
 
   public void ask(String newQuestion) {
@@ -316,13 +315,14 @@ public void removeTrail() {
   public void drawQuestionText() {
     p.pushStyle();
     p.stroke(0);
-    p.fill(0,125,175);
-    p.rect(20,p.height-65,p.width-40,45,15);
+    p.fill(0, 125, 175);
+    p.rect(20, p.height-65, p.width-40, 45, 15);
     p.fill(255);
-    p.rect(23,p.height-62,p.width-46,40,15);
-    p.fill(0,0,0);
-    p.textFont(questionFont,18);
+    p.rect(23, p.height-62, p.width-46, 40, 15);
+    p.fill(0, 0, 0);
+    p.textFont(questionFont, 18);
     p.text(question+" "+questionText+(p.frameCount/10 % 2 == 0 ? "_" : ""), 30, p.height-35);
     p.popStyle();
   }
 }
+

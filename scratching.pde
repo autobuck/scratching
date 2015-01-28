@@ -7,8 +7,9 @@ static int downArrow=1;
 static int leftArrow=2;
 static int rightArrow=3;
 // These arrays contain boolean values for each key and arrow key
-boolean[] keyIsDown = new boolean[256];
+boolean[] keys = new boolean[256];
 boolean[] arrowIsDown = new boolean[4];
+ArrayList<Sprite> cats = new ArrayList<Sprite>();
 
 // User variables and objects are "declared", or listed, here.
 // Our sample includes one Stage object, called stage, and one Sprite object, called cat.
@@ -18,16 +19,14 @@ Sprite cat;
 // Setup runs once, and sets some default values
 void setup() {
   // first, create a Processing window 500 px by 500 px
-  size(1500, 1000);
+  size(500, 500);
   // next, initialize a Stage object with the X-Y grid backdrop
   stage = new Stage(this);
   stage.addDefaultBackdrop();
   // now add a "cat" Sprite object & attach it to our stage. Go to the center of the screen.
-  cat = new Sprite(this, stage);
+  cat = new Sprite(this, stage,keys);
   cat.addDefaultCostumes();
   cat.goToXY(width/2, height/2);
-  cat.penDown();
-  cat.penColor(255, 0, 255);
   cat.direction = 90;
 }
 
@@ -43,7 +42,6 @@ void draw() {
   else stage.removeTrail();
 }
 
-
 // the code below is essential for Scratching keyboard functions. Do not change keyPressed
 // or keyReleased unless you're absolute sure you know what you're doing!
 void keyPressed() { 
@@ -56,7 +54,7 @@ void keyReleased() {
 
 void keyUpCheck() {
   if (key<256) {
-    keyIsDown[key] = false;
+    keys[key] = false;
   }
   if (key==CODED) {
     switch (keyCode) {
@@ -79,7 +77,7 @@ void keyUpCheck() {
 void keyDownCheck() {
   if (stage.askingQuestion) stage.questionKeycheck();
   if (key<256) {
-    keyIsDown[key] = true;
+    keys[key] = true;
   }
   if (key==CODED) {
     switch (keyCode) {

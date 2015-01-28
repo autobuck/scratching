@@ -45,7 +45,7 @@ void draw() {
 	background(0);
 	
 	cat.move(2);
-	cat.update();
+	cat.draw();
 }
 ```
 
@@ -77,7 +77,7 @@ If you didn't clear the background, you would just keep seeing new images of the
 
 `cat.move(2);` As you can probably guess, this command **moves** the **cat** sprite **2** pixels. Note that because the draw functions loops over and over again, the cat repeatedly moves 2 pixels — the result is that you see smooth motion on your screen.
 
-`cat.update();` This actually draws the cat to the screen.
+`cat.draw();` This actually draws the cat to the screen.
 
 ---
 ## Full Command Reference
