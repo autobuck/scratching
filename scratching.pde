@@ -2,14 +2,12 @@
 static int rotationStyle_360degrees=0;
 static int rotationStyle_leftRight=1;
 static int rotationStyle_dontRotate=2;
-static int upArrow=0;
-static int downArrow=1;
-static int leftArrow=2;
-static int rightArrow=3;
+static int upArrow=38;
+static int downArrow=40;
+static int leftArrow=37;
+static int rightArrow=39;
 // These arrays contain boolean values for each key and arrow key
 boolean[] keys = new boolean[256];
-boolean[] arrowIsDown = new boolean[4];
-ArrayList<Sprite> cats = new ArrayList<Sprite>();
 
 // User variables and objects are "declared", or listed, here.
 // Our sample includes one Stage object, called stage, and one Sprite object, called cat.
@@ -57,20 +55,7 @@ void keyUpCheck() {
     keys[key] = false;
   }
   if (key==CODED) {
-    switch (keyCode) {
-    case UP: 
-      arrowIsDown[upArrow]=false; 
-      break;
-    case DOWN: 
-      arrowIsDown[downArrow]=false; 
-      break;
-    case LEFT: 
-      arrowIsDown[leftArrow]=false;  
-      break;
-    case RIGHT: 
-      arrowIsDown[rightArrow]=false; 
-      break;
-    }
+    keys[keyCode] = true;
   }
 }
 
@@ -80,19 +65,6 @@ void keyDownCheck() {
     keys[key] = true;
   }
   if (key==CODED) {
-    switch (keyCode) {
-    case UP: 
-      arrowIsDown[upArrow]=true; 
-      break;
-    case DOWN: 
-      arrowIsDown[downArrow]=true; 
-      break;
-    case LEFT: 
-      arrowIsDown[leftArrow]=true;  
-      break;
-    case RIGHT: 
-      arrowIsDown[rightArrow]=true; 
-      break;
-    }
-  }
+    keys[keyCode] = true;
+  } 
 }
