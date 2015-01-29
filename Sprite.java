@@ -59,7 +59,7 @@ public class Sprite {
   public ArrayList<PImage> costumes = new ArrayList<PImage>();
   public PVector pos = new PVector(0, 0);
   ArrayList <PGraphics> trails;
-  boolean[] keyIsDown = new boolean[256];
+  boolean[] keys = new boolean[256];
 
   public boolean remove = false;
 
@@ -87,7 +87,7 @@ public class Sprite {
    * radians.
    */
   public float direction = 0;
-  Sprite (PApplet parent,Stage stage,boolean[] keys) {
+  Sprite (PApplet parent,Stage stage,boolean[] parent_keys) {
     p = parent;
     costumeNumber=0;
     visible = true;
@@ -101,7 +101,7 @@ public class Sprite {
     p.imageMode(p.CENTER);
     drawOnStage(stage);
     renderOnStage(stage);
-    keyIsDown = keys;
+    keys = parent_keys;
  }
  
    public void renderOnStage(Stage stage) {

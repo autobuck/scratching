@@ -22,7 +22,7 @@ void setup() {
   stage = new Stage(this);
   stage.addDefaultBackdrop();
   // now add a "cat" Sprite object & attach it to our stage. Go to the center of the screen.
-  cat = new Sprite(this, stage,keys);
+  cat = new Sprite(this, stage, keys);
   cat.addDefaultCostumes();
   cat.goToXY(width/2, height/2);
   cat.direction = 90;
